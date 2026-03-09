@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import MonogramLogo from "./MonogramLogo";
 
 const Footer = () => {
   return (
@@ -6,9 +7,12 @@ const Footer = () => {
       <div className="section-padding py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           <div className="md:col-span-2">
-            <h3 className="font-display text-2xl font-medium mb-4">
-              Themyth<span className="text-gold">.</span>
-            </h3>
+            <div className="flex items-center gap-3 mb-4">
+              <MonogramLogo size={24} className="text-primary-foreground" />
+              <h3 className="font-display text-2xl font-medium">
+                Themyth<span className="text-gold">.</span>
+              </h3>
+            </div>
             <p className="text-body max-w-md opacity-70">
               Shopify growth consultancy with execution. We build growth systems that scale with control.
             </p>
@@ -28,7 +32,8 @@ const Footer = () => {
             <h4 className="text-label mb-5 text-gold">Get Started</h4>
             <div className="flex flex-col gap-3">
               <Link to="/audit" className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body">Growth Audit</Link>
-              <Link to="/contact" className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body">Book a Call</Link>
+              <Link to="/contact" className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body">Strategic Review</Link>
+              <Link to="/contact" className="text-sm opacity-70 hover:opacity-100 transition-opacity font-body">Start a Conversation</Link>
             </div>
           </div>
         </div>

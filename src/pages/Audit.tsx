@@ -25,16 +25,16 @@ const auditAreas = [
     items: ["Page speed & Core Web Vitals", "Theme code quality review", "App stack analysis", "SEO technical health"],
   },
   {
-    title: "Strategic Roadmap",
-    items: ["Prioritized opportunity matrix", "90-day action plan", "Resource & investment guidance", "Growth system blueprint"],
+    title: "Data & Tracking",
+    items: ["Analytics setup review", "Attribution accuracy audit", "Tracking implementation check", "Reporting infrastructure assessment"],
   },
 ];
 
 const process = [
-  { num: "01", title: "Discovery Call", desc: "A 30-minute conversation to understand your brand, challenges, and goals." },
-  { num: "02", title: "Deep Diagnostic", desc: "We conduct a comprehensive analysis of your store's growth infrastructure." },
-  { num: "03", title: "Strategy Report", desc: "You receive a detailed report with findings, priorities, and recommendations." },
-  { num: "04", title: "Roadmap Session", desc: "We walk through the report together and map the path forward." },
+  { num: "01", title: "Discovery Call", desc: "A 30-minute conversation to understand your brand, challenges, goals, and current growth stage." },
+  { num: "02", title: "Deep Diagnostic", desc: "We conduct a comprehensive analysis of your store's growth infrastructure across all four pillars." },
+  { num: "03", title: "Strategy Report", desc: "You receive a detailed report with findings, priorities, and a clear roadmap for what to fix and in what order." },
+  { num: "04", title: "Roadmap Session", desc: "We walk through the report together, answer questions, and map the most efficient path forward." },
 ];
 
 const Audit = () => {
@@ -51,23 +51,35 @@ const Audit = () => {
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="gold-line" />
-              <span className="text-label text-accent">Flagship Service</span>
+              <span className="text-label text-accent">Flagship Diagnostic</span>
             </div>
             <h1 className="text-display-xl mb-8">
               Shopify Growth Foundations{" "}
               <span className="italic text-accent">Audit</span>
             </h1>
-            <p className="text-body-lg text-muted-foreground mb-8">
-              A comprehensive strategic and technical diagnostic of your Shopify store's growth 
-              infrastructure. Understand exactly what's working, what's broken, and what to prioritize.
+            <p className="text-body-lg text-muted-foreground mb-4">
+              A comprehensive strategic and technical diagnostic of your Shopify store's growth
+              infrastructure. Understand exactly what's working, what's broken, and what to prioritize
+              — before you invest in scaling.
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-            >
-              Book Your Audit
-              <ArrowRight size={16} />
-            </Link>
+            <p className="text-body text-muted-foreground mb-8">
+              Because scaling without a foundation doesn't create growth. It creates chaos.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
+              >
+                Book Your Audit
+                <ArrowRight size={16} />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
+              >
+                Ask a Question
+              </Link>
+            </div>
           </motion.div>
 
           <motion.div
@@ -76,13 +88,14 @@ const Audit = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="bg-primary text-primary-foreground p-10 md:p-12"
           >
-            <h3 className="text-label text-gold mb-6">Ideal For</h3>
+            <h3 className="text-label text-gold mb-6">Who This Is For</h3>
             <ul className="space-y-4">
               {[
                 "Shopify brands doing $500K–$5M in revenue",
-                "Founders who feel their store is underperforming",
-                "Teams about to invest in a redesign or rebuild",
-                "Brands scaling paid ads but leaking conversions",
+                "Founders who feel their store is underperforming relative to traffic",
+                "Teams about to invest in a redesign, rebuild, or major growth push",
+                "Brands scaling paid ads but leaking conversions at every stage",
+                "Operators who want data-driven clarity before making their next move",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle size={16} className="text-gold mt-0.5 flex-shrink-0" />
@@ -94,13 +107,46 @@ const Audit = () => {
         </div>
       </section>
 
+      {/* Why Before Scaling */}
+      <section className="section-padding section-spacing border-t border-border">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <motion.div {...fadeUp}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="gold-line" />
+              <span className="text-label text-accent">Why It Matters</span>
+            </div>
+            <h2 className="text-display-lg mb-6">Why audit before you scale?</h2>
+            <p className="text-body-lg text-muted-foreground">
+              Most brands pour money into traffic before understanding why their store isn't converting.
+              The audit reveals the structural issues that are silently killing your growth — so every
+              dollar you spend after goes further.
+            </p>
+          </motion.div>
+          <motion.div {...fadeUp} className="bg-secondary p-10 md:p-12">
+            <div className="space-y-6">
+              {[
+                "Stop guessing and start making decisions based on data",
+                "Identify the 20% of changes that drive 80% of growth",
+                "Get a clear, prioritized roadmap — not a vague list of suggestions",
+                "Understand your store's real conversion capacity before investing in scale",
+              ].map((item, i) => (
+                <div key={item} className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0">
+                  <span className="text-label text-accent">0{i + 1}</span>
+                  <p className="text-body font-medium">{item}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <section className="section-padding section-spacing bg-secondary/30">
         <motion.div {...fadeUp} className="mb-16">
           <div className="flex items-center gap-4 mb-6">
             <div className="gold-line" />
-            <span className="text-label text-accent">What We Analyze</span>
+            <span className="text-label text-accent">What Gets Reviewed</span>
           </div>
-          <h2 className="text-display-lg">Four pillars of growth</h2>
+          <h2 className="text-display-lg">Four pillars of growth infrastructure</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,7 +170,42 @@ const Audit = () => {
         </div>
       </section>
 
+      {/* What You Receive */}
       <section className="section-padding section-spacing">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          <motion.div {...fadeUp}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="gold-line" />
+              <span className="text-label text-accent">Deliverables</span>
+            </div>
+            <h2 className="text-display-lg mb-6">What you receive</h2>
+            <p className="text-body-lg text-muted-foreground">
+              Not a generic checklist. A strategic diagnostic report tailored to your brand,
+              your store, and your growth stage.
+            </p>
+          </motion.div>
+          <motion.div {...fadeUp}>
+            <div className="space-y-4">
+              {[
+                "Comprehensive growth infrastructure analysis",
+                "Conversion bottleneck identification with severity ratings",
+                "Technical performance assessment with benchmarks",
+                "Prioritized opportunity matrix ranked by impact and effort",
+                "90-day action plan with clear next steps",
+                "Growth system blueprint for long-term scale",
+                "Live walkthrough and strategy session",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 py-3 border-b border-border last:border-0">
+                  <CheckCircle size={14} className="text-accent mt-1 flex-shrink-0" />
+                  <span className="text-body">{item}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="section-padding section-spacing bg-secondary/30">
         <motion.div {...fadeUp} className="mb-16">
           <div className="flex items-center gap-4 mb-6">
             <div className="gold-line" />
@@ -146,17 +227,26 @@ const Audit = () => {
 
       <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
         <motion.div {...fadeUp} className="max-w-2xl mx-auto">
-          <h2 className="text-display-lg mb-6">Stop guessing. Start growing.</h2>
+          <h2 className="text-display-lg mb-6">Stop guessing. Start growing with clarity.</h2>
           <p className="text-body-lg opacity-70 mb-10">
-            The Growth Foundations Audit gives you the clarity and confidence to make your next investment count.
+            The Growth Foundations Audit gives you the diagnosis and confidence to make your next
+            investment count. Every serious growth journey starts here.
           </p>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
-          >
-            Book Your Audit Now
-            <ArrowRight size={16} />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
+            >
+              Book Your Audit Now
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
+            >
+              Request a Strategic Review
+            </Link>
+          </div>
         </motion.div>
       </section>
 

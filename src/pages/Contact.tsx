@@ -35,12 +35,12 @@ const Contact = () => {
             <span className="text-label text-accent">Contact</span>
           </div>
           <h1 className="text-display-xl mb-8">
-            Let's talk{" "}
-            <span className="italic text-accent">growth</span>
+            Start a growth{" "}
+            <span className="italic text-accent">conversation</span>
           </h1>
           <p className="text-body-lg text-muted-foreground max-w-2xl">
-            Whether you're ready for an audit, exploring a growth system build, or just want a 
-            strategic conversation — we'd love to hear from you.
+            Whether you're ready for an audit, exploring a growth system build, or want a
+            strategic review of where your brand stands — we'd like to hear from you.
           </p>
         </motion.div>
       </section>
@@ -86,6 +86,18 @@ const Contact = () => {
                   />
                 </div>
                 <div>
+                  <label className="text-label text-foreground mb-2 block">Monthly Revenue Range</label>
+                  <select
+                    className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
+                  >
+                    <option>$100K – $500K</option>
+                    <option>$500K – $1M</option>
+                    <option>$1M – $3M</option>
+                    <option>$3M – $5M</option>
+                    <option>$5M+</option>
+                  </select>
+                </div>
+                <div>
                   <label className="text-label text-foreground mb-2 block">What are you looking for?</label>
                   <select
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
@@ -93,15 +105,15 @@ const Contact = () => {
                     <option>Growth Foundations Audit</option>
                     <option>Growth System Build</option>
                     <option>Strategic Growth Partner</option>
-                    <option>Just exploring</option>
+                    <option>Strategic Review / Just Exploring</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-label text-foreground mb-2 block">Tell us about your brand</label>
+                  <label className="text-label text-foreground mb-2 block">Tell us about your brand and challenges</label>
                   <textarea
                     rows={5}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors resize-none"
-                    placeholder="What's your brand, where are you now, and what are you trying to achieve?"
+                    placeholder="What's your brand, where are you now, and what growth challenges are you facing?"
                   />
                 </div>
                 <button
@@ -122,12 +134,29 @@ const Contact = () => {
                 {[
                   "We review your inquiry within 24 hours",
                   "If there's a fit, we schedule a discovery call",
-                  "We discuss your growth challenges and goals",
+                  "We discuss your growth challenges, goals, and current stage",
                   "You receive a tailored proposal or audit recommendation",
                 ].map((step, i) => (
                   <div key={step} className="flex items-start gap-3">
                     <span className="text-gold font-body text-sm font-medium mt-0.5">0{i + 1}</span>
                     <span className="text-sm font-body opacity-80">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-secondary/50 p-10 md:p-12 mb-6">
+              <h3 className="font-display text-lg font-medium mb-4">This is for you if:</h3>
+              <div className="space-y-3">
+                {[
+                  "You're a growing Shopify brand ready to invest in systems",
+                  "You value strategic clarity over quick fixes",
+                  "You're looking for a partner, not just a vendor",
+                  "You care about sustainable scale, not vanity metrics",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
+                    <span className="text-sm font-body text-muted-foreground">{item}</span>
                   </div>
                 ))}
               </div>

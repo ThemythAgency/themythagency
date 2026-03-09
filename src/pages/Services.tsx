@@ -18,9 +18,9 @@ const services = [
     num: "01",
     title: "Shopify Growth Foundations Audit",
     subtitle: "Diagnose before you build",
-    description: "A comprehensive strategic and technical diagnostic of your Shopify store's growth infrastructure. We analyze your conversion architecture, technical performance, customer journey, and growth levers to create a prioritized roadmap.",
+    description: "A focused diagnostic for growing Shopify brands that want to scale without structural friction, conversion leaks, or blind data. We analyze your conversion architecture, technical performance, customer journey, and growth levers to create a prioritized roadmap.",
     deliverables: ["Growth Architecture Analysis", "Conversion Funnel Diagnostic", "Technical Performance Audit", "Prioritized Growth Roadmap", "Strategic Recommendations Report"],
-    ideal: "Brands doing $500K–$5M who feel stuck or want clarity before investing in growth.",
+    ideal: "Brands doing $500K–$5M who feel stuck, want clarity before investing in growth, or need to understand what's actually broken.",
     cta: "/audit",
     ctaText: "Learn About the Audit",
   },
@@ -29,9 +29,9 @@ const services = [
     num: "02",
     title: "Growth System Build",
     subtitle: "Strategy through execution",
-    description: "End-to-end design and development of a high-performance Shopify growth system. From strategic foundation to conversion-focused design, custom development, and optimization — we build the engine.",
+    description: "A strategy-led Shopify design and optimization engagement that improves structure, conversion, and scale readiness. From strategic foundation to conversion-focused design, custom development, and optimization — we build the growth engine.",
     deliverables: ["Growth Strategy & Architecture", "Conversion-Focused UX/UI Design", "Custom Shopify Development", "Performance Optimization", "Analytics & Tracking Setup"],
-    ideal: "Brands ready to rebuild their Shopify experience with a system designed to scale.",
+    ideal: "Brands ready to rebuild their Shopify experience with a system designed to scale — not just look good.",
     cta: "/contact",
     ctaText: "Discuss Your Build",
   },
@@ -40,9 +40,9 @@ const services = [
     num: "03",
     title: "Strategic Growth Partner",
     subtitle: "Ongoing strategic & executional support",
-    description: "A retained partnership for brands that need continuous strategic guidance and executional support. We become an embedded part of your growth team — advising, building, and optimizing month over month.",
+    description: "Ongoing strategic oversight and execution support for brands ready to compound growth. We become an embedded part of your growth team — advising, building, and optimizing month over month with full accountability.",
     deliverables: ["Monthly Growth Strategy Sessions", "Ongoing CRO & Optimization", "Technical Development Support", "Performance Reporting & Analysis", "Priority Access & Dedicated Team"],
-    ideal: "Scaling brands doing $2M+ who need a trusted growth partner, not another agency.",
+    ideal: "Scaling brands doing $2M+ who need a trusted growth partner that thinks and builds — not another agency that just takes orders.",
     cta: "/contact",
     ctaText: "Explore Partnership",
   },
@@ -65,12 +65,12 @@ const Services = () => {
             <span className="text-label text-accent">Services</span>
           </div>
           <h1 className="text-display-xl mb-8">
-            Three ways to{" "}
-            <span className="italic text-accent">grow</span>
+            Three systems for{" "}
+            <span className="italic text-accent">growth</span>
           </h1>
           <p className="text-body-lg text-muted-foreground max-w-2xl">
-            Every engagement is built on the same strategic foundation — diagnostic-led, 
-            conversion-focused, and designed to scale.
+            Each engagement is built on the same strategic foundation — diagnostic-led,
+            conversion-focused, and designed to compound. These are systems, not random services.
           </p>
         </motion.div>
       </section>
@@ -118,6 +118,31 @@ const Services = () => {
           </div>
         </section>
       ))}
+
+      {/* CTA */}
+      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
+        <motion.div {...fadeUp} className="max-w-2xl mx-auto">
+          <h2 className="text-display-lg mb-6">Not sure which system fits?</h2>
+          <p className="text-body-lg opacity-70 mb-10">
+            Start with a conversation. We'll help you identify the right engagement based on where your brand is today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/audit"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
+            >
+              Start with an Audit
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
+            >
+              Request a Strategic Review
+            </Link>
+          </div>
+        </motion.div>
+      </section>
 
       <Footer />
     </div>

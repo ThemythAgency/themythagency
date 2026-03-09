@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, BarChart3, Layers, TrendingUp, Shield, Zap } from "lucide-react";
+import { ArrowRight, Target, BarChart3, Layers, TrendingUp, Shield, Zap, Eye } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
@@ -20,28 +20,30 @@ const staggerContainer = {
 
 const painPoints = [
   { icon: TrendingUp, title: "Revenue has plateaued", desc: "You've hit a ceiling and can't figure out what's broken in your growth engine." },
-  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting — the funnel is leaking." },
-  { icon: Layers, title: "Tech stack is fragmented", desc: "Apps, tools, and integrations are duct-taped together with no cohesive system." },
-  { icon: Shield, title: "No strategic clarity", desc: "You're making tactical moves without a growth roadmap or clear priorities." },
+  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting — the funnel is leaking at every stage." },
+  { icon: Layers, title: "Tech stack is fragmented", desc: "Apps, tools, and integrations are duct-taped together with no cohesive system or documentation." },
+  { icon: Shield, title: "No strategic clarity", desc: "You're making tactical moves without a growth roadmap, clear priorities, or reliable data." },
+  { icon: Eye, title: "Poor tracking and visibility", desc: "You can't attribute revenue, measure performance, or make confident decisions with your current setup." },
+  { icon: Zap, title: "Scaling before the foundation is ready", desc: "You're pouring into ads and channels while the store itself underperforms and leaks margin." },
 ];
 
 const services = [
   {
     num: "01",
     title: "Shopify Growth Foundations Audit",
-    desc: "A comprehensive diagnostic of your store's growth infrastructure — from conversion architecture to technical health.",
+    desc: "A focused diagnostic for growing Shopify brands that want to scale without structural friction, conversion leaks, or blind data.",
     link: "/audit",
   },
   {
     num: "02",
     title: "Growth System Build",
-    desc: "End-to-end execution of a high-performance Shopify growth system — strategy, design, development, and optimization.",
+    desc: "A strategy-led Shopify design and optimization engagement that improves structure, conversion, and scale readiness.",
     link: "/services",
   },
   {
     num: "03",
     title: "Strategic Growth Partner",
-    desc: "Ongoing strategic and executional support to scale your Shopify brand with precision and control.",
+    desc: "Ongoing strategic oversight and execution support for brands ready to compound growth with precision and control.",
     link: "/services",
   },
 ];
@@ -51,19 +53,19 @@ const caseStudies = [
     brand: "Velour Skincare",
     category: "Beauty & Skincare",
     result: "+142% conversion rate",
-    desc: "Rebuilt their entire Shopify experience from strategy through execution, focusing on conversion architecture and customer journey optimization.",
+    desc: "Diagnosed conversion bottlenecks across their product page architecture, rebuilt the shopping experience, and implemented structured optimization.",
   },
   {
     brand: "Nordvik Outfitters",
     category: "Outdoor & Apparel",
     result: "3.2x revenue growth",
-    desc: "Implemented a full growth system including performance optimization, strategic CRO, and scalable infrastructure.",
+    desc: "Built a phased growth roadmap, migrated to scalable infrastructure, and implemented a continuous optimization program.",
   },
   {
     brand: "Maison Collective",
     category: "Home & Lifestyle",
     result: "68% faster load times",
-    desc: "Technical overhaul and growth system build that transformed a sluggish store into a high-performing revenue engine.",
+    desc: "Full growth system build — premium design, optimized discovery, streamlined checkout, and comprehensive performance engineering.",
   },
 ];
 
@@ -73,7 +75,7 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="section-padding pt-32 md:pt-40 pb-20 md:pb-32">
+      <section className="section-padding pt-32 md:pt-44 pb-24 md:pb-36">
         <div className="max-w-5xl">
           <motion.div
             initial={{ opacity: 0 }}
@@ -82,7 +84,7 @@ const Index = () => {
             className="flex items-center gap-4 mb-8"
           >
             <div className="gold-line" />
-            <span className="text-label text-accent">Shopify Growth Consultancy</span>
+            <span className="text-label text-accent">Shopify Growth Consultancy with Execution</span>
           </motion.div>
 
           <motion.h1
@@ -101,7 +103,7 @@ const Index = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="text-body-lg text-muted-foreground max-w-2xl mb-12"
           >
-            Strategic clarity. Conversion-focused design. Scalable infrastructure. 
+            Strategic clarity. Conversion-focused design. Scalable infrastructure.
             For growing Shopify brands ready to build systems — not just stores.
           </motion.p>
 
@@ -119,10 +121,10 @@ const Index = () => {
               <ArrowRight size={16} />
             </Link>
             <Link
-              to="/case-studies"
+              to="/contact"
               className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
             >
-              View Case Studies
+              Start a Growth Conversation
             </Link>
           </motion.div>
         </div>
@@ -132,13 +134,13 @@ const Index = () => {
       <section className="section-padding section-spacing bg-primary text-primary-foreground">
         <SectionHeading
           label="The Problem"
-          title="Growth shouldn't feel this hard"
-          description="Most Shopify brands hit a wall because they're optimizing tactics without a system. Sound familiar?"
+          title="Most Shopify growth problems are structural — not traffic problems"
+          description="Growing brands hit walls not because they lack customers, but because their store infrastructure can't support scale. Sound familiar?"
         />
 
         <motion.div
           {...staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
         >
           {painPoints.map((point) => (
             <motion.div
@@ -166,13 +168,14 @@ const Index = () => {
               <div className="gold-line" />
               <span className="text-label text-accent">Our Approach</span>
             </div>
-            <h2 className="text-display-lg mb-6">Strategy first.<br />Execution always.</h2>
+            <h2 className="text-display-lg mb-6">We think before we build.<br />Then we build to scale.</h2>
             <p className="text-body-lg text-muted-foreground mb-8">
-              We don't start with design. We start with diagnosis. Every engagement begins with 
-              understanding your growth architecture — then we build the system to scale it.
+              Every engagement starts with diagnosis — not design. We map your growth architecture,
+              identify structural friction, and build systems where strategy, design, technology,
+              and data reinforce each other.
             </p>
             <div className="space-y-4">
-              {["Diagnostic-led methodology", "Conversion-focused execution", "Scalable growth infrastructure"].map((item) => (
+              {["Diagnostic-led methodology", "Conversion-focused execution", "Scalable growth infrastructure", "Data-driven decision making"].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 bg-accent rounded-full" />
                   <span className="text-body font-medium">{item}</span>
@@ -185,7 +188,7 @@ const Index = () => {
             className="bg-secondary p-12 md:p-16"
           >
             <blockquote className="font-display text-xl md:text-2xl italic leading-relaxed mb-6">
-              "Most agencies build stores. We build growth systems. The difference is everything."
+              "Most agencies build stores. We build growth systems. The difference is sustainable scale."
             </blockquote>
             <div className="gold-line mb-4" />
             <p className="text-label text-muted-foreground">Themyth Agency</p>
@@ -197,8 +200,8 @@ const Index = () => {
       <section className="section-padding section-spacing bg-secondary/50">
         <SectionHeading
           label="Services"
-          title="How we work with brands"
-          description="Three engagement models designed for different stages of growth — all built on the same strategic foundation."
+          title="Three systems for different stages of growth"
+          description="Each engagement is built on the same strategic foundation — diagnostic-led, conversion-focused, and designed to compound."
         />
 
         <div className="space-y-0">
@@ -223,7 +226,7 @@ const Index = () => {
         <SectionHeading
           label="Case Studies"
           title="Results that compound"
-          description="Real outcomes from real brands. Every engagement follows our proven framework."
+          description="Real outcomes from real brands. Every engagement follows our proven framework: diagnose, strategize, execute, optimize."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -273,16 +276,24 @@ const Index = () => {
           </div>
           <h2 className="text-display-lg mb-6">Ready to build a growth system?</h2>
           <p className="text-body-lg text-muted-foreground mb-10">
-            Start with our Shopify Growth Foundations Audit — a strategic diagnostic of your store's 
-            growth infrastructure.
+            Start with our Shopify Growth Foundations Audit — a strategic diagnostic that gives you
+            the clarity and confidence to scale.
           </p>
-          <Link
-            to="/audit"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-          >
-            Book Your Growth Audit
-            <ArrowRight size={16} />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              to="/audit"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
+            >
+              Book Your Growth Audit
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
+            >
+              Request a Strategic Review
+            </Link>
+          </div>
         </motion.div>
       </section>
 

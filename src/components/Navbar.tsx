@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import MonogramLogo from "./MonogramLogo";
 
 const navItems = [
   { label: "About", path: "/about" },
@@ -18,11 +19,13 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="section-padding flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="font-display text-lg md:text-xl font-semibold text-foreground tracking-tight">
-          Themyth<span className="text-accent">.</span>
+        <Link to="/" className="flex items-center gap-3">
+          <MonogramLogo size={28} className="text-primary" />
+          <span className="font-display text-lg font-semibold text-foreground tracking-tight">
+            Themyth<span className="text-accent">.</span>
+          </span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <Link
@@ -41,7 +44,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-foreground"
@@ -51,7 +53,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

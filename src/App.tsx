@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import CaseStudies from "./pages/CaseStudies";
+import Portfolio from "./pages/Portfolio";
 import Audit from "./pages/Audit";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";

@@ -7,6 +7,7 @@ import MonogramLogo from "./MonogramLogo";
 const navItems = [
   { label: "About", path: "/about" },
   { label: "Services", path: "/services" },
+  { label: "Portfolio", path: "/portfolio" },
   { label: "Case Studies", path: "/case-studies" },
   { label: "Audit", path: "/audit" },
   { label: "Contact", path: "/contact" },

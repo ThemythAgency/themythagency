@@ -1,69 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowRight, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-import portfolioVelour from "@/assets/portfolio-velour.jpg";
-import portfolioNordvik from "@/assets/portfolio-nordvik.jpg";
-import portfolioMaison from "@/assets/portfolio-maison.jpg";
-import portfolioApex from "@/assets/portfolio-apex.jpg";
-import portfolioAurelia from "@/assets/portfolio-aurelia.jpg";
-import portfolioEmber from "@/assets/portfolio-ember.jpg";
-
-const categories = ["All", "Shopify", "eCommerce", "Redesign", "Growth System", "Conversion"];
-
-const projects = [
-  {
-    title: "Velour Skincare",
-    category: "Beauty & Skincare",
-    tags: ["Shopify", "eCommerce", "Conversion"],
-    image: portfolioVelour,
-    description: "Complete Shopify redesign focused on conversion optimization. Rebuilt product pages, checkout flow, and mobile experience for a premium skincare brand.",
-    result: "+142% Conversion Rate",
-  },
-  {
-    title: "Nordvik Outfitters",
-    category: "Outdoor & Apparel",
-    tags: ["Shopify", "Growth System", "Redesign"],
-    image: portfolioNordvik,
-    description: "Full infrastructure migration to Shopify 2.0 with custom theme architecture, performance engineering, and a continuous optimization program.",
-    result: "3.2x Revenue Growth",
-  },
-  {
-    title: "Maison Collective",
-    category: "Home & Lifestyle",
-    tags: ["Shopify", "Redesign", "eCommerce"],
-    image: portfolioMaison,
-    description: "Premium brand experience rebuild — editorial design, optimized product discovery, streamlined checkout, and comprehensive performance optimization.",
-    result: "68% Faster Load Times",
-  },
-  {
-    title: "Apex Nutrition",
-    category: "Health & Supplements",
-    tags: ["Shopify", "eCommerce", "Conversion"],
-    image: portfolioApex,
-    description: "High-performance Shopify store for a fitness supplement brand. Bold dark design with conversion-focused product pages and subscription integration.",
-    result: "+96% Mobile Conversion",
-  },
-  {
-    title: "Aurelia Jewelry",
-    category: "Fashion & Accessories",
-    tags: ["Shopify", "eCommerce", "Growth System"],
-    image: portfolioAurelia,
-    description: "Luxury jewelry ecommerce experience with refined product photography presentation, elegant typography, and seamless checkout for high-AOV purchases.",
-    result: "+58% Average Order Value",
-  },
-  {
-    title: "Ember Roasters",
-    category: "Food & Beverage",
-    tags: ["Shopify", "eCommerce", "Conversion"],
-    image: portfolioEmber,
-    description: "Artisan coffee brand Shopify build with subscription management, warm editorial design, and optimized product discovery for craft coffee enthusiasts.",
-    result: "2.4x Subscription Revenue",
-  },
-];
+import ProjectDetailModal from "@/components/ProjectDetailModal";
+import PortfolioFAQ from "@/components/PortfolioFAQ";
+import { categories, projects, type Project } from "@/data/portfolioData";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -74,11 +17,25 @@ const fadeUp = {
 
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredProjects =
     activeFilter === "All"
       ? projects
-      : projects.filter((p) => p.tags.includes(activeFilter));
+      : projects.filter((p) => p.platform === activeFilter || p.tags.includes(activeFilter));
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "";
+    setTimeout(() => setSelectedProject(null), 300);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -102,7 +59,7 @@ const Portfolio = () => {
             <span className="italic text-accent">built</span>
           </h1>
           <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
-            A collection of Shopify growth systems designed for conversion, performance, and sustainable scale.
+            A collection of growth systems designed for conversion, performance, and sustainable scale — across every major platform.
           </p>
         </motion.div>
       </section>
@@ -129,6 +86,16 @@ const Portfolio = () => {
             </button>
           ))}
         </motion.div>
+
+        {/* Count */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center text-sm text-muted-foreground font-body mt-6"
+        >
+          Showing {filteredProjects.length} project{filteredProjects.length !== 1 ? "s" : ""}
+        </motion.p>
       </section>
 
       {/* Projects Grid */}
@@ -147,8 +114,9 @@ const Portfolio = () => {
                 key={project.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="group cursor-pointer"
+                onClick={() => handleProjectClick(project)}
               >
                 {/* Image */}
                 <div className="relative overflow-hidden bg-secondary aspect-[4/3] mb-5">
@@ -158,17 +126,29 @@ const Portfolio = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors duration-500 flex items-center justify-center">
-                    <ExternalLink
-                      size={24}
-                      className="text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/50 transition-colors duration-500 flex items-center justify-center gap-4">
+                    <div className="flex items-center gap-2 bg-background/90 px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                      <Eye size={16} className="text-foreground" />
+                      <span className="text-xs font-body font-medium text-foreground tracking-wide">View Details</span>
+                    </div>
+                    {project.liveUrl !== "#" && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-2 bg-accent px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75"
+                      >
+                        <ExternalLink size={16} className="text-accent-foreground" />
+                        <span className="text-xs font-body font-medium text-accent-foreground tracking-wide">Live Preview</span>
+                      </a>
+                    )}
                   </div>
                 </div>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {project.tags.map((tag) => (
+                  {project.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
@@ -178,10 +158,16 @@ const Portfolio = () => {
                   ))}
                 </div>
 
-                {/* Category label */}
-                <span className="text-xs font-body font-medium uppercase tracking-[0.15em] text-accent">
-                  {project.category}
-                </span>
+                {/* Platform + Category */}
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-body font-medium uppercase tracking-[0.15em] text-accent">
+                    {project.platform}
+                  </span>
+                  <span className="text-xs text-muted-foreground">•</span>
+                  <span className="text-xs font-body text-muted-foreground">
+                    {project.category}
+                  </span>
+                </div>
 
                 {/* Title */}
                 <h3 className="font-display text-xl font-medium mt-1 mb-2 group-hover:text-accent transition-colors duration-300">
@@ -189,7 +175,7 @@ const Portfolio = () => {
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3">
+                <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3 line-clamp-2">
                   {project.description}
                 </p>
 
@@ -202,6 +188,9 @@ const Portfolio = () => {
           </motion.div>
         </AnimatePresence>
       </section>
+
+      {/* FAQ Section */}
+      <PortfolioFAQ />
 
       {/* CTA */}
       <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
@@ -229,6 +218,13 @@ const Portfolio = () => {
       </section>
 
       <Footer />
+
+      {/* Project Detail Modal */}
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { ExternalLink, ArrowRight, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -100,93 +100,109 @@ const Portfolio = () => {
 
       {/* Projects Grid */}
       <section className="section-padding pb-20 md:pb-28">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, i) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="group cursor-pointer"
-                onClick={() => handleProjectClick(project)}
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden bg-secondary aspect-[4/3] mb-5">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/50 transition-colors duration-500 flex items-center justify-center gap-4">
-                    <div className="flex items-center gap-2 bg-background/90 px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                      <Eye size={16} className="text-foreground" />
-                      <span className="text-xs font-body font-medium text-foreground tracking-wide">View Details</span>
-                    </div>
-                    {project.liveUrl !== "#" && (
+        <LayoutGroup>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFilter}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {filteredProjects.map((project, i) => (
+                <motion.div
+                  key={project.title}
+                  layout
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="group cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative overflow-hidden bg-secondary aspect-[4/3] mb-5">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/60 transition-colors duration-500 flex items-center justify-center gap-3">
+                      <button
+                        onClick={() => handleProjectClick(project)}
+                        className="flex items-center gap-2 bg-background/90 px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                      >
+                        <Eye size={16} className="text-foreground" />
+                        <span className="text-xs font-body font-medium text-foreground tracking-wide">View Details</span>
+                      </button>
                       <a
-                        href={project.liveUrl}
+                        href={project.liveUrl !== "#" ? project.liveUrl : undefined}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-2 bg-accent px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (project.liveUrl === "#") e.preventDefault();
+                        }}
+                        className={`flex items-center gap-2 bg-accent px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 ${
+                          project.liveUrl === "#" ? "pointer-events-none opacity-50" : ""
+                        }`}
                       >
                         <ExternalLink size={16} className="text-accent-foreground" />
-                        <span className="text-xs font-body font-medium text-accent-foreground tracking-wide">Live Preview</span>
+                        <span className="text-xs font-body font-medium text-accent-foreground tracking-wide">Preview</span>
                       </a>
-                    )}
+                    </div>
                   </div>
-                </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {project.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
-                    >
-                      {tag}
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Platform + Category */}
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-body font-medium uppercase tracking-[0.15em] text-accent">
+                      {project.platform}
                     </span>
-                  ))}
-                </div>
+                    <span className="text-xs text-muted-foreground">•</span>
+                    <span className="text-xs font-body text-muted-foreground">
+                      {project.category}
+                    </span>
+                  </div>
 
-                {/* Platform + Category */}
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-body font-medium uppercase tracking-[0.15em] text-accent">
-                    {project.platform}
-                  </span>
-                  <span className="text-xs text-muted-foreground">•</span>
-                  <span className="text-xs font-body text-muted-foreground">
-                    {project.category}
-                  </span>
-                </div>
+                  {/* Title */}
+                  <h3
+                    className="font-display text-xl font-medium mt-1 mb-2 group-hover:text-accent transition-colors duration-300"
+                    onClick={() => handleProjectClick(project)}
+                  >
+                    {project.title}
+                  </h3>
 
-                {/* Title */}
-                <h3 className="font-display text-xl font-medium mt-1 mb-2 group-hover:text-accent transition-colors duration-300">
-                  {project.title}
-                </h3>
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3 line-clamp-2">
+                    {project.description}
+                  </p>
 
-                {/* Description */}
-                <p className="text-sm text-muted-foreground font-body leading-relaxed mb-3 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* Result */}
-                <p className="text-sm font-display font-semibold text-accent">
-                  {project.result}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+                  {/* Result */}
+                  <p className="text-sm font-display font-semibold text-accent">
+                    {project.result}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </LayoutGroup>
       </section>
 
       {/* FAQ Section */}

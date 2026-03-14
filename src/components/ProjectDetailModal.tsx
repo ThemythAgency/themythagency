@@ -122,17 +122,20 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ProjectDetailModalProp
 
               {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-border">
-                {project.liveUrl !== "#" && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300"
-                  >
-                    Live Preview
-                    <ExternalLink size={16} />
-                  </a>
-                )}
+                <a
+                  href={project.liveUrl !== "#" ? project.liveUrl : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (project.liveUrl === "#") e.preventDefault();
+                  }}
+                  className={`inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300 ${
+                    project.liveUrl === "#" ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {project.liveUrl !== "#" ? "Live Preview" : "Preview Coming Soon"}
+                  <ExternalLink size={16} />
+                </a>
                 <a
                   href="/audit"
                   className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300"

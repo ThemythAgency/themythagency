@@ -10,9 +10,13 @@ const fadeUp = {
 };
 
 const PortfolioFAQ = () => {
+  const midpoint = Math.ceil(faqs.length / 2);
+  const leftColumn = faqs.slice(0, midpoint);
+  const rightColumn = faqs.slice(midpoint);
+
   return (
     <section className="section-padding section-spacing bg-secondary/30">
-      <motion.div {...fadeUp} className="max-w-3xl mx-auto">
+      <motion.div {...fadeUp} className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <div className="flex items-center gap-4 mb-6 justify-center">
             <div className="gold-line" />
@@ -28,29 +32,55 @@ const PortfolioFAQ = () => {
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="space-y-3">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-            >
-              <AccordionItem
-                value={`faq-${i}`}
-                className="border border-border bg-background px-6 data-[state=open]:border-accent/30 transition-colors duration-300"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Accordion type="single" collapsible className="space-y-3">
+            {leftColumn.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
               >
-                <AccordionTrigger className="text-left font-display text-base md:text-lg font-medium py-5 hover:no-underline hover:text-accent transition-colors duration-300">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-body text-sm md:text-base leading-relaxed pb-6">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-          ))}
-        </Accordion>
+                <AccordionItem
+                  value={`faq-left-${i}`}
+                  className="border border-border bg-background px-6 data-[state=open]:border-accent/30 transition-colors duration-300"
+                >
+                  <AccordionTrigger className="text-left font-display text-base md:text-lg font-medium py-5 hover:no-underline hover:text-accent transition-colors duration-300">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground font-body text-sm md:text-base leading-relaxed pb-6">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
+            ))}
+          </Accordion>
+
+          <Accordion type="single" collapsible className="space-y-3">
+            {rightColumn.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+              >
+                <AccordionItem
+                  value={`faq-right-${i}`}
+                  className="border border-border bg-background px-6 data-[state=open]:border-accent/30 transition-colors duration-300"
+                >
+                  <AccordionTrigger className="text-left font-display text-base md:text-lg font-medium py-5 hover:no-underline hover:text-accent transition-colors duration-300">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground font-body text-sm md:text-base leading-relaxed pb-6">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
+            ))}
+          </Accordion>
+        </div>
       </motion.div>
     </section>
   );

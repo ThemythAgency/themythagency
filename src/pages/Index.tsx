@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, BarChart3, Layers, TrendingUp, Shield, Zap, Eye } from "lucide-react";
+import { ArrowRight, Target, BarChart3, Layers, TrendingUp, Shield, Zap, Eye, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import ProjectDetailModal from "@/components/ProjectDetailModal";
+import { projects, type Project } from "@/data/portfolioData";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -48,28 +51,28 @@ const services = [
   },
 ];
 
-const caseStudies = [
-  {
-    brand: "Velour Skincare",
-    category: "Beauty & Skincare",
-    result: "+142% conversion rate",
-    desc: "Diagnosed conversion bottlenecks across their product page architecture, rebuilt the shopping experience, and implemented structured optimization.",
-  },
-  {
-    brand: "Nordvik Outfitters",
-    category: "Outdoor & Apparel",
-    result: "3.2x revenue growth",
-    desc: "Built a phased growth roadmap, migrated to scalable infrastructure, and implemented a continuous optimization program.",
-  },
-  {
-    brand: "Maison Collective",
-    category: "Home & Lifestyle",
-    result: "68% faster load times",
-    desc: "Full growth system build — premium design, optimized discovery, streamlined checkout, and comprehensive performance engineering.",
-  },
-];
+// Top projects: SoapLab, Blossom Elle, Pixi Beauty, Sillagea
+const topProjectTitles = ["The Soap Lab Scotland", "Blossom Elle", "Pixi Beauty", "Sillagea"];
+const topProjects = topProjectTitles
+  .map((title) => projects.find((p) => p.title === title))
+  .filter(Boolean) as Project[];
 
 const Index = () => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "";
+    setTimeout(() => setSelectedProject(null), 300);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -221,26 +224,90 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Case Studies */}
+      {/* Top Projects */}
       <section className="section-padding section-spacing">
         <SectionHeading
-          label="Case Studies"
-          title="Results that compound"
-          description="Real outcomes from real brands. Every engagement follows our proven framework: diagnose, strategize, execute, optimize."
+          label="Our Top Projects"
+          title="Featured work that speaks for itself"
+          description="Handpicked projects showcasing our approach to growth systems — real brands, real strategies, real results."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {caseStudies.map((study) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {topProjects.map((project, i) => (
             <motion.div
-              key={study.brand}
-              {...fadeUp}
-              className="group"
+              key={project.title}
+              initial={{ opacity: 0, y: 50, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                duration: 0.7,
+                delay: i * 0.15,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="group relative"
             >
-              <div className="bg-primary text-primary-foreground p-8 md:p-10 h-full flex flex-col">
-                <span className="text-label text-gold mb-4">{study.category}</span>
-                <h3 className="font-display text-xl font-medium mb-2">{study.brand}</h3>
-                <p className="text-3xl font-display font-semibold text-gold mb-4">{study.result}</p>
-                <p className="text-sm opacity-70 font-body leading-relaxed mt-auto">{study.desc}</p>
+              {/* Image */}
+              <div className="relative overflow-hidden bg-secondary aspect-[4/3]">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Hover overlay buttons */}
+                <div className="absolute inset-0 flex items-end justify-between p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div>
+                    <p className="text-xs font-body font-medium tracking-wider uppercase text-gold mb-1">{project.platform} • {project.category}</p>
+                    <h3 className="font-display text-xl md:text-2xl font-medium text-white">{project.title}</h3>
+                    <p className="text-gold font-display font-semibold mt-1">{project.result}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleProjectClick(project)}
+                      className="flex items-center gap-2 bg-background/90 px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500"
+                    >
+                      <Eye size={14} className="text-foreground" />
+                      <span className="text-xs font-body font-medium text-foreground">Details</span>
+                    </button>
+                    <a
+                      href={project.liveUrl !== "#" ? project.liveUrl : undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        if (project.liveUrl === "#") e.preventDefault();
+                      }}
+                      className="flex items-center gap-2 bg-accent px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75"
+                    >
+                      <ExternalLink size={14} className="text-accent-foreground" />
+                      <span className="text-xs font-body font-medium text-accent-foreground">Preview</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Info below image */}
+              <div className="mt-4">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3
+                  className="font-display text-xl font-medium mb-1 cursor-pointer hover:text-accent transition-colors duration-300"
+                  onClick={() => handleProjectClick(project)}
+                >
+                  {project.title}
+                </h3>
+                <p className="text-sm text-muted-foreground font-body leading-relaxed line-clamp-2">
+                  {project.description}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -248,10 +315,10 @@ const Index = () => {
 
         <motion.div {...fadeUp} className="mt-12 text-center">
           <Link
-            to="/case-studies"
-            className="inline-flex items-center gap-3 text-sm font-medium font-body tracking-wide text-foreground hover:text-accent transition-colors duration-300"
+            to="/portfolio"
+            className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
           >
-            View all case studies
+            View All Projects
             <ArrowRight size={16} />
           </Link>
         </motion.div>
@@ -298,6 +365,12 @@ const Index = () => {
       </section>
 
       <Footer />
+
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

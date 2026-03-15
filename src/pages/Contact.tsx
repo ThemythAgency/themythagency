@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin, CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -13,10 +15,55 @@ const fadeUp = {
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    website: "",
+    revenue_range: "$100K – $500K",
+    service_interest: "Growth Foundations Audit",
+    message: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+
+    // Basic validation
+    if (!formData.name.trim() || formData.name.length > 100) {
+      toast({ title: "Please enter a valid name (max 100 characters).", variant: "destructive" });
+      return;
+    }
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) || formData.email.length > 255) {
+      toast({ title: "Please enter a valid email address.", variant: "destructive" });
+      return;
+    }
+    if (formData.message && formData.message.length > 2000) {
+      toast({ title: "Message must be under 2000 characters.", variant: "destructive" });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.from("contact_inquiries").insert({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        website: formData.website.trim() || null,
+        revenue_range: formData.revenue_range,
+        service_interest: formData.service_interest,
+        message: formData.message.trim() || null,
+      });
+
+      if (error) throw error;
+      setSubmitted(true);
+    } catch {
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,6 +97,7 @@ const Contact = () => {
           <motion.div {...fadeUp}>
             {submitted ? (
               <div className="bg-secondary/50 p-10 md:p-12 text-center">
+                <CheckCircle size={48} className="text-accent mx-auto mb-4" />
                 <h3 className="font-display text-2xl font-medium mb-4">Thank you</h3>
                 <p className="text-body text-muted-foreground">
                   We've received your inquiry and will be in touch within 24 hours.
@@ -62,7 +110,11 @@ const Contact = () => {
                     <label className="text-label text-foreground mb-2 block">Name</label>
                     <input
                       type="text"
+                      name="name"
                       required
+                      maxLength={100}
+                      value={formData.name}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                       placeholder="Your name"
                     />
@@ -71,7 +123,11 @@ const Contact = () => {
                     <label className="text-label text-foreground mb-2 block">Email</label>
                     <input
                       type="email"
+                      name="email"
                       required
+                      maxLength={255}
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                       placeholder="you@brand.com"
                     />
@@ -81,6 +137,9 @@ const Contact = () => {
                   <label className="text-label text-foreground mb-2 block">Website</label>
                   <input
                     type="url"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                     placeholder="https://yourstore.com"
                   />
@@ -88,6 +147,9 @@ const Contact = () => {
                 <div>
                   <label className="text-label text-foreground mb-2 block">Monthly Revenue Range</label>
                   <select
+                    name="revenue_range"
+                    value={formData.revenue_range}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                   >
                     <option>$100K – $500K</option>
@@ -100,6 +162,9 @@ const Contact = () => {
                 <div>
                   <label className="text-label text-foreground mb-2 block">What are you looking for?</label>
                   <select
+                    name="service_interest"
+                    value={formData.service_interest}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                   >
                     <option>Growth Foundations Audit</option>
@@ -111,16 +176,21 @@ const Contact = () => {
                 <div>
                   <label className="text-label text-foreground mb-2 block">Tell us about your brand and challenges</label>
                   <textarea
+                    name="message"
                     rows={5}
+                    maxLength={2000}
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors resize-none"
                     placeholder="What's your brand, where are you now, and what growth challenges are you facing?"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
+                  disabled={loading}
+                  className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300 disabled:opacity-50"
                 >
-                  Send Inquiry
+                  {loading ? "Sending..." : "Send Inquiry"}
                   <ArrowRight size={16} />
                 </button>
               </form>

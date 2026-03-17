@@ -324,6 +324,9 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* Testimonials */}
+      <Testimonials />
+
       {/* Trust */}
       <section className="section-padding py-16 border-y border-border">
         <motion.div {...fadeUp} className="flex flex-wrap justify-center gap-x-16 gap-y-6 items-center">

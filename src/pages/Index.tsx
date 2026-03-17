@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
 import { projects, type Project } from "@/data/portfolioData";
+import Testimonials from "@/components/Testimonials";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -323,6 +324,9 @@ const Index = () => {
           </Link>
         </motion.div>
       </section>
+
+      {/* Testimonials */}
+      <Testimonials />
 
       {/* Trust */}
       <section className="section-padding py-16 border-y border-border">

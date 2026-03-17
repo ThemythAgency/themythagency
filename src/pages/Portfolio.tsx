@@ -149,7 +149,7 @@ const Portfolio = () => {
                           if (project.liveUrl === "#") e.preventDefault();
                         }}
                         className={`flex items-center gap-2 bg-accent px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 ${
-                          project.liveUrl === "#" ? "pointer-events-none opacity-50" : ""
+                          project.liveUrl === "#" ? "pointer-events-none" : ""
                         }`}
                       >
                         <ExternalLink size={16} className="text-accent-foreground" />

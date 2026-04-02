@@ -8,6 +8,10 @@ import SectionHeading from "@/components/SectionHeading";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
 import { projects, type Project } from "@/data/portfolioData";
 import Testimonials from "@/components/Testimonials";
+import CountingNumbers from "@/components/CountingNumbers";
+import AreasOfExpertise from "@/components/AreasOfExpertise";
+import WhyWorkWithUs from "@/components/WhyWorkWithUs";
+import BlogSection from "@/components/BlogSection";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -325,17 +329,20 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* Counting Numbers */}
+      <CountingNumbers />
+
+      {/* Areas of Expertise */}
+      <AreasOfExpertise />
+
+      {/* Why Work With Us */}
+      <WhyWorkWithUs />
+
       {/* Testimonials */}
       <Testimonials />
 
-      {/* Trust */}
-      <section className="section-padding py-16 border-y border-border">
-        <motion.div {...fadeUp} className="flex flex-wrap justify-center gap-x-16 gap-y-6 items-center">
-          {["Shopify Partner", "100+ Brands Scaled", "7-Figure Systems Built", "$25M+ Revenue Influenced"].map((item) => (
-            <span key={item} className="text-label text-muted-foreground">{item}</span>
-          ))}
-        </motion.div>
-      </section>
+      {/* Blog */}
+      <BlogSection />
 
       {/* CTA */}
       <section className="section-padding section-spacing text-center">

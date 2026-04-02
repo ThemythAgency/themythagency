@@ -23,7 +23,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-3">
           <MonogramLogo size={28} className="text-primary" />
           <span className="font-display text-lg font-semibold text-foreground tracking-tight">
-            Themyth<span className="text-accent">.</span>
+            Themyth Agency<span className="text-accent">.</span>
           </span>
         </Link>
 

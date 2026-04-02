@@ -162,6 +162,21 @@ const Contact = () => {
                   </select>
                 </div>
                 <div>
+                  <label className="text-label text-foreground mb-2 block">Budget Range</label>
+                  <select
+                    name="budget_range"
+                    value={formData.budget_range}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
+                  >
+                    <option>$1K – $5K</option>
+                    <option>$5K – $10K</option>
+                    <option>$10K – $25K</option>
+                    <option>$25K – $50K</option>
+                    <option>$50K+</option>
+                  </select>
+                </div>
+                <div>
                   <label className="text-label text-foreground mb-2 block">What are you looking for?</label>
                   <select
                     name="service_interest"

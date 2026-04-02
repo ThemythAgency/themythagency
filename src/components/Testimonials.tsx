@@ -5,36 +5,25 @@ import SectionHeading from "./SectionHeading";
 const testimonials = [
   {
     quote: "Themyth didn't just redesign our store — they rebuilt our entire growth engine. Conversion rates doubled within 60 days.",
-    name: "Sarah Mitchell",
     role: "Founder, The Soap Lab Scotland",
     rating: 5,
   },
   {
     quote: "The strategic clarity they brought was unlike any agency we've worked with. Every decision was backed by data and designed to compound.",
-    name: "James Okafor",
     role: "CEO, Apex Nutritions",
     rating: 5,
   },
   {
     quote: "They understood our luxury positioning instantly. The new experience feels like walking into a high-end boutique — online.",
-    name: "Amélie Durand",
     role: "Creative Director, Sillagea",
     rating: 5,
   },
   {
     quote: "Our subscription revenue tripled after they rebuilt our product discovery system. The ROI has been extraordinary.",
-    name: "Tom Richardson",
     role: "Co-Founder, Edina Coffee Roasters",
     rating: 5,
   },
 ];
-
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7 },
-};
 
 const Testimonials = () => {
   return (
@@ -48,7 +37,7 @@ const Testimonials = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {testimonials.map((t, i) => (
           <motion.div
-            key={t.name}
+            key={t.role}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -79,10 +68,7 @@ const Testimonials = () => {
             <div className="flex items-center gap-3">
               <div className="gold-line" />
               <div>
-                <p className="text-sm font-body font-medium text-foreground">
-                  {t.name}
-                </p>
-                <p className="text-xs font-body text-muted-foreground">
+                <p className="text-sm font-body text-muted-foreground">
                   {t.role}
                 </p>
               </div>

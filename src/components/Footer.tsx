@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="flex items-center gap-3 mb-4">
               <MonogramLogo size={24} className="text-primary-foreground" />
               <h3 className="font-display text-2xl font-medium">
-                Themyth<span className="text-gold">.</span>
+                Themyth Agency<span className="text-gold">.</span>
               </h3>
             </div>
             <p className="text-body max-w-md opacity-70">

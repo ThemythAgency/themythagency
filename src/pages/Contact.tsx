@@ -199,7 +199,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors resize-none"
-                    placeholder="What's your brand, where are you now, and what growth challenges are you facing?"
+                    placeholder="What's your brand, where are you now, what growth challenges are you facing, and how would you like us to help?"
                   />
                 </div>
                 <button

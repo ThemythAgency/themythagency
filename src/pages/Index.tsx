@@ -8,6 +8,10 @@ import SectionHeading from "@/components/SectionHeading";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
 import { projects, type Project } from "@/data/portfolioData";
 import Testimonials from "@/components/Testimonials";
+import CountingNumbers from "@/components/CountingNumbers";
+import AreasOfExpertise from "@/components/AreasOfExpertise";
+import WhyWorkWithUs from "@/components/WhyWorkWithUs";
+import BlogSection from "@/components/BlogSection";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },

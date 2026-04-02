@@ -153,11 +153,12 @@ const Contact = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                   >
+                    <option>$10K – $50K</option>
+                    <option>$50K – $100K</option>
                     <option>$100K – $500K</option>
                     <option>$500K – $1M</option>
                     <option>$1M – $3M</option>
-                    <option>$3M – $5M</option>
-                    <option>$5M+</option>
+                    <option>$3M+</option>
                   </select>
                 </div>
                 <div>

@@ -20,7 +20,8 @@ const Contact = () => {
     name: "",
     email: "",
     website: "",
-    revenue_range: "$100K – $500K",
+    revenue_range: "$10K – $50K",
+    budget_range: "$1K – $5K",
     service_interest: "Growth Foundations Audit",
     message: "",
   });

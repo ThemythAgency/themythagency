@@ -1,44 +1,8 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-
-const blogPosts = [
-  {
-    title: "Why Your Shopify Store Isn't Converting (And the 7 Structural Fixes That Will)",
-    excerpt: "Most Shopify stores bleed revenue through invisible friction points. Here are the 7 foundational fixes that consistently lift conversion rates by 40–200%.",
-    category: "Conversion Optimization",
-    readTime: "8 min read",
-    date: "March 2026",
-  },
-  {
-    title: "The AI-Powered SEO Framework for eCommerce Brands in 2026",
-    excerpt: "How forward-thinking ecommerce brands are using AI to build content systems that dominate search — without sacrificing quality or brand voice.",
-    category: "SEO & AI",
-    readTime: "10 min read",
-    date: "March 2026",
-  },
-  {
-    title: "Shopify 2.0 vs Custom Build: Which Architecture Scales Better?",
-    excerpt: "A deep technical comparison of Shopify 2.0 modular themes versus fully custom builds — and when each approach makes strategic sense for growing brands.",
-    category: "Technical Strategy",
-    readTime: "7 min read",
-    date: "February 2026",
-  },
-  {
-    title: "How to Build a Growth System That Compounds (Not Just a Pretty Website)",
-    excerpt: "The difference between a website and a growth system is the difference between linear and exponential results. Here's how to build for compounding growth.",
-    category: "Growth Strategy",
-    readTime: "9 min read",
-    date: "February 2026",
-  },
-  {
-    title: "Mobile-First Design for eCommerce: The Complete 2026 Playbook",
-    excerpt: "70%+ of your traffic is mobile. This playbook covers everything from thumb-zone design to checkout optimization that captures mobile revenue.",
-    category: "Mobile & UX",
-    readTime: "12 min read",
-    date: "January 2026",
-  },
-];
+import { blogPosts } from "@/data/blogData";
 
 const BlogSection = () => {
   return (

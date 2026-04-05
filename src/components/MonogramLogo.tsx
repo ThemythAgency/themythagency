@@ -10,8 +10,8 @@ const MonogramLogo = ({ className = "", size = 32, variant = "default" }: Monogr
   if (variant === "circular") {
     return (
       <div
-        className={`rounded-full overflow-hidden flex items-center justify-center ${className}`}
-        style={{ width: size + 8, height: size + 8 }}
+        className={`rounded-full overflow-hidden flex items-center justify-center bg-background border border-border ${className}`}
+        style={{ width: size + 12, height: size + 12 }}
       >
         <img
           src={logoImg}
@@ -30,7 +30,7 @@ const MonogramLogo = ({ className = "", size = 32, variant = "default" }: Monogr
       alt="Themyth Agency"
       width={size}
       height={size}
-      className={className}
+      className={`bg-background rounded ${className}`}
       style={{ objectFit: "contain" }}
     />
   );

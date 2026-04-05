@@ -3,14 +3,14 @@ import logoImg from "@/assets/logo.png";
 interface MonogramLogoProps {
   className?: string;
   size?: number;
-  variant?: "transparent" | "circular";
+  variant?: "default" | "circular";
 }
 
-const MonogramLogo = ({ className = "", size = 32, variant = "transparent" }: MonogramLogoProps) => {
+const MonogramLogo = ({ className = "", size = 32, variant = "default" }: MonogramLogoProps) => {
   if (variant === "circular") {
     return (
       <div
-        className={`rounded-full bg-background/20 border border-primary-foreground/20 flex items-center justify-center overflow-hidden ${className}`}
+        className={`rounded-full overflow-hidden flex items-center justify-center ${className}`}
         style={{ width: size + 8, height: size + 8 }}
       >
         <img
@@ -18,7 +18,7 @@ const MonogramLogo = ({ className = "", size = 32, variant = "transparent" }: Mo
           alt="Themyth Agency"
           width={size}
           height={size}
-          style={{ objectFit: "contain", mixBlendMode: "multiply" }}
+          style={{ objectFit: "contain" }}
         />
       </div>
     );
@@ -31,7 +31,7 @@ const MonogramLogo = ({ className = "", size = 32, variant = "transparent" }: Mo
       width={size}
       height={size}
       className={className}
-      style={{ objectFit: "contain", mixBlendMode: "multiply" }}
+      style={{ objectFit: "contain" }}
     />
   );
 };

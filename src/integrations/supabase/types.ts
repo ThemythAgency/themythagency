@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       contact_inquiries: {
         Row: {
+          budget_range: string | null
           created_at: string
           email: string
           id: string
@@ -26,6 +27,7 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          budget_range?: string | null
           created_at?: string
           email: string
           id?: string
@@ -36,6 +38,7 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          budget_range?: string | null
           created_at?: string
           email?: string
           id?: string

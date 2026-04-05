@@ -21,7 +21,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="section-padding flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-3">
-          <MonogramLogo size={28} className="text-primary" />
+          <MonogramLogo size={36} variant="transparent" className="text-primary" />
           <span className="font-display text-lg font-semibold text-foreground tracking-tight">
             Themyth Agency<span className="text-accent">.</span>
           </span>

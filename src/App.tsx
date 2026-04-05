@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import ScrollToTop from "./components/ScrollToTop";
 import PageTransition from "./components/PageTransition";
+import WhatsAppButton from "./components/WhatsAppButton";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -13,6 +14,8 @@ import CaseStudies from "./pages/CaseStudies";
 import Portfolio from "./pages/Portfolio";
 import Audit from "./pages/Audit";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +33,8 @@ const AnimatedRoutes = () => {
         <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
         <Route path="/audit" element={<PageTransition><Audit /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
+        <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
@@ -44,6 +49,7 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <AnimatedRoutes />
+        <WhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

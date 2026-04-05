@@ -252,7 +252,7 @@ const Contact = () => {
             <div className="space-y-4 p-6">
               <div className="flex items-center gap-3">
                 <Mail size={16} className="text-accent" />
-                <span className="text-body text-muted-foreground">hello@themyth.agency</span>
+                <span className="text-body text-muted-foreground">official.themythagency@gmail.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin size={16} className="text-accent" />

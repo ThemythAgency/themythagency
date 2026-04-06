@@ -49,8 +49,8 @@ const BlogPost = () => {
             {post.excerpt}
           </p>
 
-          <div className="prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-li:text-muted-foreground prose-hr:border-border">
-            <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\n## /g, '\n<h2>').replace(/\n### /g, '\n<h3>').replace(/<h2>(.*)/g, '<h2>$1</h2>').replace(/<h3>(.*)/g, '<h3>$1</h3>').replace(/\n\n(?!<)/g, '\n<p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n- /g, '\n<li>').replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>').replace(/---/g, '<hr />') }} />
+          <div className="prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-li:text-muted-foreground prose-hr:border-border prose-ul:text-muted-foreground prose-ol:text-muted-foreground">
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </div>
 
           <div className="mt-16 pt-8 border-t border-border">

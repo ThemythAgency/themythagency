@@ -49,7 +49,7 @@ const BlogPost = () => {
             {post.excerpt}
           </p>
 
-          <div className="prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-li:text-muted-foreground prose-hr:border-border prose-ul:text-muted-foreground prose-ol:text-muted-foreground">
+          <div className="prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6 prose-strong:text-foreground prose-li:text-muted-foreground prose-hr:border-border prose-ul:text-muted-foreground prose-ol:text-muted-foreground [&_.blog-cta]:mt-16 [&_.blog-cta]:p-8 [&_.blog-cta]:md:p-12 [&_.blog-cta]:bg-secondary [&_.blog-cta]:border [&_.blog-cta]:border-border [&_.blog-cta]:text-center [&_.blog-cta_h2]:text-2xl [&_.blog-cta_h2]:mb-4 [&_.blog-cta_p]:mb-6 [&_.blog-cta-button]:inline-flex [&_.blog-cta-button]:items-center [&_.blog-cta-button]:gap-3 [&_.blog-cta-button]:px-8 [&_.blog-cta-button]:py-4 [&_.blog-cta-button]:bg-primary [&_.blog-cta-button]:text-primary-foreground [&_.blog-cta-button]:font-body [&_.blog-cta-button]:text-sm [&_.blog-cta-button]:font-medium [&_.blog-cta-button]:tracking-wide [&_.blog-cta-button]:no-underline [&_.blog-cta-button]:hover:bg-navy-light [&_.blog-cta-button]:transition-colors [&_.blog-cta-button]:duration-300">
             <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </div>
 

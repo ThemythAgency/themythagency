@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -14,6 +14,33 @@ const navItems = [
   { label: "Contact", path: "/contact" },
 ];
 
+const fullText = "Themyth Agency";
+
+const TypewriterText = () => {
+  const [displayed, setDisplayed] = useState("");
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (index < fullText.length) {
+      const timeout = setTimeout(() => {
+        setDisplayed(fullText.slice(0, index + 1));
+        setIndex(index + 1);
+      }, 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [index]);
+
+  return (
+    <span className="font-display text-lg font-semibold text-foreground tracking-tight">
+      {displayed}
+      <span className="text-accent">.</span>
+      {index < fullText.length && (
+        <span className="inline-block w-[2px] h-[1em] bg-accent animate-pulse ml-[1px] align-middle" />
+      )}
+    </span>
+  );
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -22,10 +49,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="section-padding flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-3">
-          <MonogramLogo size={36} className="text-primary" />
-          <span className="font-display text-lg font-semibold text-foreground tracking-tight">
-            Themyth Agency<span className="text-accent">.</span>
-          </span>
+          <MonogramLogo size={72} className="text-primary" />
+          <TypewriterText />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

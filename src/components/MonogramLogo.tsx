@@ -30,8 +30,8 @@ const MonogramLogo = ({ className = "", size = 32, variant = "default" }: Monogr
       alt="Themyth Agency"
       width={size}
       height={size}
-      className={`bg-background rounded ${className}`}
-      style={{ objectFit: "contain" }}
+      className={`rounded ${className}`}
+      style={{ objectFit: "contain", background: "transparent" }}
     />
   );
 };

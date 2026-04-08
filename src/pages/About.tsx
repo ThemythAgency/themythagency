@@ -9,7 +9,7 @@ const fadeUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
 };
 
 const values = [
@@ -33,30 +33,50 @@ const About = () => {
 
       <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-4xl"
         >
-          <div className="flex items-center gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex items-center gap-4 mb-8"
+          >
             <div className="gold-line" />
             <span className="text-label text-accent">About</span>
-          </div>
-          <h1 className="text-display-xl mb-8">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="text-display-xl mb-8"
+          >
             Built for brands that think in{" "}
             <span className="italic text-accent">systems</span>
-          </h1>
-          <p className="text-body-lg text-muted-foreground max-w-2xl">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-body-lg text-muted-foreground max-w-2xl"
+          >
             Themyth Agency is a focused, senior-led Shopify growth consultancy that also executes.
             We partner with scaling brands to build the strategic, technical, and creative
             infrastructure they need to grow with control and confidence.
-          </p>
+          </motion.p>
         </motion.div>
       </section>
 
-      <section className="section-padding section-spacing bg-primary text-primary-foreground">
+      <section className="section-padding section-spacing bg-primary text-primary-foreground overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          <motion.div {...fadeUp}>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
             <span className="text-label text-gold mb-5 block">The Story</span>
             <h2 className="text-display-md mb-6">We saw the gap between strategy and execution</h2>
             <p className="text-body opacity-80 mb-4">
@@ -69,7 +89,12 @@ const About = () => {
               One team. One system. One direction.
             </p>
           </motion.div>
-          <motion.div {...fadeUp}>
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          >
             <span className="text-label text-gold mb-5 block">The Belief</span>
             <h2 className="text-display-md mb-6">Most growth problems are structural, not tactical</h2>
             <p className="text-body opacity-80 mb-4">
@@ -99,16 +124,31 @@ const About = () => {
               every recommendation, and every line of code.
             </p>
           </motion.div>
-          <motion.div {...fadeUp}>
+          <div>
             <div className="space-y-6">
               {principles.map((p, i) => (
-                <div key={p} className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0">
-                  <span className="text-label text-accent mt-0.5">0{i + 1}</span>
+                <motion.div
+                  key={p}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0"
+                >
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.12 + 0.2, type: "spring" }}
+                    className="text-label text-accent mt-0.5"
+                  >
+                    0{i + 1}
+                  </motion.span>
                   <p className="font-display text-lg font-medium">{p}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -119,8 +159,24 @@ const About = () => {
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {values.map((value, i) => (
-            <motion.div key={value.title} {...fadeUp} className="flex gap-5">
-              <span className="text-label text-accent mt-1">0{i + 1}</span>
+            <motion.div
+              key={value.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ x: 4, transition: { duration: 0.3 } }}
+              className="flex gap-5"
+            >
+              <motion.span
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.12 + 0.2, type: "spring" }}
+                className="text-label text-accent mt-1"
+              >
+                0{i + 1}
+              </motion.span>
               <div>
                 <h3 className="font-display text-xl font-medium mb-3">{value.title}</h3>
                 <p className="text-body text-muted-foreground">{value.desc}</p>
@@ -130,13 +186,25 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-padding section-spacing bg-secondary/50 text-center">
-        <motion.div {...fadeUp} className="max-w-2xl mx-auto">
+      <section className="section-padding section-spacing bg-secondary/50 text-center overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl mx-auto"
+        >
           <h2 className="text-display-lg mb-6">Let's build your growth system</h2>
           <p className="text-body-lg text-muted-foreground mb-10">
             Start with a strategic conversation about where your brand is and where it needs to go.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
             <Link
               to="/audit"
               className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
@@ -150,7 +218,7 @@ const About = () => {
             >
               Start a Conversation
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 

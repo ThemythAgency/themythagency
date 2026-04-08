@@ -8,7 +8,7 @@ const fadeUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
 };
 
 const auditAreas = [
@@ -45,27 +45,52 @@ const Audit = () => {
       <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="flex items-center gap-4 mb-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex items-center gap-4 mb-8"
+            >
               <div className="gold-line" />
               <span className="text-label text-accent">Flagship Diagnostic</span>
-            </div>
-            <h1 className="text-display-xl mb-8">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="text-display-xl mb-8"
+            >
               Shopify Growth Foundations{" "}
               <span className="italic text-accent">Audit</span>
-            </h1>
-            <p className="text-body-lg text-muted-foreground mb-4">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="text-body-lg text-muted-foreground mb-4"
+            >
               A comprehensive strategic and technical diagnostic of your Shopify store's growth
               infrastructure. Understand exactly what's working, what's broken, and what to prioritize
               — before you invest in scaling.
-            </p>
-            <p className="text-body text-muted-foreground mb-8">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="text-body text-muted-foreground mb-8"
+            >
               Because scaling without a foundation doesn't create growth. It creates chaos.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
               <Link
                 to="/contact"
                 className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
@@ -79,13 +104,13 @@ const Audit = () => {
               >
                 Ask a Question
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            initial={{ opacity: 0, x: 40, scale: 0.97 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="bg-primary text-primary-foreground p-10 md:p-12"
           >
             <h3 className="text-label text-gold mb-6">Who This Is For</h3>
@@ -96,11 +121,17 @@ const Audit = () => {
                 "Teams about to invest in a redesign, rebuild, or major growth push",
                 "Brands scaling paid ads but leaking conversions at every stage",
                 "Operators who want data-driven clarity before making their next move",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
+              ].map((item, i) => (
+                <motion.li
+                  key={item}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
+                  className="flex items-start gap-3"
+                >
                   <CheckCircle size={16} className="text-gold mt-0.5 flex-shrink-0" />
                   <span className="text-sm font-body opacity-80">{item}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </motion.div>
@@ -108,9 +139,14 @@ const Audit = () => {
       </section>
 
       {/* Why Before Scaling */}
-      <section className="section-padding section-spacing border-t border-border">
+      <section className="section-padding section-spacing border-t border-border overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <motion.div {...fadeUp}>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
               <span className="text-label text-accent">Why It Matters</span>
@@ -122,7 +158,13 @@ const Audit = () => {
               dollar you spend after goes further.
             </p>
           </motion.div>
-          <motion.div {...fadeUp} className="bg-secondary p-10 md:p-12">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="bg-secondary p-10 md:p-12"
+          >
             <div className="space-y-6">
               {[
                 "Stop guessing and start making decisions based on data",
@@ -130,10 +172,17 @@ const Audit = () => {
                 "Get a clear, prioritized roadmap — not a vague list of suggestions",
                 "Understand your store's real conversion capacity before investing in scale",
               ].map((item, i) => (
-                <div key={item} className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0">
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0"
+                >
                   <span className="text-label text-accent">0{i + 1}</span>
                   <p className="text-body font-medium">{item}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -150,19 +199,30 @@ const Audit = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {auditAreas.map((area) => (
+          {auditAreas.map((area, ai) => (
             <motion.div
               key={area.title}
-              {...fadeUp}
-              className="bg-card border border-border p-8 md:p-10"
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: ai * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              className="bg-card border border-border p-8 md:p-10 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
             >
               <h3 className="font-display text-xl font-medium mb-6">{area.title}</h3>
               <div className="space-y-3">
-                {area.items.map((item) => (
-                  <div key={item} className="flex items-center gap-3">
+                {area.items.map((item, ii) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: 15 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: ai * 0.12 + ii * 0.06 }}
+                    className="flex items-center gap-3"
+                  >
                     <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
                     <span className="text-sm text-muted-foreground font-body">{item}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -171,9 +231,14 @@ const Audit = () => {
       </section>
 
       {/* What You Receive */}
-      <section className="section-padding section-spacing">
+      <section className="section-padding section-spacing overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          <motion.div {...fadeUp}>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
               <span className="text-label text-accent">Deliverables</span>
@@ -184,7 +249,7 @@ const Audit = () => {
               your store, and your growth stage.
             </p>
           </motion.div>
-          <motion.div {...fadeUp}>
+          <div>
             <div className="space-y-4">
               {[
                 "Comprehensive growth infrastructure analysis",
@@ -194,14 +259,21 @@ const Audit = () => {
                 "90-day action plan with clear next steps",
                 "Growth system blueprint for long-term scale",
                 "Live walkthrough and strategy session",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3 py-3 border-b border-border last:border-0">
+              ].map((item, i) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.07 }}
+                  className="flex items-start gap-3 py-3 border-b border-border last:border-0"
+                >
                   <CheckCircle size={14} className="text-accent mt-1 flex-shrink-0" />
                   <span className="text-body">{item}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -215,9 +287,24 @@ const Audit = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {process.map((step) => (
-            <motion.div key={step.num} {...fadeUp}>
-              <span className="text-3xl font-display font-semibold text-accent mb-4 block">{step.num}</span>
+          {process.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+            >
+              <motion.span
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 + 0.2, type: "spring" }}
+                className="text-3xl font-display font-semibold text-accent mb-4 block"
+              >
+                {step.num}
+              </motion.span>
               <h3 className="font-display text-lg font-medium mb-3">{step.title}</h3>
               <p className="text-sm text-muted-foreground font-body leading-relaxed">{step.desc}</p>
             </motion.div>
@@ -225,14 +312,26 @@ const Audit = () => {
         </div>
       </section>
 
-      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
-        <motion.div {...fadeUp} className="max-w-2xl mx-auto">
+      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl mx-auto"
+        >
           <h2 className="text-display-lg mb-6">Stop guessing. Start growing with clarity.</h2>
           <p className="text-body-lg opacity-70 mb-10">
             The Growth Foundations Audit gives you the diagnosis and confidence to make your next
             investment count. Every serious growth journey starts here.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
             <Link
               to="/contact"
               className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
@@ -246,7 +345,7 @@ const Audit = () => {
             >
               Request a Strategic Review
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 

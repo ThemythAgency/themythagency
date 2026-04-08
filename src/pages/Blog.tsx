@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -27,10 +27,20 @@ const Blog = () => {
           description="Strategic insights, tactical guides, and growth frameworks for Shopify brands ready to scale."
         />
 
-        <div className="flex flex-wrap gap-2 mb-12">
-          {categories.map((cat) => (
-            <button
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap gap-2 mb-12"
+        >
+          {categories.map((cat, i) => (
+            <motion.button
               key={cat}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 text-xs font-body font-medium tracking-wide transition-colors duration-300 ${
                 activeCategory === cat
@@ -39,46 +49,56 @@ const Blog = () => {
               }`}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filtered.map((post, i) => (
-            <motion.article
-              key={post.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group border border-border hover:border-accent/30 transition-colors duration-300"
-            >
-              <Link to={`/blog/${post.slug}`} className="block p-6 md:p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-accent">
-                    {post.category}
-                  </span>
-                  <span className="text-xs font-body text-muted-foreground flex items-center gap-1">
-                    <Clock size={12} />
-                    {post.readTime}
-                  </span>
-                </div>
-                <h3 className="font-display text-lg font-medium mb-3 group-hover:text-accent transition-colors duration-300 line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-sm font-body text-muted-foreground leading-relaxed mb-4 line-clamp-3">
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-body text-muted-foreground">{post.date}</span>
-                  <span className="text-sm font-body font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
-                    Read <ArrowRight size={14} />
-                  </span>
-                </div>
-              </Link>
-            </motion.article>
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {filtered.map((post, i) => (
+              <motion.article
+                key={post.slug}
+                initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, transition: { duration: 0.3 } }}
+                className="group border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-500"
+              >
+                <Link to={`/blog/${post.slug}`} className="block p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-accent">
+                      {post.category}
+                    </span>
+                    <span className="text-xs font-body text-muted-foreground flex items-center gap-1">
+                      <Clock size={12} />
+                      {post.readTime}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-lg font-medium mb-3 group-hover:text-accent transition-colors duration-300 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm font-body text-muted-foreground leading-relaxed mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-body text-muted-foreground">{post.date}</span>
+                    <span className="text-sm font-body font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                      Read <ArrowRight size={14} />
+                    </span>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </section>
 
       <Footer />

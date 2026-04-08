@@ -6,13 +6,6 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7 },
-};
-
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,7 +26,6 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
     if (!formData.name.trim() || formData.name.length > 100) {
       toast({ title: "Please enter a valid name (max 100 characters).", variant: "destructive" });
       return;
@@ -54,6 +46,7 @@ const Contact = () => {
         email: formData.email.trim(),
         website: formData.website.trim() || null,
         revenue_range: formData.revenue_range,
+        budget_range: formData.budget_range,
         service_interest: formData.service_interest,
         message: formData.message.trim() || null,
       });
@@ -73,41 +66,77 @@ const Contact = () => {
 
       <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-4xl"
         >
-          <div className="flex items-center gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex items-center gap-4 mb-8"
+          >
             <div className="gold-line" />
             <span className="text-label text-accent">Contact</span>
-          </div>
-          <h1 className="text-display-xl mb-8">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="text-display-xl mb-8"
+          >
             Start a growth{" "}
             <span className="italic text-accent">conversation</span>
-          </h1>
-          <p className="text-body-lg text-muted-foreground max-w-2xl">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-body-lg text-muted-foreground max-w-2xl"
+          >
             Whether you're ready for an audit, exploring a growth system build, or want a
             strategic review of where your brand stands — we'd like to hear from you.
-          </p>
+          </motion.p>
         </motion.div>
       </section>
 
-      <section className="section-padding pb-20 md:pb-32">
+      <section className="section-padding pb-20 md:pb-32 overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          <motion.div {...fadeUp}>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
             {submitted ? (
-              <div className="bg-secondary/50 p-10 md:p-12 text-center">
-                <CheckCircle size={48} className="text-accent mx-auto mb-4" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, type: "spring" }}
+                className="bg-secondary/50 p-10 md:p-12 text-center"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
+                >
+                  <CheckCircle size={48} className="text-accent mx-auto mb-4" />
+                </motion.div>
                 <h3 className="font-display text-2xl font-medium mb-4">Thank you</h3>
                 <p className="text-body text-muted-foreground">
                   We've received your inquiry and will be in touch within 24 hours.
                 </p>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
                     <label className="text-label text-foreground mb-2 block">Name</label>
                     <input
                       type="text"
@@ -119,8 +148,13 @@ const Contact = () => {
                       className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                       placeholder="Your name"
                     />
-                  </div>
-                  <div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.15 }}
+                  >
                     <label className="text-label text-foreground mb-2 block">Email</label>
                     <input
                       type="email"
@@ -132,20 +166,35 @@ const Contact = () => {
                       className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
                       placeholder="you@brand.com"
                     />
-                  </div>
+                  </motion.div>
                 </div>
-                <div>
-                  <label className="text-label text-foreground mb-2 block">Website</label>
-                  <input
-                    type="url"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
-                    placeholder="https://yourstore.com"
-                  />
-                </div>
-                <div>
+                {[
+                  { label: "Website", name: "website", type: "url", placeholder: "https://yourstore.com", delay: 0.2 },
+                ].map((field) => (
+                  <motion.div
+                    key={field.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: field.delay }}
+                  >
+                    <label className="text-label text-foreground mb-2 block">{field.label}</label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      value={(formData as Record<string, string>)[field.name]}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors"
+                      placeholder={field.placeholder}
+                    />
+                  </motion.div>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.25 }}
+                >
                   <label className="text-label text-foreground mb-2 block">Monthly Revenue Range</label>
                   <select
                     name="revenue_range"
@@ -160,8 +209,13 @@ const Contact = () => {
                     <option>$1M – $3M</option>
                     <option>$3M+</option>
                   </select>
-                </div>
-                <div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
                   <label className="text-label text-foreground mb-2 block">Budget Range</label>
                   <select
                     name="budget_range"
@@ -175,8 +229,13 @@ const Contact = () => {
                     <option>$25K – $50K</option>
                     <option>$50K+</option>
                   </select>
-                </div>
-                <div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.35 }}
+                >
                   <label className="text-label text-foreground mb-2 block">What are you looking for?</label>
                   <select
                     name="service_interest"
@@ -189,8 +248,13 @@ const Contact = () => {
                     <option>Strategic Growth Partner</option>
                     <option>Strategic Review / Just Exploring</option>
                   </select>
-                </div>
-                <div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
                   <label className="text-label text-foreground mb-2 block">Tell us about your brand and challenges</label>
                   <textarea
                     name="message"
@@ -201,21 +265,31 @@ const Contact = () => {
                     className="w-full px-4 py-3 bg-card border border-border text-foreground font-body text-sm focus:outline-none focus:border-accent transition-colors resize-none"
                     placeholder="What's your brand, where are you now, what growth challenges are you facing, and how would you like us to help?"
                   />
-                </div>
-                <button
+                </motion.div>
+                <motion.button
                   type="submit"
                   disabled={loading}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300 disabled:opacity-50"
                 >
                   {loading ? "Sending..." : "Send Inquiry"}
                   <ArrowRight size={16} />
-                </button>
+                </motion.button>
               </form>
             )}
           </motion.div>
 
-          <motion.div {...fadeUp}>
-            <div className="bg-primary text-primary-foreground p-10 md:p-12 mb-6">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          >
+            <motion.div
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              className="bg-primary text-primary-foreground p-10 md:p-12 mb-6"
+            >
               <h3 className="font-display text-xl font-medium mb-6">What happens next?</h3>
               <div className="space-y-4">
                 {[
@@ -224,15 +298,25 @@ const Contact = () => {
                   "We discuss your growth challenges, goals, and current stage",
                   "You receive a tailored proposal or audit recommendation",
                 ].map((step, i) => (
-                  <div key={step} className="flex items-start gap-3">
+                  <motion.div
+                    key={step}
+                    initial={{ opacity: 0, x: 15 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
+                    className="flex items-start gap-3"
+                  >
                     <span className="text-gold font-body text-sm font-medium mt-0.5">0{i + 1}</span>
                     <span className="text-sm font-body opacity-80">{step}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-secondary/50 p-10 md:p-12 mb-6">
+            <motion.div
+              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              className="bg-secondary/50 p-10 md:p-12 mb-6"
+            >
               <h3 className="font-display text-lg font-medium mb-4">This is for you if:</h3>
               <div className="space-y-3">
                 {[
@@ -247,7 +331,7 @@ const Contact = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             <div className="space-y-4 p-6">
               <div className="flex items-center gap-3">

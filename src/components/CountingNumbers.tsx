@@ -7,9 +7,10 @@ interface CounterProps {
   prefix?: string;
   label: string;
   duration?: number;
+  index: number;
 }
 
-const Counter = ({ end, suffix = "", prefix = "", label, duration = 2 }: CounterProps) => {
+const Counter = ({ end, suffix = "", prefix = "", label, duration = 2, index }: CounterProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [count, setCount] = useState(0);
@@ -31,26 +32,31 @@ const Counter = ({ end, suffix = "", prefix = "", label, duration = 2 }: Counter
   }, [isInView, end, duration]);
 
   return (
-    <div ref={ref} className="text-center">
+    <motion.div
+      ref={ref}
+      className="text-center"
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <p className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-accent">
+        {prefix}{count}{suffix}
+      </p>
       <motion.p
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-accent"
-      >
-        {prefix}{count}{suffix}
-      </motion.p>
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: index * 0.15 + 0.4 }}
         className="text-sm font-body text-muted-foreground mt-2 tracking-wide uppercase"
       >
         {label}
       </motion.p>
-    </div>
+    </motion.div>
   );
 };
 
@@ -63,15 +69,16 @@ const stats = [
 
 const CountingNumbers = () => {
   return (
-    <section className="section-padding py-16 md:py-24 bg-primary text-primary-foreground">
+    <section className="section-padding py-16 md:py-24 bg-primary text-primary-foreground overflow-hidden">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-        {stats.map((stat) => (
+        {stats.map((stat, i) => (
           <Counter
             key={stat.label}
             end={stat.end}
             suffix={stat.suffix}
             prefix={stat.prefix}
             label={stat.label}
+            index={i}
           />
         ))}
       </div>

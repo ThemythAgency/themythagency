@@ -24,13 +24,25 @@ const WhyWorkWithUs = () => {
         {reasons.map((r, i) => (
           <motion.div
             key={r.title}
-            initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30, y: 20 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: i * 0.08 }}
-            className="flex gap-4 p-6 bg-card border border-border"
+            transition={{
+              duration: 0.7,
+              delay: i * 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{ x: 6, transition: { duration: 0.3 } }}
+            className="flex gap-4 p-6 bg-card border border-border hover:border-accent/30 hover:shadow-md transition-all duration-500"
           >
-            <CheckCircle size={20} className="text-accent flex-shrink-0 mt-0.5" />
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.1 + 0.3, type: "spring", stiffness: 200 }}
+            >
+              <CheckCircle size={20} className="text-accent flex-shrink-0 mt-0.5" />
+            </motion.div>
             <div>
               <h3 className="font-display text-base font-medium mb-1">{r.title}</h3>
               <p className="text-sm font-body text-muted-foreground leading-relaxed">{r.desc}</p>

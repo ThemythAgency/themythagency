@@ -24,15 +24,24 @@ const AreasOfExpertise = () => {
         {expertise.map((item, i) => (
           <motion.div
             key={item.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="group p-8 border border-border hover:border-accent/50 hover:bg-secondary/30 transition-all duration-500"
+            transition={{
+              duration: 0.6,
+              delay: i * 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{ y: -6, transition: { duration: 0.3 } }}
+            className="group p-8 border border-border hover:border-accent/50 hover:shadow-xl hover:bg-secondary/30 transition-all duration-500"
           >
-            <div className="w-12 h-12 flex items-center justify-center border border-accent/30 mb-6 group-hover:bg-accent/10 transition-colors duration-300">
+            <motion.div
+              className="w-12 h-12 flex items-center justify-center border border-accent/30 mb-6 group-hover:bg-accent/10 transition-colors duration-300"
+              whileHover={{ rotate: 5, scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
               <item.icon size={22} className="text-accent" />
-            </div>
+            </motion.div>
             <h3 className="font-display text-lg font-medium mb-3">{item.title}</h3>
             <p className="text-sm font-body text-muted-foreground leading-relaxed">{item.desc}</p>
           </motion.div>

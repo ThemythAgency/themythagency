@@ -27,7 +27,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="section-padding section-spacing bg-secondary/50">
+    <section className="section-padding section-spacing bg-secondary/50 overflow-hidden">
       <SectionHeading
         label="Client Testimonials"
         title="What our clients say"
@@ -38,24 +38,29 @@ const Testimonials = () => {
         {testimonials.map((t, i) => (
           <motion.div
             key={t.role}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 50, rotateX: 8 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{
-              duration: 0.6,
+              duration: 0.7,
               delay: i * 0.12,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="bg-card border border-border p-8 md:p-10"
+            whileHover={{ y: -4, transition: { duration: 0.3 } }}
+            className="bg-card border border-border p-8 md:p-10 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
           >
             {/* Stars */}
             <div className="flex gap-1 mb-5">
               {Array.from({ length: t.rating }).map((_, si) => (
-                <Star
+                <motion.div
                   key={si}
-                  size={16}
-                  className="fill-accent text-accent"
-                />
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.12 + si * 0.08, type: "spring", stiffness: 300 }}
+                >
+                  <Star size={16} className="fill-accent text-accent" />
+                </motion.div>
               ))}
             </div>
 
@@ -66,12 +71,14 @@ const Testimonials = () => {
 
             {/* Attribution */}
             <div className="flex items-center gap-3">
-              <div className="gold-line" />
-              <div>
-                <p className="text-sm font-body text-muted-foreground">
-                  {t.role}
-                </p>
-              </div>
+              <motion.div
+                className="gold-line"
+                initial={{ width: 0 }}
+                whileInView={{ width: 48 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12 + 0.4 }}
+              />
+              <p className="text-sm font-body text-muted-foreground">{t.role}</p>
             </div>
           </motion.div>
         ))}

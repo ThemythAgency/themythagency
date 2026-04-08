@@ -9,7 +9,7 @@ const fadeUp = {
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7 },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 const services = [
@@ -55,78 +55,139 @@ const Services = () => {
 
       <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-4xl"
         >
-          <div className="flex items-center gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex items-center gap-4 mb-8"
+          >
             <div className="gold-line" />
             <span className="text-label text-accent">Services</span>
-          </div>
-          <h1 className="text-display-xl mb-8">
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="text-display-xl mb-8"
+          >
             Three systems for{" "}
             <span className="italic text-accent">growth</span>
-          </h1>
-          <p className="text-body-lg text-muted-foreground max-w-2xl">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-body-lg text-muted-foreground max-w-2xl"
+          >
             Each engagement is built on the same strategic foundation — diagnostic-led,
             conversion-focused, and designed to compound. These are systems, not random services.
-          </p>
+          </motion.p>
         </motion.div>
       </section>
 
       {services.map((service, i) => (
         <section
           key={service.num}
-          className={`section-padding section-spacing ${i % 2 === 0 ? "bg-secondary/30" : ""}`}
+          className={`section-padding section-spacing overflow-hidden ${i % 2 === 0 ? "bg-secondary/30" : ""}`}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-            <motion.div {...fadeUp}>
-              <div className="flex items-center gap-4 mb-6">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex items-center gap-4 mb-6"
+              >
                 <span className="text-label text-accent">{service.num}</span>
                 <div className="gold-line" />
-              </div>
+              </motion.div>
               <h2 className="text-display-md mb-3">{service.title}</h2>
               <p className="text-body-lg text-accent font-display italic mb-6">{service.subtitle}</p>
               <p className="text-body text-muted-foreground mb-8">{service.description}</p>
-              <Link
-                to={service.cta}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
+              <motion.div
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.3 }}
               >
-                {service.ctaText}
-                <ArrowRight size={16} />
-              </Link>
+                <Link
+                  to={service.cta}
+                  className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
+                >
+                  {service.ctaText}
+                  <ArrowRight size={16} />
+                </Link>
+              </motion.div>
             </motion.div>
 
-            <motion.div {...fadeUp}>
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            >
               <div className="bg-card border border-border p-8 md:p-10 mb-6">
                 <h4 className="text-label text-accent mb-6">Deliverables</h4>
                 <div className="space-y-3">
-                  {service.deliverables.map((d) => (
-                    <div key={d} className="flex items-center gap-3">
+                  {service.deliverables.map((d, di) => (
+                    <motion.div
+                      key={d}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: di * 0.08 }}
+                      className="flex items-center gap-3"
+                    >
                       <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
                       <span className="text-body">{d}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
-              <div className="bg-primary text-primary-foreground p-8 md:p-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="bg-primary text-primary-foreground p-8 md:p-10"
+              >
                 <h4 className="text-label text-gold mb-4">Ideal For</h4>
                 <p className="text-body opacity-80">{service.ideal}</p>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </section>
       ))}
 
       {/* CTA */}
-      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
-        <motion.div {...fadeUp} className="max-w-2xl mx-auto">
+      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl mx-auto"
+        >
           <h2 className="text-display-lg mb-6">Not sure which system fits?</h2>
           <p className="text-body-lg opacity-70 mb-10">
             Start with a conversation. We'll help you identify the right engagement based on where your brand is today.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
             <Link
               to="/audit"
               className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
@@ -140,7 +201,7 @@ const Services = () => {
             >
               Request a Strategic Review
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 

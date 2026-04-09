@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { blogPosts } from "@/data/blogData";
@@ -10,6 +11,18 @@ const BlogPost = () => {
   const post = blogPosts.find((p) => p.slug === slug);
 
   if (!post) return <Navigate to="/blog" replace />;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    author: { "@type": "Organization", name: post.author, url: "https://themythagency.lovable.app" },
+    publisher: { "@type": "Organization", name: "Themyth Agency", url: "https://themythagency.lovable.app" },
+    datePublished: post.date,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://themythagency.lovable.app/blog/${post.slug}` },
+    articleSection: post.category,
+  };
 
   return (
     <div className="min-h-screen bg-background">

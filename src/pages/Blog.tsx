@@ -69,8 +69,8 @@ const Blog = () => {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4, transition: { duration: 0.3 } }}
-                className="group border border-border hover:border-accent/30 hover:shadow-lg transition-all duration-500"
+                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+                className="group border border-border hover:border-accent/40 hover:shadow-xl transition-all duration-500 relative overflow-hidden before:absolute before:inset-0 before:bg-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500"
               >
                 <Link to={`/blog/${post.slug}`} className="block p-6 md:p-8">
                   <div className="flex items-center gap-3 mb-4">

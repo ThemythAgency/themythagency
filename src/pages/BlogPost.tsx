@@ -13,6 +13,12 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{post.title} | Themyth Agency Blog</title>
+        <meta name="description" content={post.excerpt} />
+        <link rel="canonical" href={`https://themythagency.lovable.app/blog/${post.slug}`} />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
       <Navbar />
 
       <article className="section-padding pt-32 md:pt-44 pb-16">

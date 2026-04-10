@@ -5,13 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
-};
-
 const services = [
   {
     icon: Search,
@@ -115,18 +108,10 @@ const Services = () => {
               <h2 className="text-display-md mb-3">{service.title}</h2>
               <p className="text-body-lg text-accent font-display italic mb-6">{service.subtitle}</p>
               <p className="text-body text-muted-foreground mb-8">{service.description}</p>
-              <motion.div
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Link
-                  to={service.cta}
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-                >
-                  {service.ctaText}
-                  <ArrowRight size={16} />
-                </Link>
-              </motion.div>
+              <Link to={service.cta} className="btn-primary">
+                {service.ctaText}
+                <ArrowRight size={16} className="btn-arrow" />
+              </Link>
             </motion.div>
 
             <motion.div
@@ -135,7 +120,10 @@ const Services = () => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
             >
-              <div className="bg-card border border-border p-8 md:p-10 mb-6">
+              <motion.div
+                whileHover={{ y: -4, transition: { duration: 0.3 } }}
+                className="bg-card border border-border p-8 md:p-10 mb-6 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
+              >
                 <h4 className="text-label text-accent mb-6">Deliverables</h4>
                 <div className="space-y-3">
                   {service.deliverables.map((d, di) => (
@@ -145,20 +133,22 @@ const Services = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: di * 0.08 }}
-                      className="flex items-center gap-3"
+                      whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                      className="flex items-center gap-3 cursor-default"
                     >
                       <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
                       <span className="text-body">{d}</span>
                     </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-primary text-primary-foreground p-8 md:p-10"
+                whileHover={{ y: -4, transition: { duration: 0.3 } }}
+                className="bg-primary text-primary-foreground p-8 md:p-10 hover:shadow-xl transition-shadow duration-500"
               >
                 <h4 className="text-label text-gold mb-4">Ideal For</h4>
                 <p className="text-body opacity-80">{service.ideal}</p>
@@ -188,17 +178,11 @@ const Services = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
-            >
+            <Link to="/audit" className="btn-gold">
               Start with an Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-ghost-light">
               Request a Strategic Review
             </Link>
           </motion.div>

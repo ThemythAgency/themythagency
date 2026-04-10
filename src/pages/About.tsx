@@ -76,6 +76,7 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ x: 4, transition: { duration: 0.3 } }}
           >
             <span className="text-label text-gold mb-5 block">The Story</span>
             <h2 className="text-display-md mb-6">We saw the gap between strategy and execution</h2>
@@ -94,6 +95,7 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            whileHover={{ x: -4, transition: { duration: 0.3 } }}
           >
             <span className="text-label text-gold mb-5 block">The Belief</span>
             <h2 className="text-display-md mb-6">Most growth problems are structural, not tactical</h2>
@@ -133,7 +135,8 @@ const About = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0"
+                  whileHover={{ x: 8, transition: { duration: 0.3 } }}
+                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0 cursor-default"
                 >
                   <motion.span
                     initial={{ scale: 0 }}
@@ -165,8 +168,8 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ x: 4, transition: { duration: 0.3 } }}
-              className="flex gap-5"
+              whileHover={{ x: 8, transition: { duration: 0.3 } }}
+              className="flex gap-5 cursor-default"
             >
               <motion.span
                 initial={{ opacity: 0, scale: 0.5 }}
@@ -205,17 +208,11 @@ const About = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-            >
+            <Link to="/audit" className="btn-primary px-10">
               Book a Growth Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-outline px-10">
               Start a Conversation
             </Link>
           </motion.div>

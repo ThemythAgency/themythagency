@@ -269,12 +269,12 @@ const Contact = () => {
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  whileHover={{ x: 4 }}
+                  whileHover={{ y: -2, scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300 disabled:opacity-50"
+                  className="btn-primary px-10 disabled:opacity-50"
                 >
                   {loading ? "Sending..." : "Send Inquiry"}
-                  <ArrowRight size={16} />
+                  <ArrowRight size={16} className="btn-arrow" />
                 </motion.button>
               </form>
             )}

@@ -4,13 +4,6 @@ import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
-};
-
 const studies = [
   {
     brand: "Velour Skincare",
@@ -124,6 +117,7 @@ const CaseStudies = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15 }}
+                whileHover={{ x: 4, transition: { duration: 0.3 } }}
               >
                 <h4 className="text-label text-foreground mb-4">Client Context</h4>
                 <p className="text-body text-muted-foreground mb-8">{study.context}</p>
@@ -135,6 +129,7 @@ const CaseStudies = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.25 }}
+                whileHover={{ x: -4, transition: { duration: 0.3 } }}
               >
                 <h4 className="text-label text-foreground mb-4">Strategic Response</h4>
                 <p className="text-body text-muted-foreground mb-8">{study.strategy}</p>
@@ -166,17 +161,11 @@ const CaseStudies = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
-            >
+            <Link to="/audit" className="btn-gold">
               Book Your Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-ghost-light">
               Start a Conversation
             </Link>
           </motion.div>

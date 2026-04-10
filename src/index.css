@@ -154,6 +154,70 @@
   }
 }
 
+@layer components {
+  /* Primary button hover */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+  }
+  .btn-primary:hover {
+    @apply bg-navy-light shadow-lg;
+    transform: translateY(-2px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Secondary/outline button hover */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+  }
+  .btn-outline:hover {
+    @apply bg-secondary border-accent/40 shadow-md;
+    transform: translateY(-2px);
+  }
+  .btn-outline:active {
+    transform: translateY(0);
+  }
+
+  /* Gold CTA button */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-3 px-10 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+  }
+  .btn-gold:hover {
+    @apply shadow-lg;
+    background: hsl(var(--gold-light));
+    transform: translateY(-2px);
+  }
+
+  /* Ghost button on dark bg */
+  .btn-ghost-light {
+    @apply inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+  }
+  .btn-ghost-light:hover {
+    @apply shadow-md;
+    background: hsl(var(--primary-foreground) / 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Section card hover */
+  .card-hover {
+    @apply transition-all duration-500;
+  }
+  .card-hover:hover {
+    @apply shadow-xl border-accent/30;
+    transform: translateY(-4px);
+  }
+
+  /* Arrow icon animation in buttons */
+  .btn-arrow {
+    @apply transition-transform duration-300;
+  }
+  .group:hover .btn-arrow,
+  *:hover > .btn-arrow {
+    transform: translateX(4px);
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -121,17 +121,11 @@ const Index = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-            >
+            <Link to="/audit" className="btn-primary px-10">
               Book a Growth Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-outline px-10">
               Start a Growth Conversation
             </Link>
           </motion.div>
@@ -150,13 +144,17 @@ const Index = () => {
           {...staggerContainer}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
         >
-          {painPoints.map((point) => (
+          {painPoints.map((point, i) => (
             <motion.div
               key={point.title}
-              {...fadeUp}
-              className="flex gap-5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.08 }}
+              whileHover={{ x: 6, transition: { duration: 0.3 } }}
+              className="flex gap-5 cursor-default"
             >
-              <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gold/30">
+              <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center border border-gold/30 transition-colors duration-300 hover:border-gold hover:bg-gold/10">
                 <point.icon size={18} className="text-gold" />
               </div>
               <div>
@@ -183,16 +181,25 @@ const Index = () => {
               and data reinforce each other.
             </p>
             <div className="space-y-4">
-              {["Diagnostic-led methodology", "Conversion-focused execution", "Scalable growth infrastructure", "Data-driven decision making"].map((item) => (
-                <div key={item} className="flex items-center gap-3">
+              {["Diagnostic-led methodology", "Conversion-focused execution", "Scalable growth infrastructure", "Data-driven decision making"].map((item, i) => (
+                <motion.div
+                  key={item}
+                  className="flex items-center gap-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ x: 6, transition: { duration: 0.3 } }}
+                >
                   <div className="w-1.5 h-1.5 bg-accent rounded-full" />
                   <span className="text-body font-medium">{item}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
           <motion.div
             {...fadeUp}
+            whileHover={{ scale: 1.02, transition: { duration: 0.4 } }}
             className="bg-secondary p-12 md:p-16"
           >
             <blockquote className="font-display text-xl md:text-2xl italic leading-relaxed mb-6">
@@ -217,12 +224,12 @@ const Index = () => {
             <motion.div key={service.num} {...fadeUp}>
               <Link
                 to={service.link}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-8 md:py-10 border-b border-border hover:pl-4 transition-all duration-500"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-8 md:py-10 border-b border-border hover:pl-4 hover:bg-secondary/60 transition-all duration-500"
               >
                 <span className="text-label text-accent">{service.num}</span>
                 <h3 className="font-display text-xl md:text-2xl font-medium flex-1">{service.title}</h3>
                 <p className="text-sm text-muted-foreground max-w-sm font-body">{service.desc}</p>
-                <ArrowRight size={18} className="text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all duration-300" />
+                <ArrowRight size={18} className="text-muted-foreground group-hover:text-accent group-hover:translate-x-2 transition-all duration-300" />
               </Link>
             </motion.div>
           ))}
@@ -271,7 +278,7 @@ const Index = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleProjectClick(project)}
-                      className="flex items-center gap-2 bg-background/90 px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500"
+                      className="flex items-center gap-2 bg-background/90 px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-background hover:shadow-lg"
                     >
                       <Eye size={14} className="text-foreground" />
                       <span className="text-xs font-body font-medium text-foreground">Details</span>
@@ -283,7 +290,7 @@ const Index = () => {
                       onClick={(e) => {
                         if (project.liveUrl === "#") e.preventDefault();
                       }}
-                      className="flex items-center gap-2 bg-accent px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 delay-75"
+                      className="flex items-center gap-2 bg-accent px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75 hover:shadow-lg hover:brightness-110"
                     >
                       <ExternalLink size={14} className="text-accent-foreground" />
                       <span className="text-xs font-body font-medium text-accent-foreground">Preview</span>
@@ -298,7 +305,7 @@ const Index = () => {
                   {project.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
+                      className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground transition-colors duration-300 hover:bg-accent/10 hover:text-accent"
                     >
                       {tag}
                     </span>
@@ -319,12 +326,9 @@ const Index = () => {
         </div>
 
         <motion.div {...fadeUp} className="mt-12 text-center">
-          <Link
-            to="/portfolio"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-          >
+          <Link to="/portfolio" className="btn-primary px-10">
             View All Projects
-            <ArrowRight size={16} />
+            <ArrowRight size={16} className="btn-arrow" />
           </Link>
         </motion.div>
       </section>
@@ -358,17 +362,11 @@ const Index = () => {
             the clarity and confidence to scale.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-            >
+            <Link to="/audit" className="btn-primary px-10">
               Book Your Growth Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-outline px-10">
               Request a Strategic Review
             </Link>
           </div>

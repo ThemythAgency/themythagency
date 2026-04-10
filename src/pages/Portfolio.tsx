@@ -73,17 +73,19 @@ const Portfolio = () => {
           className="flex flex-wrap gap-3 justify-center"
         >
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat}
+              whileHover={{ y: -2, scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setActiveFilter(cat)}
               className={`px-5 py-2.5 text-sm font-medium font-body tracking-wide transition-all duration-300 ${
                 activeFilter === cat
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80 hover:shadow-sm"
               }`}
             >
               {cat}
-            </button>
+            </motion.button>
           ))}
         </motion.div>
 
@@ -122,6 +124,7 @@ const Portfolio = () => {
                     delay: i * 0.06,
                     ease: [0.22, 1, 0.36, 1],
                   }}
+                  whileHover={{ y: -6, transition: { duration: 0.3 } }}
                   className="group cursor-pointer"
                 >
                   {/* Image */}
@@ -135,7 +138,7 @@ const Portfolio = () => {
                     <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/60 transition-colors duration-500 flex items-center justify-center gap-3">
                       <button
                         onClick={() => handleProjectClick(project)}
-                        className="flex items-center gap-2 bg-background/90 px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                        className="flex items-center gap-2 bg-background/90 px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-background hover:shadow-lg"
                       >
                         <Eye size={16} className="text-foreground" />
                         <span className="text-xs font-body font-medium text-foreground tracking-wide">View Details</span>
@@ -148,7 +151,7 @@ const Portfolio = () => {
                           e.stopPropagation();
                           if (project.liveUrl === "#") e.preventDefault();
                         }}
-                        className={`flex items-center gap-2 bg-accent px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 ${
+                        className={`flex items-center gap-2 bg-accent px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 hover:shadow-lg hover:brightness-110 ${
                           project.liveUrl === "#" ? "pointer-events-none" : ""
                         }`}
                       >
@@ -163,7 +166,7 @@ const Portfolio = () => {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground"
+                        className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-muted-foreground hover:bg-accent/10 hover:text-accent transition-colors duration-300"
                       >
                         {tag}
                       </span>
@@ -216,17 +219,11 @@ const Portfolio = () => {
             Start with a Growth Foundations Audit to understand exactly where your opportunities are.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/audit"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300"
-            >
+            <Link to="/audit" className="btn-gold">
               Book Your Audit
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-ghost-light">
               Start a Conversation
             </Link>
           </div>

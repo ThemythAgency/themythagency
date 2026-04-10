@@ -91,17 +91,11 @@ const Audit = () => {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-              >
+              <Link to="/contact" className="btn-primary px-10">
                 Book Your Audit
-                <ArrowRight size={16} />
+                <ArrowRight size={16} className="btn-arrow" />
               </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide hover:bg-secondary transition-colors duration-300"
-              >
+              <Link to="/contact" className="btn-outline px-10">
                 Ask a Question
               </Link>
             </motion.div>
@@ -111,7 +105,8 @@ const Audit = () => {
             initial={{ opacity: 0, x: 40, scale: 0.97 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-primary text-primary-foreground p-10 md:p-12"
+            whileHover={{ y: -4, transition: { duration: 0.3 } }}
+            className="bg-primary text-primary-foreground p-10 md:p-12 hover:shadow-2xl transition-shadow duration-500"
           >
             <h3 className="text-label text-gold mb-6">Who This Is For</h3>
             <ul className="space-y-4">
@@ -163,7 +158,8 @@ const Audit = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-            className="bg-secondary p-10 md:p-12"
+            whileHover={{ y: -4, transition: { duration: 0.3 } }}
+            className="bg-secondary p-10 md:p-12 hover:shadow-lg transition-shadow duration-500"
           >
             <div className="space-y-6">
               {[
@@ -178,7 +174,8 @@ const Audit = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0"
+                  whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                  className="flex items-start gap-4 pb-6 border-b border-border last:border-0 last:pb-0 cursor-default"
                 >
                   <span className="text-label text-accent">0{i + 1}</span>
                   <p className="text-body font-medium">{item}</p>
@@ -206,8 +203,8 @@ const Audit = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: ai * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, transition: { duration: 0.3 } }}
-              className="bg-card border border-border p-8 md:p-10 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="bg-card border border-border p-8 md:p-10 hover:shadow-xl hover:border-accent/30 transition-all duration-500"
             >
               <h3 className="font-display text-xl font-medium mb-6">{area.title}</h3>
               <div className="space-y-3">
@@ -218,7 +215,8 @@ const Audit = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: ai * 0.12 + ii * 0.06 }}
-                    className="flex items-center gap-3"
+                    whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                    className="flex items-center gap-3 cursor-default"
                   >
                     <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
                     <span className="text-sm text-muted-foreground font-body">{item}</span>
@@ -266,7 +264,8 @@ const Audit = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.07 }}
-                  className="flex items-start gap-3 py-3 border-b border-border last:border-0"
+                  whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                  className="flex items-start gap-3 py-3 border-b border-border last:border-0 cursor-default"
                 >
                   <CheckCircle size={14} className="text-accent mt-1 flex-shrink-0" />
                   <span className="text-body">{item}</span>
@@ -294,7 +293,8 @@ const Audit = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, transition: { duration: 0.3 } }}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              className="cursor-default"
             >
               <motion.span
                 initial={{ scale: 0.5, opacity: 0 }}
@@ -332,17 +332,11 @@ const Audit = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 bg-gold text-accent-foreground font-body text-sm font-medium tracking-wide hover:bg-gold-light transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-gold">
               Book Your Audit Now
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-primary-foreground/10 transition-colors duration-300"
-            >
+            <Link to="/contact" className="btn-ghost-light">
               Request a Strategic Review
             </Link>
           </motion.div>

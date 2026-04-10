@@ -48,8 +48,10 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="section-padding flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-3">
-          <MonogramLogo size={64} className="text-primary" />
+        <Link to="/" className="flex items-center gap-3 group">
+          <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+            <MonogramLogo size={64} className="text-primary" />
+          </motion.div>
           <TypewriterText />
         </Link>
 
@@ -58,14 +60,14 @@ const Navbar = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`nav-link ${location.pathname === item.path ? "text-foreground" : ""}`}
+              className={`nav-link relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-accent after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${location.pathname === item.path ? "text-foreground after:scale-x-100" : ""}`}
             >
               {item.label}
             </Link>
           ))}
           <Link
             to="/audit"
-            className="ml-4 px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium font-body tracking-wide hover:bg-navy-light transition-colors duration-300"
+            className="btn-primary ml-4 px-5 py-2.5 text-sm"
           >
             Book an Audit
           </Link>
@@ -103,7 +105,7 @@ const Navbar = () => {
               <Link
                 to="/audit"
                 onClick={() => setIsOpen(false)}
-                className="mt-2 px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium font-body tracking-wide text-center"
+                className="btn-primary mt-2 px-5 py-2.5 text-sm text-center"
               >
                 Book an Audit
               </Link>

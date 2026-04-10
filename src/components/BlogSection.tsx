@@ -32,9 +32,10 @@ const BlogSection = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className="group border border-border hover:border-accent/40 hover:shadow-lg transition-all duration-500 h-full"
+              whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.3 } }}
+              className="group border border-border hover:border-accent/40 hover:shadow-xl transition-all duration-500 h-full relative overflow-hidden before:absolute before:inset-0 before:bg-accent/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500"
             >
-              <div className="p-6 md:p-8">
+              <div className="p-6 md:p-8 relative z-10">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-xs font-body font-medium tracking-wide px-3 py-1 bg-secondary text-accent">
                     {post.category}
@@ -53,7 +54,7 @@ const BlogSection = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-body text-muted-foreground">{post.date}</span>
                   <span className="text-sm font-body font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
-                    Read <ArrowRight size={14} />
+                    Read <ArrowRight size={14} className="btn-arrow" />
                   </span>
                 </div>
               </div>
@@ -71,6 +72,7 @@ const BlogSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: i * 0.15 }}
+              whileHover={{ x: 6, transition: { duration: 0.3 } }}
               className="group flex flex-col md:flex-row gap-6 py-6 border-b border-border hover:border-accent/30 transition-colors duration-500"
             >
               <div className="flex-1">
@@ -93,7 +95,7 @@ const BlogSection = () => {
                   {post.excerpt}
                 </p>
                 <span className="text-sm font-body font-medium text-accent flex items-center gap-1 group-hover:gap-3 transition-all duration-400">
-                  Read Article <ArrowRight size={14} />
+                  Read Article <ArrowRight size={14} className="btn-arrow" />
                 </span>
               </div>
             </motion.article>
@@ -105,12 +107,9 @@ const BlogSection = () => {
         {...fadeUp}
         className="mt-14 text-center"
       >
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:bg-navy-light transition-colors duration-300"
-        >
+        <Link to="/blog" className="btn-primary px-10">
           Read All Articles
-          <ArrowRight size={16} />
+          <ArrowRight size={16} className="btn-arrow" />
         </Link>
       </motion.div>
     </section>

@@ -49,6 +49,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <RouteProgress />
         <AnimatedRoutes />
         <WhatsAppButton />
       </BrowserRouter>

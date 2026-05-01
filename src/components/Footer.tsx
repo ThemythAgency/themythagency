@@ -16,26 +16,14 @@ const socialLinks = [
   { icon: Linkedin, href: "https://www.linkedin.com/in/themyth-agency-ba0631287", label: "LinkedIn" },
 ];
 
-const colVariant = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
-
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="section-padding py-16 md:py-20">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8"
-        >
-          <motion.div
-            variants={colVariant}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="md:col-span-2"
-          >
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+          <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-4 group">
-              <motion.div whileHover={{ scale: 1.05, rotate: -2 }} transition={{ duration: 0.3 }}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
                 <MonogramLogo size={64} variant="circular" className="text-primary-foreground" />
               </motion.div>
               <h3 className="font-display text-2xl font-medium">
@@ -54,16 +42,15 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   whileHover={{ y: -3, scale: 1.15 }}
                   transition={{ duration: 0.2 }}
-                  className="opacity-70 hover:opacity-100 hover:text-gold transition-all duration-300"
-                  aria-label={social.label}
+                  className="opacity-70 hover:opacity-100 transition-opacity"
                 >
                   {social.icon ? <social.icon size={20} /> : <TikTokIcon size={20} />}
                 </motion.a>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div variants={colVariant} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+          <div>
             <h4 className="text-label mb-5 text-gold">Navigation</h4>
             <div className="flex flex-col gap-3">
               {[
@@ -77,15 +64,15 @@ const Footer = () => {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 hover:text-gold transition-all duration-300 font-body inline-block"
+                  className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 transition-all duration-300 font-body inline-block"
                 >
                   {link.label}
                 </Link>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div variants={colVariant} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+          <div>
             <h4 className="text-label mb-5 text-gold">Get Started</h4>
             <div className="flex flex-col gap-3">
               {[
@@ -96,25 +83,19 @@ const Footer = () => {
                 <Link
                   key={link.label}
                   to={link.to}
-                  className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 hover:text-gold transition-all duration-300 font-body inline-block"
+                  className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 transition-all duration-300 font-body inline-block"
                 >
                   {link.label}
                 </Link>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4"
-        >
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs opacity-50 font-body">© {new Date().getFullYear()} Themyth Agency. All rights reserved.</p>
           <p className="text-xs opacity-50 font-body">Shopify Growth Consultancy with Execution</p>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

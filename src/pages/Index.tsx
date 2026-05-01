@@ -278,10 +278,10 @@ const Index = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleProjectClick(project)}
-                      className="btn-hover-invert flex items-center gap-2 bg-background/90 text-foreground px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500"
+                      className="flex items-center gap-2 bg-background/90 px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-background hover:shadow-lg"
                     >
-                      <Eye size={14} />
-                      <span className="text-xs font-body font-medium">Details</span>
+                      <Eye size={14} className="text-foreground" />
+                      <span className="text-xs font-body font-medium text-foreground">Details</span>
                     </button>
                     <a
                       href={project.liveUrl !== "#" ? project.liveUrl : undefined}
@@ -290,10 +290,10 @@ const Index = () => {
                       onClick={(e) => {
                         if (project.liveUrl === "#") e.preventDefault();
                       }}
-                      className="btn-hover-invert flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75"
+                      className="flex items-center gap-2 bg-accent px-4 py-2.5 translate-y-2 group-hover:translate-y-0 transition-all duration-500 delay-75 hover:shadow-lg hover:brightness-110"
                     >
-                      <ExternalLink size={14} />
-                      <span className="text-xs font-body font-medium">Preview</span>
+                      <ExternalLink size={14} className="text-accent-foreground" />
+                      <span className="text-xs font-body font-medium text-accent-foreground">Preview</span>
                     </a>
                   </div>
                 </div>

@@ -138,10 +138,10 @@ const Portfolio = () => {
                     <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/60 transition-colors duration-500 flex items-center justify-center gap-3">
                       <button
                         onClick={() => handleProjectClick(project)}
-                        className="btn-hover-invert flex items-center gap-2 bg-background/90 text-foreground px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500"
+                        className="flex items-center gap-2 bg-background/90 px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-background hover:shadow-lg"
                       >
-                        <Eye size={16} />
-                        <span className="text-xs font-body font-medium tracking-wide">View Details</span>
+                        <Eye size={16} className="text-foreground" />
+                        <span className="text-xs font-body font-medium text-foreground tracking-wide">View Details</span>
                       </button>
                       <a
                         href={project.liveUrl !== "#" ? project.liveUrl : undefined}
@@ -151,12 +151,12 @@ const Portfolio = () => {
                           e.stopPropagation();
                           if (project.liveUrl === "#") e.preventDefault();
                         }}
-                        className={`btn-hover-invert flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 ${
+                        className={`flex items-center gap-2 bg-accent px-4 py-2.5 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-75 hover:shadow-lg hover:brightness-110 ${
                           project.liveUrl === "#" ? "pointer-events-none" : ""
                         }`}
                       >
-                        <ExternalLink size={16} />
-                        <span className="text-xs font-body font-medium tracking-wide">Preview</span>
+                        <ExternalLink size={16} className="text-accent-foreground" />
+                        <span className="text-xs font-body font-medium text-accent-foreground tracking-wide">Preview</span>
                       </a>
                     </div>
                   </div>

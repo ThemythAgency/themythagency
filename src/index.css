@@ -155,66 +155,127 @@
 }
 
 @layer components {
-  /* Primary button hover */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+  /* Shared button base transitions */
+  .btn-primary,
+  .btn-outline,
+  .btn-gold,
+  .btn-ghost-light,
+  .btn-hover-invert {
+    transition:
+      background-color 300ms ease,
+      color 300ms ease,
+      border-color 300ms ease,
+      transform 300ms ease,
+      box-shadow 300ms ease,
+      filter 300ms ease;
   }
-  .btn-primary:hover {
-    @apply bg-navy-light shadow-lg;
-    transform: translateY(-2px);
-  }
-  .btn-primary:active {
-    transform: translateY(0);
+  .btn-primary:focus-visible,
+  .btn-outline:focus-visible,
+  .btn-gold:focus-visible,
+  .btn-ghost-light:focus-visible,
+  .btn-hover-invert:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
   }
 
-  /* Secondary/outline button hover */
+  /* Primary button (navy bg / white text) → hover inverts to gold bg / navy text */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide;
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* Outline button → hover fills gold with navy text */
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 border border-border text-foreground font-body text-sm font-medium tracking-wide;
+  }
+  .btn-outline:active { transform: translateY(0); }
+
+  /* Gold CTA button (gold bg / navy text) → hover inverts to navy bg / warm-white text */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-3 px-10 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide;
+  }
+  .btn-gold:active { transform: translateY(0); }
+
+  /* Ghost button on dark bg → hover fills gold with navy text */
+  .btn-ghost-light {
+    @apply inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide;
+  }
+  .btn-ghost-light:active { transform: translateY(0); }
+
+  /* Generic invert utility for one-off buttons (modal close, overlay actions, etc.) */
+  .btn-hover-invert {
+    @apply inline-flex items-center justify-center gap-2;
+  }
+
+  /* Section card */
+  .card-hover { @apply transition-all duration-500; }
+
+  /* Arrow icon animation in buttons */
+  .btn-arrow { @apply transition-transform duration-300; }
+}
+
+/* Hover effects only on devices that actually hover (skip on touch) */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background: hsl(var(--gold));
+    color: hsl(var(--navy));
+    box-shadow: 0 10px 25px -10px hsl(var(--gold) / 0.5);
+    transform: translateY(-2px);
   }
   .btn-outline:hover {
-    @apply bg-secondary border-accent/40 shadow-md;
+    background: hsl(var(--gold));
+    color: hsl(var(--navy));
+    border-color: hsl(var(--gold));
+    box-shadow: 0 10px 25px -10px hsl(var(--gold) / 0.4);
     transform: translateY(-2px);
-  }
-  .btn-outline:active {
-    transform: translateY(0);
-  }
-
-  /* Gold CTA button */
-  .btn-gold {
-    @apply inline-flex items-center justify-center gap-3 px-10 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
   }
   .btn-gold:hover {
-    @apply shadow-lg;
-    background: hsl(var(--gold-light));
+    background: hsl(var(--navy));
+    color: hsl(var(--warm-white));
+    box-shadow: 0 10px 25px -10px hsl(var(--navy) / 0.5);
     transform: translateY(-2px);
-  }
-
-  /* Ghost button on dark bg */
-  .btn-ghost-light {
-    @apply inline-flex items-center justify-center gap-3 px-10 py-4 border border-primary-foreground/20 text-primary-foreground font-body text-sm font-medium tracking-wide transition-all duration-300;
   }
   .btn-ghost-light:hover {
-    @apply shadow-md;
-    background: hsl(var(--primary-foreground) / 0.1);
+    background: hsl(var(--gold));
+    color: hsl(var(--navy));
+    border-color: hsl(var(--gold));
+    box-shadow: 0 10px 25px -10px hsl(var(--gold) / 0.4);
     transform: translateY(-2px);
   }
-
-  /* Section card hover */
-  .card-hover {
-    @apply transition-all duration-500;
+  .btn-hover-invert:hover {
+    background: hsl(var(--gold)) !important;
+    color: hsl(var(--navy)) !important;
+    box-shadow: 0 8px 20px -8px hsl(var(--gold) / 0.5);
+    transform: translateY(-2px);
   }
   .card-hover:hover {
     @apply shadow-xl border-accent/30;
     transform: translateY(-4px);
   }
-
-  /* Arrow icon animation in buttons */
-  .btn-arrow {
-    @apply transition-transform duration-300;
-  }
   .group:hover .btn-arrow,
   *:hover > .btn-arrow {
     transform: translateX(4px);
+  }
+}
+
+/* Reduced motion: keep color swaps but drop transforms */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-outline,
+  .btn-gold,
+  .btn-ghost-light,
+  .btn-hover-invert,
+  .card-hover,
+  .btn-arrow {
+    transition-duration: 0.01ms !important;
+  }
+  .btn-primary:hover,
+  .btn-outline:hover,
+  .btn-gold:hover,
+  .btn-ghost-light:hover,
+  .btn-hover-invert:hover,
+  .card-hover:hover {
+    transform: none !important;
   }
 }
 

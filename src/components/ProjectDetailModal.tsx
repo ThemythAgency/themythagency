@@ -33,7 +33,7 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ProjectDetailModalProp
             {/* Close button */}
             <button
               onClick={onClose}
-              className="fixed top-8 right-8 z-50 w-12 h-12 flex items-center justify-center bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground transition-colors duration-300"
+              className="btn-hover-invert fixed top-8 right-8 z-50 w-12 h-12 flex items-center justify-center bg-primary text-primary-foreground"
             >
               <X size={20} />
             </button>
@@ -129,19 +129,14 @@ const ProjectDetailModal = ({ project, isOpen, onClose }: ProjectDetailModalProp
                   onClick={(e) => {
                     if (project.liveUrl === "#") e.preventDefault();
                   }}
-                  className={`inline-flex items-center justify-center gap-3 px-8 py-4 bg-accent text-accent-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300 ${
-                    project.liveUrl === "#" ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`btn-gold ${project.liveUrl === "#" ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}`}
                 >
                   {project.liveUrl !== "#" ? "Live Preview" : "Preview Coming Soon"}
-                  <ExternalLink size={16} />
+                  <ExternalLink size={16} className="btn-arrow" />
                 </a>
-                <a
-                  href="/audit"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-body text-sm font-medium tracking-wide hover:opacity-90 transition-opacity duration-300"
-                >
+                <a href="/audit" className="btn-primary">
                   Start Your Project
-                  <ArrowRight size={16} />
+                  <ArrowRight size={16} className="btn-arrow" />
                 </a>
               </div>
             </div>

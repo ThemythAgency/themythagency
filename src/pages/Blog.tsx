@@ -42,10 +42,10 @@ const Blog = () => {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 text-xs font-body font-medium tracking-wide transition-colors duration-300 ${
+              className={`px-4 py-2 text-xs font-body font-medium tracking-wide transition-all duration-300 ${
                 activeCategory === cat
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
+                  ? "bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "bg-secondary text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               }`}
             >
               {cat}

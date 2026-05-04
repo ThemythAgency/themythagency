@@ -73,13 +73,15 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <button
+        <motion.button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-foreground"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.92 }}
+          className="md:hidden text-foreground hover:text-accent transition-colors duration-300"
           aria-label="Toggle menu"
         >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        </motion.button>
       </div>
 
       <AnimatePresence>

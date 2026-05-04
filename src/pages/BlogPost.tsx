@@ -48,9 +48,9 @@ const BlogPost = () => {
           >
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-accent transition-colors duration-300 mb-8"
+              className="group inline-flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-accent transition-all duration-300 mb-8"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
               Back to Blog
             </Link>
           </motion.div>
@@ -108,9 +108,9 @@ const BlogPost = () => {
             <p className="text-sm font-body text-muted-foreground mb-4">Written by {post.author}</p>
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 text-sm font-body font-medium text-accent hover:gap-3 transition-all duration-300"
+              className="group inline-flex items-center gap-2 text-sm font-body font-medium text-accent hover:text-primary transition-colors duration-300"
             >
-              <ArrowLeft size={14} />
+              <ArrowLeft size={14} className="transition-transform duration-300 group-hover:-translate-x-1" />
               Back to all articles
             </Link>
           </motion.div>

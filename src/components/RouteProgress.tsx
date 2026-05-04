@@ -4,25 +4,38 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const RouteProgress = () => {
   const location = useLocation();
-  const [visible, setVisible] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "loading" | "finishing">("idle");
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    setVisible(true);
     setTick((t) => t + 1);
-    const t = setTimeout(() => setVisible(false), 700);
-    return () => clearTimeout(t);
+    setPhase("loading");
+    const finish = setTimeout(() => setPhase("finishing"), 280);
+    const hide = setTimeout(() => setPhase("idle"), 700);
+    return () => {
+      clearTimeout(finish);
+      clearTimeout(hide);
+    };
   }, [location.pathname]);
 
   return (
     <AnimatePresence>
-      {visible && (
+      {phase !== "idle" && (
         <motion.div
           key={tick}
           initial={{ scaleX: 0, opacity: 1 }}
-          animate={{ scaleX: 1, opacity: 1 }}
+          animate={{
+            scaleX: phase === "loading" ? 0.85 : 1,
+            opacity: phase === "finishing" ? 0 : 1,
+          }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          transition={{
+            scaleX: {
+              duration: phase === "loading" ? 0.5 : 0.18,
+              ease: phase === "loading" ? [0.1, 0.7, 0.3, 1] : [0.22, 1, 0.36, 1],
+            },
+            opacity: { duration: 0.3, ease: "easeOut" },
+          }}
           style={{ transformOrigin: "0% 50%" }}
           className="fixed top-0 left-0 right-0 h-[2px] bg-accent z-[100] pointer-events-none shadow-[0_0_10px_hsl(var(--accent))]"
         />

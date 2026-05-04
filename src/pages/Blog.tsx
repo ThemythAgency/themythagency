@@ -91,7 +91,7 @@ const Blog = () => {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-body text-muted-foreground">{post.date}</span>
                     <span className="text-sm font-body font-medium text-accent flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
-                      Read <ArrowRight size={14} />
+                      Read <ArrowRight size={14} className="btn-arrow" />
                     </span>
                   </div>
                 </Link>

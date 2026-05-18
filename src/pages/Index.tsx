@@ -12,6 +12,10 @@ import CountingNumbers from "@/components/CountingNumbers";
 import AreasOfExpertise from "@/components/AreasOfExpertise";
 import WhyWorkWithUs from "@/components/WhyWorkWithUs";
 import BlogSection from "@/components/BlogSection";
+import HeroAgency from "@/components/HeroAgency";
+import TechStack from "@/components/TechStack";
+import sectionBgEcom from "@/assets/section-bg-ecom.jpg";
+import sectionBgAnalytics from "@/assets/section-bg-analytics.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },

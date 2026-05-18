@@ -87,57 +87,13 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="section-padding pt-32 md:pt-44 pb-24 md:pb-36">
-        <div className="max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 mb-8"
-          >
-            <div className="gold-line" />
-            <span className="text-label text-accent">Shopify Growth Consultancy with Execution</span>
-          </motion.div>
+      <HeroAgency />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-display-xl mb-8 text-balance"
-          >
-            We build Shopify growth systems that scale{" "}
-            <span className="italic text-accent">with control</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-body-lg text-muted-foreground max-w-2xl mb-12"
-          >
-            Strategic clarity. Conversion-focused design. Scalable infrastructure.
-            For growing Shopify brands ready to build systems, not just stores.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <Link to="/audit" className="btn-primary px-10">
-              Book a Growth Audit
-              <ArrowRight size={16} className="btn-arrow" />
-            </Link>
-            <Link to="/contact" className="btn-outline px-10">
-              Start a Growth Conversation
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Pain Points */}
-      <section className="section-padding section-spacing bg-primary text-primary-foreground">
+      {/* Pain Points - image backed */}
+      <section
+        className="section-padding section-spacing section-image-bg"
+        style={{ backgroundImage: `url(${sectionBgAnalytics})` }}
+      >
         <SectionHeading
           label="The Problem"
           title="Most Shopify growth problems are structural, not traffic problems"

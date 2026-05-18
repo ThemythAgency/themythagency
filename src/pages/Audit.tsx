@@ -75,7 +75,7 @@ const Audit = () => {
             >
               A comprehensive strategic and technical diagnostic of your Shopify store's growth
               infrastructure. Understand exactly what's working, what's broken, and what to prioritize
-              — before you invest in scaling.
+             , before you invest in scaling.
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -149,7 +149,7 @@ const Audit = () => {
             <h2 className="text-display-lg mb-6">Why audit before you scale?</h2>
             <p className="text-body-lg text-muted-foreground">
               Most brands pour money into traffic before understanding why their store isn't converting.
-              The audit reveals the structural issues that are silently killing your growth — so every
+              The audit reveals the structural issues that are silently killing your growth, so every
               dollar you spend after goes further.
             </p>
           </motion.div>
@@ -165,7 +165,7 @@ const Audit = () => {
               {[
                 "Stop guessing and start making decisions based on data",
                 "Identify the 20% of changes that drive 80% of growth",
-                "Get a clear, prioritized roadmap — not a vague list of suggestions",
+                "Get a clear, prioritized roadmap, not a vague list of suggestions",
                 "Understand your store's real conversion capacity before investing in scale",
               ].map((item, i) => (
                 <motion.div

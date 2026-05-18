@@ -59,7 +59,7 @@ const Portfolio = () => {
             <span className="italic text-accent">built</span>
           </h1>
           <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
-            A collection of growth systems designed for conversion, performance, and sustainable scale — across every major platform.
+            A collection of growth systems designed for conversion, performance, and sustainable scale, across every major platform.
           </p>
         </motion.div>
       </section>

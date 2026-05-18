@@ -12,6 +12,10 @@ import CountingNumbers from "@/components/CountingNumbers";
 import AreasOfExpertise from "@/components/AreasOfExpertise";
 import WhyWorkWithUs from "@/components/WhyWorkWithUs";
 import BlogSection from "@/components/BlogSection";
+import HeroAgency from "@/components/HeroAgency";
+import TechStack from "@/components/TechStack";
+import sectionBgEcom from "@/assets/section-bg-ecom.jpg";
+import sectionBgAnalytics from "@/assets/section-bg-analytics.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -28,7 +32,7 @@ const staggerContainer = {
 
 const painPoints = [
   { icon: TrendingUp, title: "Revenue has plateaued", desc: "You've hit a ceiling and can't figure out what's broken in your growth engine." },
-  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting — the funnel is leaking at every stage." },
+  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting, the funnel is leaking at every stage." },
   { icon: Layers, title: "Tech stack is fragmented", desc: "Apps, tools, and integrations are duct-taped together with no cohesive system or documentation." },
   { icon: Shield, title: "No strategic clarity", desc: "You're making tactical moves without a growth roadmap, clear priorities, or reliable data." },
   { icon: Eye, title: "Poor tracking and visibility", desc: "You can't attribute revenue, measure performance, or make confident decisions with your current setup." },
@@ -83,60 +87,16 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="section-padding pt-32 md:pt-44 pb-24 md:pb-36">
-        <div className="max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 mb-8"
-          >
-            <div className="gold-line" />
-            <span className="text-label text-accent">Shopify Growth Consultancy with Execution</span>
-          </motion.div>
+      <HeroAgency />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-display-xl mb-8 text-balance"
-          >
-            We build Shopify growth systems that scale{" "}
-            <span className="italic text-accent">with control</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-body-lg text-muted-foreground max-w-2xl mb-12"
-          >
-            Strategic clarity. Conversion-focused design. Scalable infrastructure.
-            For growing Shopify brands ready to build systems — not just stores.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <Link to="/audit" className="btn-primary px-10">
-              Book a Growth Audit
-              <ArrowRight size={16} className="btn-arrow" />
-            </Link>
-            <Link to="/contact" className="btn-outline px-10">
-              Start a Growth Conversation
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Pain Points */}
-      <section className="section-padding section-spacing bg-primary text-primary-foreground">
+      {/* Pain Points - image backed */}
+      <section
+        className="section-padding section-spacing section-image-bg"
+        style={{ backgroundImage: `url(${sectionBgAnalytics})` }}
+      >
         <SectionHeading
           label="The Problem"
-          title="Most Shopify growth problems are structural — not traffic problems"
+          title="Most Shopify growth problems are structural, not traffic problems"
           description="Growing brands hit walls not because they lack customers, but because their store infrastructure can't support scale. Sound familiar?"
         />
 
@@ -176,7 +136,7 @@ const Index = () => {
             </div>
             <h2 className="text-display-lg mb-6">We think before we build.<br />Then we build to scale.</h2>
             <p className="text-body-lg text-muted-foreground mb-8">
-              Every engagement starts with diagnosis — not design. We map your growth architecture,
+              Every engagement starts with diagnosis, not design. We map your growth architecture,
               identify structural friction, and build systems where strategy, design, technology,
               and data reinforce each other.
             </p>
@@ -216,7 +176,7 @@ const Index = () => {
         <SectionHeading
           label="Services"
           title="Three systems for different stages of growth"
-          description="Each engagement is built on the same strategic foundation — diagnostic-led, conversion-focused, and designed to compound."
+          description="Each engagement is built on the same strategic foundation, diagnostic-led, conversion-focused, and designed to compound."
         />
 
         <div className="space-y-0">
@@ -241,7 +201,7 @@ const Index = () => {
         <SectionHeading
           label="Our Top Projects"
           title="Featured work that speaks for itself"
-          description="Handpicked projects showcasing our approach to growth systems — real brands, real strategies, real results."
+          description="Handpicked projects showcasing our approach to growth systems, real brands, real strategies, real results."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -345,28 +305,34 @@ const Index = () => {
       {/* Testimonials */}
       <Testimonials />
 
+      {/* Tech Stack marquee */}
+      <TechStack />
+
       {/* Blog */}
       <BlogSection />
 
-      {/* CTA */}
-      <section className="section-padding section-spacing text-center">
+      {/* CTA - image backed */}
+      <section
+        className="section-padding section-spacing section-image-bg text-center"
+        style={{ backgroundImage: `url(${sectionBgEcom})` }}
+      >
         <motion.div {...fadeUp} className="max-w-2xl mx-auto">
           <div className="flex items-center gap-4 mb-6 justify-center">
             <div className="gold-line" />
             <span className="text-label text-accent">Get Started</span>
             <div className="gold-line" />
           </div>
-          <h2 className="text-display-lg mb-6">Ready to build a growth system?</h2>
-          <p className="text-body-lg text-muted-foreground mb-10">
-            Start with our Shopify Growth Foundations Audit — a strategic diagnostic that gives you
+          <h2 className="text-display-lg mb-6 text-white">Ready to build a growth system?</h2>
+          <p className="text-body-lg text-white/80 mb-10">
+            Start with our Shopify Growth Foundations Audit, a strategic diagnostic that gives you
             the clarity and confidence to scale.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/audit" className="btn-primary px-10">
+            <Link to="/audit" className="btn-gold px-10">
               Book Your Growth Audit
               <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link to="/contact" className="btn-outline px-10">
+            <Link to="/contact" className="btn-ghost-light px-10">
               Request a Strategic Review
             </Link>
           </div>

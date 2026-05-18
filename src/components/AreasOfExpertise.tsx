@@ -17,7 +17,7 @@ const AreasOfExpertise = () => {
       <SectionHeading
         label="Expertise"
         title="Areas of expertise"
-        description="Deep specialization across every discipline that drives ecommerce growth — from strategy to execution."
+        description="Deep specialization across every discipline that drives ecommerce growth, from strategy to execution."
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

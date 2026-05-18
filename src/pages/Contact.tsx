@@ -96,7 +96,7 @@ const Contact = () => {
             className="text-body-lg text-muted-foreground max-w-2xl"
           >
             Whether you're ready for an audit, exploring a growth system build, or want a
-            strategic review of where your brand stands — we'd like to hear from you.
+            strategic review of where your brand stands, we'd like to hear from you.
           </motion.p>
         </motion.div>
       </section>

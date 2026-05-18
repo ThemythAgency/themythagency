@@ -192,7 +192,7 @@ export const projects: Project[] = [
     category: "Home & Lifestyle",
     tags: ["Shopify", "Redesign", "eCommerce"],
     image: portfolioMaison,
-    description: "Premium brand experience rebuild — editorial design, optimized product discovery, streamlined checkout, and comprehensive performance optimization.",
+    description: "Premium brand experience rebuild, editorial design, optimized product discovery, streamlined checkout, and comprehensive performance optimization.",
     result: "68% Faster Load Times",
     liveUrl: "https://shopmaisoncollective.com/",
     platform: "Shopify",
@@ -336,7 +336,7 @@ export const projects: Project[] = [
     platform: "Wix",
     industry: "Food & Beverage",
     challenge: "Tenuta Corbinaia had award-winning wines but struggled to communicate their Tuscan heritage and value online.",
-    strategy: "Built an immersive origin story experience showing the estate, the winemaking process, and the terroir — turning every page into a Tuscan journey.",
+    strategy: "Built an immersive origin story experience showing the estate, the winemaking process, and the terroir, turning every page into a Tuscan journey.",
     execution: "Wix site with virtual estate tour, wine tasting notes for each variety, custom gift set builder, and harvest season pre-order system.",
     outcome: "189% increase in gift set revenue, 67% of visitors engaging with the estate story, and 3.4x growth in direct orders.",
     features: ["Virtual Estate Tour", "Tasting Notes", "Gift Set Builder", "Harvest Pre-orders"],
@@ -545,7 +545,7 @@ export const projects: Project[] = [
     liveUrl: "https://www.vignoblesbuffeteau.fr/en/home-en",
     platform: "Webflow",
     industry: "Food & Beverage",
-    challenge: "Vignobles Buffeteau needed more than a standard wine site — they needed to convey their family heritage and Bordeaux terroir digitally.",
+    challenge: "Vignobles Buffeteau needed more than a standard wine site, they needed to convey their family heritage and Bordeaux terroir digitally.",
     strategy: "Designed an estate-first experience with vineyard photography, wine know-how sections, and a direct contact pathway for professionals.",
     execution: "Custom Webflow build with estate gallery, wine collection pages, know-how storytelling, and professional inquiry system.",
     outcome: "Average order value of £180, 12% monthly growth in direct inquiries, and 89% visitor satisfaction score.",
@@ -579,8 +579,8 @@ export const projects: Project[] = [
     liveUrl: "https://parkhyattaviara.com/",
     platform: "Webflow",
     industry: "Hospitality & Luxury",
-    challenge: "Park Hyatt Aviara needed a digital experience that matched the prestige of their luxury resort — from golf to spa to fine dining.",
-    strategy: "Built a brand experience around aspiration and exclusivity — with cinematic video, immersive section reveals, and effortless booking.",
+    challenge: "Park Hyatt Aviara needed a digital experience that matched the prestige of their luxury resort, from golf to spa to fine dining.",
+    strategy: "Built a brand experience around aspiration and exclusivity, with cinematic video, immersive section reveals, and effortless booking.",
     execution: "Webflow site with full-screen video hero, experience section showcases, reservation integration, wedding planner portal, and meeting request forms.",
     outcome: "£12K revenue from direct bookings in first month, 2,400 reservation requests, and 94% visitor engagement with video content.",
     features: ["Cinematic Video", "Experience Showcases", "Reservation System", "Event Planning Portal"],
@@ -633,7 +633,7 @@ export const projects: Project[] = [
     platform: "WooCommerce",
     industry: "Fashion & Accessories",
     challenge: "Harlow & Co had exceptional products but customers weren't returning. The website didn't communicate the craftsmanship story.",
-    strategy: "Built a brand experience centered on craftsmanship transparency — showing the making process, materials sourcing, and artisan profiles.",
+    strategy: "Built a brand experience centered on craftsmanship transparency, showing the making process, materials sourcing, and artisan profiles.",
     execution: "WooCommerce build with craftsmanship video sections, material sourcing transparency pages, product configurator, and loyalty program.",
     outcome: "92% increase in repeat purchase rate, 67% of customers joining the loyalty program.",
     features: ["Craftsmanship Stories", "Product Configurator", "Loyalty Program", "Custom Orders"],
@@ -731,7 +731,7 @@ export const projects: Project[] = [
 export const faqs = [
   {
     question: "What platforms do you build on?",
-    answer: "We build on all major ecommerce and web platforms including Shopify, WooCommerce, WordPress, Wix, Squarespace, and Webflow. We recommend the right platform based on your business needs, growth trajectory, and technical requirements — not our preferences.",
+    answer: "We build on all major ecommerce and web platforms including Shopify, WooCommerce, WordPress, Wix, Squarespace, and Webflow. We recommend the right platform based on your business needs, growth trajectory, and technical requirements, not our preferences.",
   },
   {
     question: "How long does a typical project take?",
@@ -739,7 +739,7 @@ export const faqs = [
   },
   {
     question: "What makes you different from other web design agencies?",
-    answer: "We don't just design websites — we build growth systems. Every decision we make is rooted in conversion strategy, performance data, and scalable architecture. We think like growth consultants and execute like senior developers. Most agencies make it pretty. We make it perform.",
+    answer: "We don't just design websites, we build growth systems. Every decision we make is rooted in conversion strategy, performance data, and scalable architecture. We think like growth consultants and execute like senior developers. Most agencies make it pretty. We make it perform.",
   },
   {
     question: "Do you work with brands outside of ecommerce?",
@@ -751,7 +751,7 @@ export const faqs = [
   },
   {
     question: "Can you help with ongoing optimization after launch?",
-    answer: "Absolutely. Our Strategic Growth Partner service provides ongoing conversion optimization, A/B testing, performance monitoring, and strategic guidance. Growth isn't a one-time project — it's a continuous system, and we're built to support that.",
+    answer: "Absolutely. Our Strategic Growth Partner service provides ongoing conversion optimization, A/B testing, performance monitoring, and strategic guidance. Growth isn't a one-time project, it's a continuous system, and we're built to support that.",
   },
   {
     question: "What's your pricing structure?",
@@ -763,7 +763,7 @@ export const faqs = [
   },
   {
     question: "How do I know if my business is ready for your services?",
-    answer: "If you're already generating revenue but hitting growth friction — low conversions, slow site speed, poor mobile experience, or scaling without structure — you're likely a great fit. We work best with brands that are past the startup phase and ready to build systems for sustainable growth.",
+    answer: "If you're already generating revenue but hitting growth friction, low conversions, slow site speed, poor mobile experience, or scaling without structure, you're likely a great fit. We work best with brands that are past the startup phase and ready to build systems for sustainable growth.",
   },
   {
     question: "What results can I realistically expect?",

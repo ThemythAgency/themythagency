@@ -28,7 +28,7 @@ const staggerContainer = {
 
 const painPoints = [
   { icon: TrendingUp, title: "Revenue has plateaued", desc: "You've hit a ceiling and can't figure out what's broken in your growth engine." },
-  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting — the funnel is leaking at every stage." },
+  { icon: Target, title: "Conversion rates are declining", desc: "Traffic is growing but your store isn't converting, the funnel is leaking at every stage." },
   { icon: Layers, title: "Tech stack is fragmented", desc: "Apps, tools, and integrations are duct-taped together with no cohesive system or documentation." },
   { icon: Shield, title: "No strategic clarity", desc: "You're making tactical moves without a growth roadmap, clear priorities, or reliable data." },
   { icon: Eye, title: "Poor tracking and visibility", desc: "You can't attribute revenue, measure performance, or make confident decisions with your current setup." },
@@ -112,7 +112,7 @@ const Index = () => {
             className="text-body-lg text-muted-foreground max-w-2xl mb-12"
           >
             Strategic clarity. Conversion-focused design. Scalable infrastructure.
-            For growing Shopify brands ready to build systems — not just stores.
+            For growing Shopify brands ready to build systems, not just stores.
           </motion.p>
 
           <motion.div
@@ -136,7 +136,7 @@ const Index = () => {
       <section className="section-padding section-spacing bg-primary text-primary-foreground">
         <SectionHeading
           label="The Problem"
-          title="Most Shopify growth problems are structural — not traffic problems"
+          title="Most Shopify growth problems are structural, not traffic problems"
           description="Growing brands hit walls not because they lack customers, but because their store infrastructure can't support scale. Sound familiar?"
         />
 
@@ -176,7 +176,7 @@ const Index = () => {
             </div>
             <h2 className="text-display-lg mb-6">We think before we build.<br />Then we build to scale.</h2>
             <p className="text-body-lg text-muted-foreground mb-8">
-              Every engagement starts with diagnosis — not design. We map your growth architecture,
+              Every engagement starts with diagnosis, not design. We map your growth architecture,
               identify structural friction, and build systems where strategy, design, technology,
               and data reinforce each other.
             </p>
@@ -216,7 +216,7 @@ const Index = () => {
         <SectionHeading
           label="Services"
           title="Three systems for different stages of growth"
-          description="Each engagement is built on the same strategic foundation — diagnostic-led, conversion-focused, and designed to compound."
+          description="Each engagement is built on the same strategic foundation, diagnostic-led, conversion-focused, and designed to compound."
         />
 
         <div className="space-y-0">
@@ -241,7 +241,7 @@ const Index = () => {
         <SectionHeading
           label="Our Top Projects"
           title="Featured work that speaks for itself"
-          description="Handpicked projects showcasing our approach to growth systems — real brands, real strategies, real results."
+          description="Handpicked projects showcasing our approach to growth systems, real brands, real strategies, real results."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -358,7 +358,7 @@ const Index = () => {
           </div>
           <h2 className="text-display-lg mb-6">Ready to build a growth system?</h2>
           <p className="text-body-lg text-muted-foreground mb-10">
-            Start with our Shopify Growth Foundations Audit — a strategic diagnostic that gives you
+            Start with our Shopify Growth Foundations Audit, a strategic diagnostic that gives you
             the clarity and confidence to scale.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

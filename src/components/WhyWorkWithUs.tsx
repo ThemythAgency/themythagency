@@ -5,10 +5,10 @@ import SectionHeading from "./SectionHeading";
 const reasons = [
   { title: "Strategy-First Approach", desc: "We diagnose before we design. Every project starts with deep analysis, not templates." },
   { title: "Conversion-Obsessed", desc: "Beautiful design is the baseline. We engineer every element to drive measurable business results." },
-  { title: "Full-Stack Execution", desc: "From brand strategy to custom code — one team, one vision, zero handoff friction." },
-  { title: "Data-Driven Decisions", desc: "Every recommendation is backed by analytics, heatmaps, and user behaviour data — not gut feelings." },
+  { title: "Full-Stack Execution", desc: "From brand strategy to custom code, one team, one vision, zero handoff friction." },
+  { title: "Data-Driven Decisions", desc: "Every recommendation is backed by analytics, heatmaps, and user behaviour data, not gut feelings." },
   { title: "Long-Term Partnership", desc: "We don't disappear after launch. Our growth systems are designed to compound over time." },
-  { title: "Platform Agnostic", desc: "Shopify, WordPress, Webflow, Wix — we recommend what's right for your business, not our preference." },
+  { title: "Platform Agnostic", desc: "Shopify, WordPress, Webflow, Wix, we recommend what's right for your business, not our preference." },
 ];
 
 const WhyWorkWithUs = () => {
@@ -17,7 +17,7 @@ const WhyWorkWithUs = () => {
       <SectionHeading
         label="Why Us"
         title="Why brands choose to work with us"
-        description="We're not for everyone — and that's by design. Here's what makes working with Themyth Agency different."
+        description="We're not for everyone, and that's by design. Here's what makes working with Themyth Agency different."
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

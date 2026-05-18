@@ -4,7 +4,7 @@ import SectionHeading from "./SectionHeading";
 
 const testimonials = [
   {
-    quote: "Themyth didn't just redesign our store — they rebuilt our entire growth engine. Conversion rates doubled within 60 days.",
+    quote: "Themyth didn't just redesign our store, they rebuilt our entire growth engine. Conversion rates doubled within 60 days.",
     role: "Founder, The Soap Lab Scotland",
     rating: 5,
   },
@@ -14,7 +14,7 @@ const testimonials = [
     rating: 5,
   },
   {
-    quote: "They understood our luxury positioning instantly. The new experience feels like walking into a high-end boutique — online.",
+    quote: "They understood our luxury positioning instantly. The new experience feels like walking into a high-end boutique, online.",
     role: "Creative Director, Sillagea",
     rating: 5,
   },
@@ -31,7 +31,7 @@ const Testimonials = () => {
       <SectionHeading
         label="Client Testimonials"
         title="What our clients say"
-        description="Real feedback from brands we've helped scale — because results speak louder than promises."
+        description="Real feedback from brands we've helped scale, because results speak louder than promises."
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

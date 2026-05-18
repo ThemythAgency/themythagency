@@ -22,9 +22,9 @@ const services = [
     num: "02",
     title: "Growth System Build",
     subtitle: "Strategy through execution",
-    description: "A strategy-led Shopify design and optimization engagement that improves structure, conversion, and scale readiness. From strategic foundation to conversion-focused design, custom development, and optimization — we build the growth engine.",
+    description: "A strategy-led Shopify design and optimization engagement that improves structure, conversion, and scale readiness. From strategic foundation to conversion-focused design, custom development, and optimization, we build the growth engine.",
     deliverables: ["Growth Strategy & Architecture", "Conversion-Focused UX/UI Design", "Custom Shopify Development", "Performance Optimization", "Analytics & Tracking Setup"],
-    ideal: "Brands ready to rebuild their Shopify experience with a system designed to scale — not just look good.",
+    ideal: "Brands ready to rebuild their Shopify experience with a system designed to scale, not just look good.",
     cta: "/contact",
     ctaText: "Discuss Your Build",
   },
@@ -33,9 +33,9 @@ const services = [
     num: "03",
     title: "Strategic Growth Partner",
     subtitle: "Ongoing strategic & executional support",
-    description: "Ongoing strategic oversight and execution support for brands ready to compound growth. We become an embedded part of your growth team — advising, building, and optimizing month over month with full accountability.",
+    description: "Ongoing strategic oversight and execution support for brands ready to compound growth. We become an embedded part of your growth team, advising, building, and optimizing month over month with full accountability.",
     deliverables: ["Monthly Growth Strategy Sessions", "Ongoing CRO & Optimization", "Technical Development Support", "Performance Reporting & Analysis", "Priority Access & Dedicated Team"],
-    ideal: "Scaling brands doing $2M+ who need a trusted growth partner that thinks and builds — not another agency that just takes orders.",
+    ideal: "Scaling brands doing $2M+ who need a trusted growth partner that thinks and builds, not another agency that just takes orders.",
     cta: "/contact",
     ctaText: "Explore Partnership",
   },
@@ -77,7 +77,7 @@ const Services = () => {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="text-body-lg text-muted-foreground max-w-2xl"
           >
-            Each engagement is built on the same strategic foundation — diagnostic-led,
+            Each engagement is built on the same strategic foundation, diagnostic-led,
             conversion-focused, and designed to compound. These are systems, not random services.
           </motion.p>
         </motion.div>

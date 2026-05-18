@@ -13,9 +13,9 @@ const fadeUp = {
 };
 
 const values = [
-  { title: "Strategic Clarity", desc: "Every decision is grounded in diagnosis, data, and a clear growth thesis. We don't guess — we map the system first." },
+  { title: "Strategic Clarity", desc: "Every decision is grounded in diagnosis, data, and a clear growth thesis. We don't guess, we map the system first." },
   { title: "Execution Excellence", desc: "Strategy without execution is a deck on a shelf. We build, ship, and optimize with the same rigor we plan with." },
-  { title: "Systematic Thinking", desc: "We build interconnected growth systems — not isolated tactics. Every piece strengthens the whole, and compounds over time." },
+  { title: "Systematic Thinking", desc: "We build interconnected growth systems, not isolated tactics. Every piece strengthens the whole, and compounds over time." },
   { title: "Partnership Mindset", desc: "We embed with your team. Your growth is our growth. We operate as an extension of your brand, not a revolving-door vendor." },
 ];
 
@@ -85,7 +85,7 @@ const About = () => {
               that don't think. Brands were left stitching together freelancers, hoping the pieces would fit.
             </p>
             <p className="text-body opacity-80">
-              Themyth was built to close that gap — a single partner that diagnoses growth problems,
+              Themyth was built to close that gap, a single partner that diagnoses growth problems,
               architects solutions, and executes them end to end. No handoffs. No fragmented accountability.
               One team. One system. One direction.
             </p>
@@ -101,7 +101,7 @@ const About = () => {
             <h2 className="text-display-md mb-6">Most growth problems are structural, not tactical</h2>
             <p className="text-body opacity-80 mb-4">
               Sustainable growth doesn't come from chasing the latest hack or pouring more into paid channels.
-              It comes from building interconnected systems — where strategy, design, technology, and data
+              It comes from building interconnected systems, where strategy, design, technology, and data
               reinforce each other.
             </p>
             <p className="text-body opacity-80">
@@ -122,7 +122,7 @@ const About = () => {
             </div>
             <h2 className="text-display-lg mb-6">How we operate</h2>
             <p className="text-body-lg text-muted-foreground">
-              These aren't slogans — they're operational principles that shape every engagement,
+              These aren't slogans, they're operational principles that shape every engagement,
               every recommendation, and every line of code.
             </p>
           </motion.div>

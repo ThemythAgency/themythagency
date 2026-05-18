@@ -74,7 +74,7 @@ const CaseStudies = () => {
             className="text-body-lg text-muted-foreground max-w-2xl"
           >
             Every engagement follows our proven framework: diagnose, strategize, execute, optimize.
-            Here's what that looks like in practice — real brands, real outcomes, real systems.
+            Here's what that looks like in practice, real brands, real outcomes, real systems.
           </motion.p>
         </motion.div>
       </section>

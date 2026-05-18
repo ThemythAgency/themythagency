@@ -111,8 +111,33 @@
   }
 
   .section-spacing {
-    @apply py-20 md:py-28 lg:py-36;
+    @apply py-5 md:py-7 lg:py-9;
   }
+
+  /* Image-backed section helpers */
+  .section-image-bg {
+    @apply relative bg-cover bg-center bg-no-repeat text-white;
+  }
+  .section-image-bg::before {
+    content: "";
+    @apply absolute inset-0 bg-primary/60 pointer-events-none;
+  }
+  .section-image-bg > * {
+    @apply relative z-10;
+  }
+
+  /* Marquee */
+  .marquee {
+    @apply flex w-max gap-16 animate-[marquee_35s_linear_infinite];
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; }
+  }
+
+  /* Blog prose paragraph spacing */
+  .blog-prose p { margin-bottom: 1.6em; line-height: 1.8; }
+  .blog-prose h2 { margin-top: 2em; }
+  .blog-prose h3 { margin-top: 1.6em; }
 
   .text-display-xl {
     @apply text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] tracking-tight;

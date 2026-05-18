@@ -305,28 +305,34 @@ const Index = () => {
       {/* Testimonials */}
       <Testimonials />
 
+      {/* Tech Stack marquee */}
+      <TechStack />
+
       {/* Blog */}
       <BlogSection />
 
-      {/* CTA */}
-      <section className="section-padding section-spacing text-center">
+      {/* CTA - image backed */}
+      <section
+        className="section-padding section-spacing section-image-bg text-center"
+        style={{ backgroundImage: `url(${sectionBgEcom})` }}
+      >
         <motion.div {...fadeUp} className="max-w-2xl mx-auto">
           <div className="flex items-center gap-4 mb-6 justify-center">
             <div className="gold-line" />
             <span className="text-label text-accent">Get Started</span>
             <div className="gold-line" />
           </div>
-          <h2 className="text-display-lg mb-6">Ready to build a growth system?</h2>
-          <p className="text-body-lg text-muted-foreground mb-10">
+          <h2 className="text-display-lg mb-6 text-white">Ready to build a growth system?</h2>
+          <p className="text-body-lg text-white/80 mb-10">
             Start with our Shopify Growth Foundations Audit, a strategic diagnostic that gives you
             the clarity and confidence to scale.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/audit" className="btn-primary px-10">
+            <Link to="/audit" className="btn-gold px-10">
               Book Your Growth Audit
               <ArrowRight size={16} className="btn-arrow" />
             </Link>
-            <Link to="/contact" className="btn-outline px-10">
+            <Link to="/contact" className="btn-ghost-light px-10">
               Request a Strategic Review
             </Link>
           </div>

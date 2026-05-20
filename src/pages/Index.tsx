@@ -14,8 +14,6 @@ import WhyWorkWithUs from "@/components/WhyWorkWithUs";
 import BlogSection from "@/components/BlogSection";
 import HeroAgency from "@/components/HeroAgency";
 import TechStack from "@/components/TechStack";
-import sectionBgEcom from "@/assets/section-bg-ecom.jpg";
-import sectionBgAnalytics from "@/assets/section-bg-analytics.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -89,11 +87,8 @@ const Index = () => {
       {/* Hero */}
       <HeroAgency />
 
-      {/* Pain Points - image backed */}
-      <section
-        className="section-padding section-spacing section-image-bg"
-        style={{ backgroundImage: `url(${sectionBgAnalytics})` }}
-      >
+      {/* Pain Points */}
+      <section className="section-padding section-spacing">
         <SectionHeading
           label="The Problem"
           title="Most Shopify growth problems are structural, not traffic problems"
@@ -311,19 +306,16 @@ const Index = () => {
       {/* Blog */}
       <BlogSection />
 
-      {/* CTA - image backed */}
-      <section
-        className="section-padding section-spacing section-image-bg text-center"
-        style={{ backgroundImage: `url(${sectionBgEcom})` }}
-      >
+      {/* CTA */}
+      <section className="section-padding section-spacing bg-primary text-primary-foreground text-center">
         <motion.div {...fadeUp} className="max-w-2xl mx-auto">
           <div className="flex items-center gap-4 mb-6 justify-center">
             <div className="gold-line" />
             <span className="text-label text-accent">Get Started</span>
             <div className="gold-line" />
           </div>
-          <h2 className="text-display-lg mb-6 text-white">Ready to build a growth system?</h2>
-          <p className="text-body-lg text-white/80 mb-10">
+          <h2 className="text-display-lg mb-6">Ready to build a growth system?</h2>
+          <p className="text-body-lg text-primary-foreground/75 mb-10">
             Start with our Shopify Growth Foundations Audit, a strategic diagnostic that gives you
             the clarity and confidence to scale.
           </p>

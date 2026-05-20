@@ -8,6 +8,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import PageTransition from "./components/PageTransition";
 import RouteProgress from "./components/RouteProgress";
 import WhatsAppButton from "./components/WhatsAppButton";
+import LiveChatWidget from "./components/LiveChatWidget";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -52,6 +53,7 @@ const App = () => (
         <RouteProgress />
         <AnimatedRoutes />
         <WhatsAppButton />
+        <LiveChatWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

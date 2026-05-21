@@ -1,38 +1,112 @@
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, PanInfo } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown, TrendingUp, ShoppingBag, Activity } from "lucide-react";
-import { useRef } from "react";
+import { ArrowRight, ArrowDown, TrendingUp, ShoppingBag, Activity, BarChart3, Zap, Sparkles, Shuffle } from "lucide-react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const headlineWords = ["We", "build", "Shopify", "growth", "systems", "that", "scale"];
 
+type CardDef = {
+  id: string;
+  label: string;
+  value: string;
+  icon: typeof TrendingUp;
+  accent?: boolean;
+};
+
+const CARDS: CardDef[] = [
+  { id: "rev", label: "Revenue", value: "+312%", icon: TrendingUp, accent: true },
+  { id: "aov", label: "AOV", value: "$148", icon: ShoppingBag },
+  { id: "cvr", label: "CVR", value: "4.8%", icon: Activity, accent: true },
+  { id: "ltv", label: "LTV", value: "$612", icon: BarChart3 },
+  { id: "spd", label: "Page Speed", value: "94", icon: Zap, accent: true },
+  { id: "ret", label: "Retention", value: "68%", icon: Sparkles },
+];
+
+const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+
+const makePositions = (n: number) =>
+  Array.from({ length: n }, (_, i) => ({
+    x: rand(-40, 40),
+    y: rand(-30, 30),
+    rotate: rand(-12, 12),
+    z: n - i,
+  }));
+
 const HeroAgency = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLButtonElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // Cursor spotlight + tilt
+  // Pointer-driven spotlight (works for mouse AND touch via pointermove)
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
-  const tiltX = useSpring(useTransform(mouseY, [0, 1], [10, -10]), { stiffness: 120, damping: 14 });
-  const tiltY = useSpring(useTransform(mouseX, [0, 1], [-12, 12]), { stiffness: 120, damping: 14 });
   const spotX = useTransform(mouseX, (v) => `${v * 100}%`);
   const spotY = useTransform(mouseY, (v) => `${v * 100}%`);
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${spotX} ${spotY}, hsl(var(--gold) / 0.18), transparent 60%)`;
+  const spotlight = useMotionTemplate`radial-gradient(500px circle at ${spotX} ${spotY}, hsl(var(--gold) / 0.22), transparent 60%)`;
 
-  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointer = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     mouseX.set((e.clientX - rect.left) / rect.width);
     mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  // Mobile: device orientation drives spotlight when pointer isn't active
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    if (!isTouch) return;
+    const handler = (ev: DeviceOrientationEvent) => {
+      const gx = ev.gamma ?? 0; // left-right -90..90
+      const by = ev.beta ?? 0; // front-back -180..180
+      const nx = Math.min(Math.max((gx + 45) / 90, 0), 1);
+      const ny = Math.min(Math.max((by + 30) / 60, 0), 1);
+      mouseX.set(nx);
+      mouseY.set(ny);
+    };
+    window.addEventListener("deviceorientation", handler);
+    return () => window.removeEventListener("deviceorientation", handler);
+  }, [mouseX, mouseY]);
+
+  // Shuffleable cards
+  const [positions, setPositions] = useState(() => makePositions(CARDS.length));
+  const shuffle = () => setPositions(makePositions(CARDS.length));
+
+  // Bring dragged card to front
+  const [order, setOrder] = useState(CARDS.map((c) => c.id));
+  const bringToFront = (id: string) =>
+    setOrder((prev) => [...prev.filter((x) => x !== id), id]);
+
+  const onDragEnd = (id: string, _: PointerEvent, info: PanInfo) => {
+    setPositions((prev) => {
+      const next = [...prev];
+      const idx = CARDS.findIndex((c) => c.id === id);
+      next[idx] = {
+        ...next[idx],
+        x: next[idx].x + info.offset.x * 0.4,
+        y: next[idx].y + info.offset.y * 0.4,
+        rotate: next[idx].rotate + info.velocity.x * 0.02,
+      };
+      return next;
+    });
+  };
+
+  const handleScrollDown = () => {
+    const heroEl = ref.current;
+    if (!heroEl) return;
+    const next = heroEl.nextElementSibling as HTMLElement | null;
+    if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
+    else window.scrollTo({ top: heroEl.offsetHeight, behavior: "smooth" });
   };
 
   return (
     <section
       ref={ref}
-      onMouseMove={handleMouse}
+      onPointerMove={handlePointer}
       className="relative min-h-screen w-full overflow-hidden bg-primary text-primary-foreground flex items-center"
     >
       <motion.div
@@ -60,7 +134,7 @@ const HeroAgency = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               className="flex items-center gap-4 mb-8"
             >
               <div className="w-12 h-px bg-accent" />
@@ -71,18 +145,18 @@ const HeroAgency = () => {
               {headlineWords.map((w, i) => (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.9, delay: 0.2 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.15 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                   className="inline-block mr-[0.25em]"
                 >
                   {w}
                 </motion.span>
               ))}
               <motion.span
-                initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 1, delay: 0.2 + headlineWords.length * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.15 + headlineWords.length * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 className="inline-block italic text-accent"
               >
                 with control.
@@ -92,7 +166,7 @@ const HeroAgency = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.1 }}
+              transition={{ duration: 0.7, delay: 0.9 }}
               className="text-body-lg text-primary-foreground/70 max-w-xl mb-14"
             >
               Strategic clarity. Conversion-focused design. Scalable infrastructure.
@@ -102,7 +176,7 @@ const HeroAgency = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.3 }}
+              transition={{ duration: 0.6, delay: 1.1 }}
               className="flex flex-col sm:flex-row gap-4 items-start"
             >
               <Link to="/audit" className="btn-gold group px-10 text-base">
@@ -115,94 +189,88 @@ const HeroAgency = () => {
             </motion.div>
           </div>
 
-          {/* Right: Interactive 3D dashboard mockup */}
+          {/* Right: Shuffleable, draggable card stack — works on mouse + touch */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:block relative"
-            style={{ perspective: 1200 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative h-[420px] md:h-[460px] select-none touch-none"
           >
-            <motion.div
-              style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: "preserve-3d" }}
-              className="relative bg-card/95 backdrop-blur border border-white/10 shadow-2xl rounded-sm p-6 text-foreground"
-            >
-              {/* Browser bar */}
-              <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                <span className="ml-3 text-[10px] font-body tracking-wider text-muted-foreground uppercase">
-                  yourstore.com / analytics
-                </span>
-              </div>
-
-              {/* Stats row */}
-              <div className="grid grid-cols-3 gap-3 mb-5">
-                {[
-                  { icon: TrendingUp, label: "Revenue", value: "+312%", color: "text-accent" },
-                  { icon: ShoppingBag, label: "AOV", value: "$148", color: "text-foreground" },
-                  { icon: Activity, label: "CVR", value: "4.8%", color: "text-accent" },
-                ].map((s, i) => (
+            <div className="absolute inset-0 flex items-center justify-center">
+              {CARDS.map((card, i) => {
+                const pos = positions[i];
+                const zIndex = order.indexOf(card.id) + 1;
+                const Icon = card.icon;
+                return (
                   <motion.div
-                    key={s.label}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.2 + i * 0.15 }}
-                    whileHover={{ y: -3, scale: 1.04 }}
-                    className="bg-secondary/60 p-3 cursor-pointer"
+                    key={card.id}
+                    drag
+                    dragMomentum={false}
+                    dragElastic={0.2}
+                    onPointerDown={() => bringToFront(card.id)}
+                    onDragEnd={(e, info) => onDragEnd(card.id, e as PointerEvent, info)}
+                    initial={false}
+                    animate={{ x: pos.x, y: pos.y, rotate: pos.rotate }}
+                    transition={{ type: "spring", stiffness: 200, damping: 22 }}
+                    whileHover={{ scale: 1.04 }}
+                    whileDrag={{ scale: 1.08, zIndex: 100 }}
+                    style={{ zIndex }}
+                    className={`absolute w-44 md:w-52 cursor-grab active:cursor-grabbing bg-card text-foreground border border-white/10 shadow-2xl p-5 rounded-sm ${
+                      card.accent ? "ring-1 ring-accent/40" : ""
+                    }`}
                   >
-                    <s.icon size={12} className="text-accent mb-1.5" />
-                    <p className="text-[9px] font-body uppercase tracking-wider text-muted-foreground">{s.label}</p>
-                    <p className={`font-display text-base font-semibold ${s.color}`}>{s.value}</p>
+                    <Icon size={16} className="text-accent mb-3" />
+                    <p className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">{card.label}</p>
+                    <p className={`font-display text-2xl md:text-3xl font-semibold ${card.accent ? "text-accent" : "text-foreground"}`}>
+                      {card.value}
+                    </p>
+                    <div className="mt-3 flex items-end gap-1 h-8">
+                      {[40, 60, 45, 75, 55, 80, 70, 95].map((h, idx) => (
+                        <span
+                          key={idx}
+                          className={`flex-1 ${card.accent ? "bg-accent/60" : "bg-muted-foreground/40"}`}
+                          style={{ height: `${h}%` }}
+                        />
+                      ))}
+                    </div>
                   </motion.div>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              {/* Animated chart */}
-              <div className="bg-secondary/40 p-4">
-                <div className="flex items-end justify-between gap-1.5 h-20">
-                  {[35, 48, 42, 60, 55, 72, 68, 85, 78, 92, 88, 100].map((h, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ height: 0 }}
-                      animate={{ height: `${h}%` }}
-                      transition={{ duration: 0.8, delay: 1.5 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                      whileHover={{ backgroundColor: "hsl(var(--gold))" }}
-                      className="flex-1 bg-accent/70 hover:bg-accent transition-colors cursor-pointer rounded-sm"
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-between mt-2 text-[9px] font-body text-muted-foreground">
-                  <span>Jan</span><span>Mar</span><span>Jun</span><span>Sep</span><span>Dec</span>
-                </div>
-              </div>
-
-              {/* Floating badge */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                style={{ transform: "translateZ(40px)" }}
-                className="absolute -top-4 -right-4 bg-accent text-accent-foreground px-3 py-1.5 text-[10px] font-body font-semibold tracking-wider uppercase shadow-lg"
-              >
-                Live
-              </motion.div>
-            </motion.div>
+            {/* Shuffle button */}
+            <button
+              type="button"
+              onClick={shuffle}
+              className="absolute -bottom-2 right-0 z-[200] flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-xs font-body font-semibold tracking-wider uppercase shadow-lg hover:scale-105 transition-transform"
+              aria-label="Shuffle cards"
+            >
+              <Shuffle size={14} />
+              Shuffle
+            </button>
+            <p className="absolute -bottom-2 left-0 z-[200] text-[10px] font-body tracking-wider uppercase text-primary-foreground/50 pt-3">
+              Drag · Throw · Shuffle
+            </p>
           </motion.div>
         </div>
       </motion.div>
 
-      <motion.div
+      <motion.button
+        ref={scrollIndicatorRef}
+        type="button"
+        onClick={handleScrollDown}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-primary-foreground/60"
+        transition={{ duration: 0.8, delay: 1.5 }}
+        whileHover={{ y: -2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors cursor-pointer"
+        aria-label="Scroll to next section"
       >
         <span className="text-[10px] font-body tracking-[0.3em] uppercase">Scroll</span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+        <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
           <ArrowDown size={16} />
-        </motion.div>
-      </motion.div>
+        </motion.span>
+      </motion.button>
     </section>
   );
 };

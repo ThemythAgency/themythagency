@@ -1,55 +1,78 @@
-## Goal
 
-Finish the polish pass so every button across the site has the gold-invert hover, every remaining static element gets subtle motion, and route transitions feel intentional and smooth.
+This is a large multi-feature request. Here's the plan, grouped by area. I'll execute it in this order after you approve.
 
-## 1. Hover coverage — every button uses an invert utility
+## 1. Email notifications to official.themythagency@gmail.com
 
-Audit shows a few interactive elements still missing the standard hover treatment:
+Set up Lovable's built-in email system (your own sender subdomain, e.g. `notify.themythagency.com`) and create a transactional email function that fires on every new `contact_inquiries` and `chat_messages` row, sending a branded notification to `official.themythagency@gmail.com`.
 
-- **`src/components/Navbar.tsx`** — mobile menu toggle (`<button>` for Menu/X) and the typewriter logo wrap: add `btn-hover-invert`-style classes (icon-only) and a `whileHover` scale.
-- **`src/pages/Index.tsx`** (line ~279) — overlay project button: confirm it uses `btn-hover-invert`; add `btn-arrow` to its icon if missing.
-- **`src/pages/Portfolio.tsx`** (line ~139) — project card overlay button: same treatment.
-- **`src/components/ProjectDetailModal.tsx`** (line ~34) — close button: apply `btn-hover-invert` so it swaps to gold/navy on hover.
-- **`src/pages/Blog.tsx`** — category filter pills: extend the active/inactive states so inactive pills hover into gold bg + navy text (still using `motion.button`).
-- **`src/pages/BlogPost.tsx`** — "Back to Blog" links (top + bottom): keep the underline-free style but add `hover:text-accent hover:-translate-x-0.5` motion; also retarget the in-content `.blog-cta-button` so it inverts to gold/navy on hover (currently goes to `navy-light`).
-- **`src/components/Footer.tsx`** — confirm nav/social already lift; no change needed.
+- Requires: setting up an email sender domain (one-click dialog, you'll need DNS access to themythagency.com).
+- Then: scaffold transactional emails + add two database triggers that enqueue an email on insert.
+- If you'd rather not set up a domain right now, fallback: use the Gmail connector (sends from your Gmail directly). Let me know.
 
-All CSS hover swaps remain gated by the existing `@media (hover: hover) and (pointer: fine)` block so touch devices stay clean.
+## 2. Admin Inbox page (`/admin/inbox`)
 
-## 2. Motion on remaining static elements
+- Protected route (requires login; first signup = admin).
+- Two tabs: **Live Chat** and **Contact Inquiries**.
+- Search, filter, sort by date, mark-as-read.
+- Reply box for chat messages (replies stored in a new `chat_replies` table, shown to the visitor in their chat window in realtime).
+- New tables: `profiles`, `user_roles` (with `has_role` security-definer fn), `chat_conversations`, `chat_replies`, `inquiry_status`.
 
-Add `whileInView` reveals + light hover micro-interactions where sections currently render statically:
+## 3. Live chat: real chat-room experience (Shopify-style)
 
-- **`src/components/PortfolioFAQ.tsx`** — stagger accordion items in on scroll; on hover, nudge the trigger row right by 2px and tint the chevron gold.
-- **`src/components/Testimonials.tsx`** — already lifts on hover; add a staggered `whileInView` container so cards rise in sequence.
-- **`src/components/WhyWorkWithUs.tsx`** — stagger the rows in; on hover shift the icon 4px right.
-- **`src/components/AreasOfExpertise.tsx`** — stagger cards in; rotate the icon container 6° on group hover.
-- **`src/pages/Services.tsx`** — animate the dark "package" card (line ~151) with a `whileInView` fade-up and a subtle gold ring on hover.
-- **`src/pages/Audit.tsx`** — animate the deliverables list rows (lines 178, 268) with staggered slide-in; tint border gold on hover.
-- **`src/pages/About.tsx`** — animate the value rows (line 139) the same way.
-- **`src/pages/Contact.tsx`** — focus state on inputs already pulses border; add a soft `bg-card → bg-secondary/40` shift on focus and a `whileInView` fade-up on the info card (line 291).
-- **`src/pages/CaseStudies.tsx`** — confirm CTA section (line 144) has the standard `whileInView` headline + button stagger.
+- Convert `chat_messages` into a conversation model: `chat_conversations` (visitor session) + `chat_messages` (both sides, with `sender` = visitor/admin).
+- Visitor identified by a localStorage `visitor_id` so they see history on return.
+- Realtime via Supabase Realtime: visitor sees admin replies live; admin sees new messages live.
+- Typing indicators via Realtime Presence/broadcast (both directions).
+- Read receipts (last-seen timestamp per side).
+- Widget redesigned as a scrollable chat thread with input pinned at bottom, header showing online status.
 
-All animations use the project's standard easing `[0.22, 1, 0.36, 1]`, ~0.6s duration, `viewport={{ once: true, margin: "-60px" }}`, with `staggerChildren: 0.08–0.12`. Respect `prefers-reduced-motion` (already handled globally in `index.css`).
+## 4. Push notifications for new messages/inquiries
 
-## 3. Smoother route transitions
+- Browser Web Push (works on desktop + Android; iOS Safari supported when site is added to home screen).
+- Service worker + VAPID keys, subscriptions stored in `push_subscriptions`.
+- Edge function triggered by DB webhook (or invoked by trigger) sends push to all admin subscriptions on new chat message / inquiry.
+- Admin enables notifications from the inbox page.
 
-Refine `src/components/PageTransition.tsx` and `src/components/RouteProgress.tsx` so navigation feels like one continuous motion:
+## 5. Hero section overhaul
 
-- **PageTransition**: shorten exit to `duration: 0.32`, soften enter blur to `4px`, and shift `y` from `24 → 16` so content settles faster without feeling abrupt.
-- **RouteProgress**: hold the gold bar at 90% during navigation, then snap to 100% + fade out on the new route mount (currently it can finish before the new page paints).
-- **Scroll**: keep `ScrollToTop` but switch to `behavior: "instant"` so the new page appears at the top in sync with the fade-in (no double-motion).
-- **Reduced motion**: keep the existing simple opacity-only branch.
+- Replace the 3D dashboard with an **interactive shuffleable card stack**: 6–8 draggable cards (KPIs, mini-charts, brand logos) the user can drag, throw, and re-stack. Double-tap/double-click = auto-shuffle animation. Works with mouse AND touch (Framer Motion `drag` + pointer events).
+- Mobile-friendly spotlight/tilt: use device orientation API on touch (with permission prompt) + touch-move fallback for the spotlight glow, so the magic works on phones.
 
-## 4. End-to-end QA (after edits)
+## 6. Scroll button → smooth scroll to next section
 
-Walk every route at desktop (1440) and mobile (390) viewports using the browser tools:
-- `/`, `/about`, `/services`, `/portfolio`, `/case-studies`, `/audit`, `/contact`, `/blog`, `/blog/:slug`, `/404`.
-- For each: confirm hero animates, scroll reveals fire once, every primary/outline/gold/ghost button inverts to gold-on-navy (or navy-on-gold) on hover, cards lift, and the route progress bar appears on navigation.
-- Capture screenshots of any visual regression and fix before reporting done.
+Click on the hero "Scroll" indicator scrolls smoothly to the section immediately after the hero.
 
-## Technical details
+## 7. Section overlay/stacking scroll effect (appart.agency style)
 
-- No schema or backend changes.
-- Files touched: `Navbar.tsx`, `PageTransition.tsx`, `RouteProgress.tsx`, `ScrollToTop.tsx`, `BlogSection.tsx` (verify), `ProjectDetailModal.tsx`, `PortfolioFAQ.tsx`, `Testimonials.tsx`, `WhyWorkWithUs.tsx`, `AreasOfExpertise.tsx`, and pages `Index.tsx`, `Portfolio.tsx`, `Blog.tsx`, `BlogPost.tsx`, `Services.tsx`, `Audit.tsx`, `About.tsx`, `Contact.tsx`, `CaseStudies.tsx`.
-- No new dependencies — uses existing `framer-motion` + Tailwind utilities + the `btn-hover-invert` / `card-hover` classes already defined in `index.css`.
+Each major section on the homepage becomes `position: sticky` with its own scroll-driven scale/opacity, so sections stack and reveal as you scroll (the classic "cards stacking" effect).
+
+## 8. Tech Stack section fixes
+
+- Add: n8n, Google, Pinterest, Semrush.
+- Replace Klaviyo icon with correct one (current simple-icons slug is wrong/missing on some CDNs — will use the official SVG).
+- Remove the entrance blur (kill `filter: blur(8px)` on the marquee fade-in).
+
+## 9. WhatsApp icon on WhatsApp button
+
+Swap the current generic icon for the official WhatsApp glyph so it's visually distinct from the chat bubble (which stays on the live chat FAB on the left).
+
+## 10. Loading speed improvements
+
+- Convert hero + section background JPGs to AVIF/WebP via `vite-imagetools` and add `<link rel="preload">` for the LCP image.
+- Lazy-load below-the-fold sections (`React.lazy` + `Suspense`) — Portfolio, Testimonials, TechStack, Blog, CTA.
+- Defer Framer Motion variants for off-screen components.
+- Drop unused Radix UI components from the bundle.
+- Add `loading="lazy"` + explicit width/height to every `<img>` to fix CLS.
+- Replace external simple-icons CDN with locally bundled SVGs (removes 12+ network requests on the homepage).
+
+---
+
+### Heads up — scope & dependencies
+
+This is roughly 2–3 normal task batches combined. I'll execute in this order and check in after each major group, but a few items need you:
+
+1. **Email domain** — you'll need DNS access to `themythagency.com` (or whichever domain). Setup is a one-click dialog when we get there.
+2. **Push notifications on iPhone** — only work when users add the site to their home screen (Apple limitation).
+3. **Admin login** — I'll create the auth pages; first signup becomes admin automatically.
+
+Approve the plan and I'll start with #1 (email setup dialog) and proceed top-to-bottom. If you'd rather skip or reorder anything, tell me now.

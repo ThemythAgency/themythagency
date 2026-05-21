@@ -1,19 +1,26 @@
 import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 
+// Use simpleicons.org CDN with explicit color — reliable, no blur, true SVG vectors
+const icon = (slug: string) => `https://cdn.simpleicons.org/${slug}/0F1B3D`;
+
 const tools = [
-  { name: "Shopify", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/shopify.svg" },
-  { name: "Klaviyo", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/klaviyo.svg" },
-  { name: "Webflow", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/webflow.svg" },
-  { name: "WordPress", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/wordpress.svg" },
-  { name: "Figma", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/figma.svg" },
-  { name: "Google Analytics", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googleanalytics.svg" },
-  { name: "Meta", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/meta.svg" },
-  { name: "Stripe", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/stripe.svg" },
-  { name: "Notion", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/notion.svg" },
-  { name: "Mailchimp", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/mailchimp.svg" },
-  { name: "Zapier", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zapier.svg" },
-  { name: "TikTok", url: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" },
+  { name: "Shopify", url: icon("shopify") },
+  { name: "Klaviyo", url: icon("klaviyo") },
+  { name: "n8n", url: icon("n8n") },
+  { name: "Google", url: icon("google") },
+  { name: "Pinterest", url: icon("pinterest") },
+  { name: "Semrush", url: icon("semrush") },
+  { name: "Webflow", url: icon("webflow") },
+  { name: "WordPress", url: icon("wordpress") },
+  { name: "Figma", url: icon("figma") },
+  { name: "Google Analytics", url: icon("googleanalytics") },
+  { name: "Meta", url: icon("meta") },
+  { name: "Stripe", url: icon("stripe") },
+  { name: "Notion", url: icon("notion") },
+  { name: "Mailchimp", url: icon("mailchimp") },
+  { name: "Zapier", url: icon("zapier") },
+  { name: "TikTok", url: icon("tiktok") },
 ];
 
 const TechStack = () => {
@@ -30,7 +37,7 @@ const TechStack = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.6 }}
         className="relative"
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
@@ -39,17 +46,16 @@ const TechStack = () => {
           {loop.map((t, i) => (
             <div
               key={`${t.name}-${i}`}
-              className="flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity duration-300"
+              className="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity duration-300 mx-8"
               title={t.name}
             >
               <img
                 src={t.url}
                 alt={t.name}
-                width={48}
-                height={48}
+                width={40}
+                height={40}
                 loading="lazy"
-                className="h-12 w-12 object-contain"
-                style={{ filter: "brightness(0) saturate(100%) invert(13%) sepia(15%) saturate(2200%) hue-rotate(195deg)", imageRendering: "auto" }}
+                className="h-10 w-10 object-contain"
               />
               <span className="font-display text-lg text-foreground whitespace-nowrap">{t.name}</span>
             </div>

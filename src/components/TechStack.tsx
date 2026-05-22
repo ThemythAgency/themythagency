@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
+import klaviyoLogo from "@/assets/klaviyo.png";
 
-// Use simpleicons.org CDN with explicit color — reliable, no blur, true SVG vectors
 const icon = (slug: string) => `https://cdn.simpleicons.org/${slug}/0F1B3D`;
 
-const tools = [
+type Tool = { name: string; url?: string; local?: string };
+
+const tools: Tool[] = [
   { name: "Shopify", url: icon("shopify") },
-  { name: "Klaviyo", url: icon("klaviyo") },
+  { name: "Klaviyo", local: klaviyoLogo },
   { name: "n8n", url: icon("n8n") },
   { name: "Google", url: icon("google") },
   { name: "Pinterest", url: icon("pinterest") },
@@ -50,7 +52,7 @@ const TechStack = () => {
               title={t.name}
             >
               <img
-                src={t.url}
+                src={t.local ?? t.url}
                 alt={t.name}
                 width={40}
                 height={40}

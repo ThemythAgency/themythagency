@@ -67,24 +67,41 @@ const HeroAgency = () => {
     return () => window.removeEventListener("deviceorientation", handler);
   }, [mouseX, mouseY]);
 
-  // Shuffleable cards
-  const [positions, setPositions] = useState(() => makePositions(CARDS.length));
-  const shuffle = () => setPositions(makePositions(CARDS.length));
+  // Scatter container ref for measuring size
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [stageSize, setStageSize] = useState({ w: 320, h: 380 });
 
-  // Bring dragged card to front
-  const [order, setOrder] = useState(CARDS.map((c) => c.id));
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const update = () => setStageSize({ w: el.clientWidth, h: el.clientHeight });
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Shuffleable chips
+  const [positions, setPositions] = useState(() => makePositions(CHIPS.length, 320, 380));
+  const shuffle = useCallback(() => {
+    setPositions(makePositions(CHIPS.length, stageSize.w, stageSize.h));
+  }, [stageSize]);
+
+  // Bring dragged chip to front
+  const [order, setOrder] = useState(CHIPS.map((c) => c.id));
   const bringToFront = (id: string) =>
     setOrder((prev) => [...prev.filter((x) => x !== id), id]);
 
   const onDragEnd = (id: string, _: PointerEvent, info: PanInfo) => {
     setPositions((prev) => {
       const next = [...prev];
-      const idx = CARDS.findIndex((c) => c.id === id);
+      const idx = CHIPS.findIndex((c) => c.id === id);
+      const maxX = stageSize.w * 0.42;
+      const maxY = stageSize.h * 0.42;
       next[idx] = {
-        ...next[idx],
-        x: next[idx].x + info.offset.x * 0.4,
-        y: next[idx].y + info.offset.y * 0.4,
-        rotate: next[idx].rotate + info.velocity.x * 0.02,
+        x: Math.max(-maxX, Math.min(maxX, next[idx].x + info.offset.x)),
+        y: Math.max(-maxY, Math.min(maxY, next[idx].y + info.offset.y)),
+        rotate: next[idx].rotate + info.velocity.x * 0.015,
       };
       return next;
     });

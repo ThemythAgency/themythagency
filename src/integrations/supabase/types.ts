@@ -23,6 +23,7 @@ export type Database = {
           last_message_at: string
           name: string | null
           visitor_id: string
+          visitor_token: string | null
           visitor_unread_count: number
         }
         Insert: {
@@ -33,6 +34,7 @@ export type Database = {
           last_message_at?: string
           name?: string | null
           visitor_id: string
+          visitor_token?: string | null
           visitor_unread_count?: number
         }
         Update: {
@@ -43,6 +45,7 @@ export type Database = {
           last_message_at?: string
           name?: string | null
           visitor_id?: string
+          visitor_token?: string | null
           visitor_unread_count?: number
         }
         Relationships: []

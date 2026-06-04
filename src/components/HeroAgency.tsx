@@ -1,36 +1,31 @@
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, PanInfo } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, PanInfo } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown, TrendingUp, ShoppingBag, Activity, BarChart3, Zap, Sparkles, Shuffle } from "lucide-react";
+import { ArrowRight, ArrowDown, Shuffle } from "lucide-react";
 import { useRef, useState, useCallback, useEffect } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const headlineWords = ["We", "build", "Shopify", "growth", "systems", "that", "scale"];
 
-type CardDef = {
-  id: string;
-  label: string;
-  value: string;
-  icon: typeof TrendingUp;
-  accent?: boolean;
-};
+type ChipDef = { id: string; label: string; accent?: boolean };
 
-const CARDS: CardDef[] = [
-  { id: "rev", label: "Revenue", value: "+312%", icon: TrendingUp, accent: true },
-  { id: "aov", label: "AOV", value: "$148", icon: ShoppingBag },
-  { id: "cvr", label: "CVR", value: "4.8%", icon: Activity, accent: true },
-  { id: "ltv", label: "LTV", value: "$612", icon: BarChart3 },
-  { id: "spd", label: "Page Speed", value: "94", icon: Zap, accent: true },
-  { id: "ret", label: "Retention", value: "68%", icon: Sparkles },
+const CHIPS: ChipDef[] = [
+  { id: "strategy", label: "Strategy", accent: true },
+  { id: "design", label: "Design" },
+  { id: "conversion", label: "Conversion", accent: true },
+  { id: "systems", label: "Systems" },
+  { id: "speed", label: "Speed", accent: true },
+  { id: "retention", label: "Retention" },
+  { id: "scale", label: "Scale", accent: true },
+  { id: "growth", label: "Growth" },
 ];
 
 const rand = (min: number, max: number) => Math.random() * (max - min) + min;
 
-const makePositions = (n: number) =>
-  Array.from({ length: n }, (_, i) => ({
-    x: rand(-40, 40),
-    y: rand(-30, 30),
-    rotate: rand(-12, 12),
-    z: n - i,
+const makePositions = (n: number, w: number, h: number) =>
+  Array.from({ length: n }, () => ({
+    x: rand(-w * 0.35, w * 0.35),
+    y: rand(-h * 0.35, h * 0.35),
+    rotate: rand(-14, 14),
   }));
 
 const HeroAgency = () => {
@@ -72,24 +67,41 @@ const HeroAgency = () => {
     return () => window.removeEventListener("deviceorientation", handler);
   }, [mouseX, mouseY]);
 
-  // Shuffleable cards
-  const [positions, setPositions] = useState(() => makePositions(CARDS.length));
-  const shuffle = () => setPositions(makePositions(CARDS.length));
+  // Scatter container ref for measuring size
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [stageSize, setStageSize] = useState({ w: 320, h: 380 });
 
-  // Bring dragged card to front
-  const [order, setOrder] = useState(CARDS.map((c) => c.id));
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const update = () => setStageSize({ w: el.clientWidth, h: el.clientHeight });
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Shuffleable chips
+  const [positions, setPositions] = useState(() => makePositions(CHIPS.length, 320, 380));
+  const shuffle = useCallback(() => {
+    setPositions(makePositions(CHIPS.length, stageSize.w, stageSize.h));
+  }, [stageSize]);
+
+  // Bring dragged chip to front
+  const [order, setOrder] = useState(CHIPS.map((c) => c.id));
   const bringToFront = (id: string) =>
     setOrder((prev) => [...prev.filter((x) => x !== id), id]);
 
   const onDragEnd = (id: string, _: PointerEvent, info: PanInfo) => {
     setPositions((prev) => {
       const next = [...prev];
-      const idx = CARDS.findIndex((c) => c.id === id);
+      const idx = CHIPS.findIndex((c) => c.id === id);
+      const maxX = stageSize.w * 0.42;
+      const maxY = stageSize.h * 0.42;
       next[idx] = {
-        ...next[idx],
-        x: next[idx].x + info.offset.x * 0.4,
-        y: next[idx].y + info.offset.y * 0.4,
-        rotate: next[idx].rotate + info.velocity.x * 0.02,
+        x: Math.max(-maxX, Math.min(maxX, next[idx].x + info.offset.x)),
+        y: Math.max(-maxY, Math.min(maxY, next[idx].y + info.offset.y)),
+        rotate: next[idx].rotate + info.velocity.x * 0.015,
       };
       return next;
     });
@@ -189,51 +201,45 @@ const HeroAgency = () => {
             </motion.div>
           </div>
 
-          {/* Right: Shuffleable, draggable card stack — works on mouse + touch */}
+          {/* Right: Scatterable word chips — touch & mouse friendly, fits all viewports */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[420px] md:h-[460px] select-none touch-none"
+            className="relative w-full h-[340px] sm:h-[400px] md:h-[460px] select-none"
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              {CARDS.map((card, i) => {
-                const pos = positions[i];
-                const zIndex = order.indexOf(card.id) + 1;
-                const Icon = card.icon;
+            <div
+              ref={stageRef}
+              className="absolute inset-0 flex items-center justify-center overflow-hidden"
+            >
+              {CHIPS.map((chip, i) => {
+                const pos = positions[i] ?? { x: 0, y: 0, rotate: 0 };
+                const zIndex = order.indexOf(chip.id) + 1;
                 return (
-                  <motion.div
-                    key={card.id}
+                  <motion.button
+                    key={chip.id}
+                    type="button"
                     drag
                     dragMomentum={false}
-                    dragElastic={0.2}
-                    onPointerDown={() => bringToFront(card.id)}
-                    onDragEnd={(e, info) => onDragEnd(card.id, e as PointerEvent, info)}
+                    dragElastic={0.18}
+                    dragConstraints={stageRef}
+                    onPointerDown={() => bringToFront(chip.id)}
+                    onDragEnd={(e, info) => onDragEnd(chip.id, e as PointerEvent, info)}
                     initial={false}
                     animate={{ x: pos.x, y: pos.y, rotate: pos.rotate }}
-                    transition={{ type: "spring", stiffness: 200, damping: 22 }}
-                    whileHover={{ scale: 1.04 }}
-                    whileDrag={{ scale: 1.08, zIndex: 100 }}
-                    style={{ zIndex }}
-                    className={`absolute w-44 md:w-52 cursor-grab active:cursor-grabbing bg-card text-foreground border border-white/10 shadow-2xl p-5 rounded-sm ${
-                      card.accent ? "ring-1 ring-accent/40" : ""
+                    transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.96 }}
+                    whileDrag={{ scale: 1.1, zIndex: 100 }}
+                    style={{ zIndex, touchAction: "none" }}
+                    className={`absolute cursor-grab active:cursor-grabbing font-display text-base sm:text-lg md:text-xl px-4 sm:px-5 py-2.5 sm:py-3 rounded-full border backdrop-blur-sm shadow-xl whitespace-nowrap ${
+                      chip.accent
+                        ? "bg-accent text-accent-foreground border-accent/60"
+                        : "bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20"
                     }`}
                   >
-                    <Icon size={16} className="text-accent mb-3" />
-                    <p className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">{card.label}</p>
-                    <p className={`font-display text-2xl md:text-3xl font-semibold ${card.accent ? "text-accent" : "text-foreground"}`}>
-                      {card.value}
-                    </p>
-                    <div className="mt-3 flex items-end gap-1 h-8">
-                      {[40, 60, 45, 75, 55, 80, 70, 95].map((h, idx) => (
-                        <span
-                          key={idx}
-                          className={`flex-1 ${card.accent ? "bg-accent/60" : "bg-muted-foreground/40"}`}
-                          style={{ height: `${h}%` }}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
+                    {chip.label}
+                  </motion.button>
                 );
               })}
             </div>
@@ -243,13 +249,13 @@ const HeroAgency = () => {
               type="button"
               onClick={shuffle}
               className="absolute -bottom-2 right-0 z-[200] flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-xs font-body font-semibold tracking-wider uppercase shadow-lg hover:scale-105 transition-transform"
-              aria-label="Shuffle cards"
+              aria-label="Scatter words"
             >
               <Shuffle size={14} />
-              Shuffle
+              Scatter
             </button>
             <p className="absolute -bottom-2 left-0 z-[200] text-[10px] font-body tracking-wider uppercase text-primary-foreground/50 pt-3">
-              Drag · Throw · Shuffle
+              Drag · Arrange · Scatter
             </p>
           </motion.div>
         </div>

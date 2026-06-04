@@ -201,51 +201,45 @@ const HeroAgency = () => {
             </motion.div>
           </div>
 
-          {/* Right: Shuffleable, draggable card stack — works on mouse + touch */}
+          {/* Right: Scatterable word chips — touch & mouse friendly, fits all viewports */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[420px] md:h-[460px] select-none touch-none"
+            className="relative w-full h-[340px] sm:h-[400px] md:h-[460px] select-none"
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              {CARDS.map((card, i) => {
-                const pos = positions[i];
-                const zIndex = order.indexOf(card.id) + 1;
-                const Icon = card.icon;
+            <div
+              ref={stageRef}
+              className="absolute inset-0 flex items-center justify-center overflow-hidden"
+            >
+              {CHIPS.map((chip, i) => {
+                const pos = positions[i] ?? { x: 0, y: 0, rotate: 0 };
+                const zIndex = order.indexOf(chip.id) + 1;
                 return (
-                  <motion.div
-                    key={card.id}
+                  <motion.button
+                    key={chip.id}
+                    type="button"
                     drag
                     dragMomentum={false}
-                    dragElastic={0.2}
-                    onPointerDown={() => bringToFront(card.id)}
-                    onDragEnd={(e, info) => onDragEnd(card.id, e as PointerEvent, info)}
+                    dragElastic={0.18}
+                    dragConstraints={stageRef}
+                    onPointerDown={() => bringToFront(chip.id)}
+                    onDragEnd={(e, info) => onDragEnd(chip.id, e as PointerEvent, info)}
                     initial={false}
                     animate={{ x: pos.x, y: pos.y, rotate: pos.rotate }}
-                    transition={{ type: "spring", stiffness: 200, damping: 22 }}
-                    whileHover={{ scale: 1.04 }}
-                    whileDrag={{ scale: 1.08, zIndex: 100 }}
-                    style={{ zIndex }}
-                    className={`absolute w-44 md:w-52 cursor-grab active:cursor-grabbing bg-card text-foreground border border-white/10 shadow-2xl p-5 rounded-sm ${
-                      card.accent ? "ring-1 ring-accent/40" : ""
+                    transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.96 }}
+                    whileDrag={{ scale: 1.1, zIndex: 100 }}
+                    style={{ zIndex, touchAction: "none" }}
+                    className={`absolute cursor-grab active:cursor-grabbing font-display text-base sm:text-lg md:text-xl px-4 sm:px-5 py-2.5 sm:py-3 rounded-full border backdrop-blur-sm shadow-xl whitespace-nowrap ${
+                      chip.accent
+                        ? "bg-accent text-accent-foreground border-accent/60"
+                        : "bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20"
                     }`}
                   >
-                    <Icon size={16} className="text-accent mb-3" />
-                    <p className="text-[10px] font-body uppercase tracking-wider text-muted-foreground">{card.label}</p>
-                    <p className={`font-display text-2xl md:text-3xl font-semibold ${card.accent ? "text-accent" : "text-foreground"}`}>
-                      {card.value}
-                    </p>
-                    <div className="mt-3 flex items-end gap-1 h-8">
-                      {[40, 60, 45, 75, 55, 80, 70, 95].map((h, idx) => (
-                        <span
-                          key={idx}
-                          className={`flex-1 ${card.accent ? "bg-accent/60" : "bg-muted-foreground/40"}`}
-                          style={{ height: `${h}%` }}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
+                    {chip.label}
+                  </motion.button>
                 );
               })}
             </div>
@@ -255,13 +249,13 @@ const HeroAgency = () => {
               type="button"
               onClick={shuffle}
               className="absolute -bottom-2 right-0 z-[200] flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-xs font-body font-semibold tracking-wider uppercase shadow-lg hover:scale-105 transition-transform"
-              aria-label="Shuffle cards"
+              aria-label="Scatter words"
             >
               <Shuffle size={14} />
-              Shuffle
+              Scatter
             </button>
             <p className="absolute -bottom-2 left-0 z-[200] text-[10px] font-body tracking-wider uppercase text-primary-foreground/50 pt-3">
-              Drag · Throw · Shuffle
+              Drag · Arrange · Scatter
             </p>
           </motion.div>
         </div>

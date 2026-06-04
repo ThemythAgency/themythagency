@@ -1,36 +1,31 @@
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, PanInfo } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, PanInfo } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowDown, TrendingUp, ShoppingBag, Activity, BarChart3, Zap, Sparkles, Shuffle } from "lucide-react";
+import { ArrowRight, ArrowDown, Shuffle } from "lucide-react";
 import { useRef, useState, useCallback, useEffect } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const headlineWords = ["We", "build", "Shopify", "growth", "systems", "that", "scale"];
 
-type CardDef = {
-  id: string;
-  label: string;
-  value: string;
-  icon: typeof TrendingUp;
-  accent?: boolean;
-};
+type ChipDef = { id: string; label: string; accent?: boolean };
 
-const CARDS: CardDef[] = [
-  { id: "rev", label: "Revenue", value: "+312%", icon: TrendingUp, accent: true },
-  { id: "aov", label: "AOV", value: "$148", icon: ShoppingBag },
-  { id: "cvr", label: "CVR", value: "4.8%", icon: Activity, accent: true },
-  { id: "ltv", label: "LTV", value: "$612", icon: BarChart3 },
-  { id: "spd", label: "Page Speed", value: "94", icon: Zap, accent: true },
-  { id: "ret", label: "Retention", value: "68%", icon: Sparkles },
+const CHIPS: ChipDef[] = [
+  { id: "strategy", label: "Strategy", accent: true },
+  { id: "design", label: "Design" },
+  { id: "conversion", label: "Conversion", accent: true },
+  { id: "systems", label: "Systems" },
+  { id: "speed", label: "Speed", accent: true },
+  { id: "retention", label: "Retention" },
+  { id: "scale", label: "Scale", accent: true },
+  { id: "growth", label: "Growth" },
 ];
 
 const rand = (min: number, max: number) => Math.random() * (max - min) + min;
 
-const makePositions = (n: number) =>
-  Array.from({ length: n }, (_, i) => ({
-    x: rand(-40, 40),
-    y: rand(-30, 30),
-    rotate: rand(-12, 12),
-    z: n - i,
+const makePositions = (n: number, w: number, h: number) =>
+  Array.from({ length: n }, () => ({
+    x: rand(-w * 0.35, w * 0.35),
+    y: rand(-h * 0.35, h * 0.35),
+    rotate: rand(-14, 14),
   }));
 
 const HeroAgency = () => {

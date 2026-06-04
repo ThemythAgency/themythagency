@@ -17,6 +17,8 @@ const VISITOR_KEY = "themyth_visitor_id";
 const NAME_KEY = "themyth_visitor_name";
 const EMAIL_KEY = "themyth_visitor_email";
 const CONV_KEY = "themyth_conversation_id";
+const TOKEN_KEY = "themyth_visitor_token";
+const POLL_MS = 4000;
 
 const uuid = () =>
   crypto.randomUUID?.() ||
@@ -29,11 +31,15 @@ const LiveChatWidget = () => {
   const [conversationId, setConversationId] = useState<string | null>(() =>
     localStorage.getItem(CONV_KEY)
   );
+  const [visitorToken, setVisitorToken] = useState<string | null>(() =>
+    localStorage.getItem(TOKEN_KEY)
+  );
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [unread, setUnread] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const lastIdsRef = useRef<Set<string>>(new Set());
 
   const visitorId = (() => {
     let v = localStorage.getItem(VISITOR_KEY);
@@ -44,79 +50,70 @@ const LiveChatWidget = () => {
     return v;
   })();
 
-  // Load existing conversation + messages
-  useEffect(() => {
-    if (!conversationId) return;
-    supabase
-      .from("chat_messages")
-      .select("*")
-      .eq("conversation_id", conversationId)
-      .order("created_at", { ascending: true })
-      .then(({ data }) => {
-        if (data) setMessages(data as ChatMessage[]);
-      });
-  }, [conversationId]);
+  const fetchMessages = useCallback(async () => {
+    if (!conversationId || !visitorToken) return;
+    const { data, error } = await supabase.functions.invoke("chat", {
+      body: {
+        action: "list_messages",
+        conversation_id: conversationId,
+        visitor_token: visitorToken,
+      },
+    });
+    if (error || !data?.messages) return;
+    const list = data.messages as ChatMessage[];
+    setMessages((prev) => {
+      // Detect new admin replies for unread badge
+      const newAdmin = list.filter(
+        (m) => m.sender === "admin" && !lastIdsRef.current.has(m.id)
+      );
+      if (newAdmin.length && !open) setUnread((u) => u + newAdmin.length);
+      lastIdsRef.current = new Set(list.map((m) => m.id));
+      return list;
+    });
+  }, [conversationId, visitorToken, open]);
 
-  // Realtime subscription
+  // Initial + interval polling
   useEffect(() => {
-    if (!conversationId) return;
-    const channel = supabase
-      .channel(`chat-${conversationId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "chat_messages",
-          filter: `conversation_id=eq.${conversationId}`,
-        },
-        (payload) => {
-          const m = payload.new as ChatMessage;
-          setMessages((prev) => (prev.find((x) => x.id === m.id) ? prev : [...prev, m]));
-          if (m.sender === "admin" && !open) setUnread((u) => u + 1);
-        }
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [conversationId, open]);
+    if (!conversationId || !visitorToken) return;
+    fetchMessages();
+    const id = window.setInterval(fetchMessages, POLL_MS);
+    return () => window.clearInterval(id);
+  }, [conversationId, visitorToken, fetchMessages]);
 
-  // Auto-scroll on new message
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open]);
 
-  // Clear unread on open
   useEffect(() => {
     if (open) setUnread(0);
   }, [open]);
 
-  const ensureConversation = useCallback(async (): Promise<string | null> => {
-    if (conversationId) return conversationId;
+  const ensureConversation = useCallback(async (): Promise<{ id: string; token: string } | null> => {
+    if (conversationId && visitorToken) return { id: conversationId, token: visitorToken };
     if (!name.trim()) {
       toast({ title: "Please enter your name first.", variant: "destructive" });
       return null;
     }
-    const { data, error } = await supabase
-      .from("chat_conversations")
-      .insert({
+    const { data, error } = await supabase.functions.invoke("chat", {
+      body: {
+        action: "start_conversation",
         visitor_id: visitorId,
         name: name.trim(),
         email: email.trim() || null,
-      })
-      .select("id")
-      .single();
-    if (error || !data) {
+      },
+    });
+    if (error || !data?.conversation_id || !data?.visitor_token) {
       toast({ title: "Could not start conversation.", variant: "destructive" });
       return null;
     }
     localStorage.setItem(NAME_KEY, name.trim());
     if (email.trim()) localStorage.setItem(EMAIL_KEY, email.trim());
-    localStorage.setItem(CONV_KEY, data.id);
-    setConversationId(data.id);
-    return data.id;
-  }, [conversationId, name, email, visitorId]);
+    localStorage.setItem(CONV_KEY, data.conversation_id);
+    localStorage.setItem(TOKEN_KEY, data.visitor_token);
+    setConversationId(data.conversation_id);
+    setVisitorToken(data.visitor_token);
+    return { id: data.conversation_id, token: data.visitor_token };
+  }, [conversationId, visitorToken, name, email, visitorId]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,17 +125,20 @@ const LiveChatWidget = () => {
     }
     setSending(true);
     try {
-      const convId = await ensureConversation();
-      if (!convId) return;
-      const { error } = await supabase.from("chat_messages").insert({
-        conversation_id: convId,
-        sender: "visitor",
-        name: name.trim(),
-        email: email.trim() || null,
-        message: text,
+      const conv = await ensureConversation();
+      if (!conv) return;
+      const { error } = await supabase.functions.invoke("chat", {
+        body: {
+          action: "send_message",
+          conversation_id: conv.id,
+          visitor_token: conv.token,
+          message: text,
+        },
       });
       if (error) throw error;
       setDraft("");
+      // Optimistic refresh
+      fetchMessages();
     } catch {
       toast({ title: "Could not send. Try again.", variant: "destructive" });
     } finally {
@@ -146,7 +146,7 @@ const LiveChatWidget = () => {
     }
   };
 
-  const needsIntro = !conversationId;
+  const needsIntro = !conversationId || !visitorToken;
 
   return (
     <>
@@ -199,7 +199,7 @@ const LiveChatWidget = () => {
                 <h4 className="font-display text-base font-medium">Talk to Themyth</h4>
                 <p className="text-[11px] font-body opacity-70 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  We reply in real-time
+                  We reply within minutes
                 </p>
               </div>
             </div>
@@ -215,6 +215,7 @@ const LiveChatWidget = () => {
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  maxLength={100}
                   className="w-full px-3 py-2.5 bg-background border border-border text-sm font-body focus:outline-none focus:border-accent"
                 />
                 <input
@@ -222,6 +223,7 @@ const LiveChatWidget = () => {
                   placeholder="Email (optional, for replies)"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  maxLength={255}
                   className="w-full px-3 py-2.5 bg-background border border-border text-sm font-body focus:outline-none focus:border-accent"
                 />
                 <form onSubmit={handleSend} className="space-y-2">

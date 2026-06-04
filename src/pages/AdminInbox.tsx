@@ -84,33 +84,27 @@ const AdminInbox = () => {
     if (!isAdmin) return;
     loadConversations();
     loadInquiries();
-
-    // Realtime
-    const convCh = supabase
-      .channel("admin-conversations")
-      .on("postgres_changes", { event: "*", schema: "public", table: "chat_conversations" }, () => loadConversations())
-      .subscribe();
-    const inqCh = supabase
-      .channel("admin-inquiries")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "contact_inquiries" }, () => loadInquiries())
-      .subscribe();
-    return () => {
-      supabase.removeChannel(convCh);
-      supabase.removeChannel(inqCh);
-    };
+    // Poll inbox lists every 5s (realtime publication is disabled for chat tables for security).
+    const id = window.setInterval(() => {
+      loadConversations();
+      loadInquiries();
+    }, 5000);
+    return () => window.clearInterval(id);
   }, [isAdmin, loadConversations, loadInquiries]);
 
-  // Load messages for active conversation + subscribe
+  // Load messages for active conversation + poll
   useEffect(() => {
     if (!activeId) return;
-    supabase
-      .from("chat_messages")
-      .select("*")
-      .eq("conversation_id", activeId)
-      .order("created_at", { ascending: true })
-      .then(({ data }) => {
-        if (data) setMessages(data as ChatMessage[]);
-      });
+    const loadMsgs = () =>
+      supabase
+        .from("chat_messages")
+        .select("*")
+        .eq("conversation_id", activeId)
+        .order("created_at", { ascending: true })
+        .then(({ data }) => {
+          if (data) setMessages(data as ChatMessage[]);
+        });
+    loadMsgs();
 
     // Reset unread + read marker
     supabase
@@ -119,21 +113,10 @@ const AdminInbox = () => {
       .eq("id", activeId)
       .then(() => loadConversations());
 
-    const channel = supabase
-      .channel(`admin-msgs-${activeId}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "chat_messages", filter: `conversation_id=eq.${activeId}` },
-        (payload) => {
-          const m = payload.new as ChatMessage;
-          setMessages((prev) => (prev.find((x) => x.id === m.id) ? prev : [...prev, m]));
-        }
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    const id = window.setInterval(loadMsgs, 4000);
+    return () => window.clearInterval(id);
   }, [activeId, loadConversations]);
+
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });

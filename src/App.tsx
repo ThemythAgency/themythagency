@@ -20,6 +20,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import AdminLogin from "./pages/AdminLogin";
 import AdminInbox from "./pages/AdminInbox";
+import OAuthConsent from "./pages/OAuthConsent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const AnimatedRoutes = () => {
         <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/inbox" element={<AdminInbox />} />
+        <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

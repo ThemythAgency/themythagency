@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { LogIn, UserPlus, ArrowLeft } from "lucide-react";
 
+const safeNext = (value: string | null) =>
+  value && value.startsWith("/") && !value.startsWith("//") ? value : null;
+
 const AdminLogin = () => {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = safeNext(params.get("next"));
+  const destination = next ?? "/admin/inbox";
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,16 +20,16 @@ const AdminLogin = () => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/admin/inbox", { replace: true });
+      if (session) navigate(destination, { replace: true });
     });
-  }, [navigate]);
+  }, [navigate, destination]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const redirectUrl = `${window.location.origin}/admin/inbox`;
+        const redirectUrl = `${window.location.origin}${destination}`;
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -33,11 +39,11 @@ const AdminLogin = () => {
         toast({ title: "Account created. Signing you in..." });
         const { error: e2 } = await supabase.auth.signInWithPassword({ email, password });
         if (e2) throw e2;
-        navigate("/admin/inbox");
+        navigate(destination);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate("/admin/inbox");
+        navigate(destination);
       }
     } catch (err: any) {
       toast({ title: err.message ?? "Auth failed", variant: "destructive" });
@@ -45,6 +51,7 @@ const AdminLogin = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-primary text-primary-foreground flex items-center justify-center p-6">

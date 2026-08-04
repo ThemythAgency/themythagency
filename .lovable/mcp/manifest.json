@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://njtocboidgilrwinmzez.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "themyth-growth-studio",
+      "version": "0.1.0",
+      "title": "Themyth Growth Studio"
+    },
+    "tools": [
+      {
+        "name": "list_inquiries",
+        "title": "List contact inquiries",
+        "description": "List lead/contact form inquiries submitted on the Themyth Agency site, newest first. Optionally filter by status or unread only.",
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "Filter by status, e.g. new, contacted, closed."
+            },
+            "unread_only": {
+              "type": "boolean",
+              "description": "Only return inquiries that have not been read."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max rows to return (default 20, max 100)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_inquiry_status",
+        "title": "Update inquiry status",
+        "description": "Update the pipeline status of a contact inquiry and optionally mark it as read.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "inquiry_id": {
+              "type": "string",
+              "description": "The inquiry id (uuid)."
+            },
+            "status": {
+              "type": "string",
+              "description": "New status, e.g. new, contacted, qualified, closed."
+            },
+            "mark_read": {
+              "type": "boolean",
+              "description": "Also stamp the inquiry as read."
+            }
+          },
+          "required": [
+            "inquiry_id",
+            "status"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_conversations",
+        "title": "List live chat conversations",
+        "description": "List live chat conversations from the site widget, most recently active first, with unread counts.",
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "unread_only": {
+              "type": "boolean",
+              "description": "Only conversations with unread visitor messages."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max rows to return (default 20, max 100)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_chat_messages",
+        "title": "Read a chat conversation",
+        "description": "Read the full message thread of one live chat conversation, oldest first.",
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "conversation_id": {
+              "type": "string",
+              "description": "The conversation id (uuid)."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max messages to return (default 100, max 500)."
+            }
+          },
+          "required": [
+            "conversation_id"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "reply_to_chat",
+        "title": "Reply to a chat conversation",
+        "description": "Send an admin reply into a live chat conversation. The visitor sees it in the site chat widget.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "conversation_id": {
+              "type": "string",
+              "description": "The conversation id (uuid) to reply in."
+            },
+            "message": {
+              "type": "string",
+              "description": "The reply text to send to the visitor."
+            }
+          },
+          "required": [
+            "conversation_id",
+            "message"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

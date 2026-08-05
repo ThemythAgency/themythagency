@@ -58,6 +58,28 @@ function supabaseForUser(ctx) {
   });
 }
 
+// src/lib/mcp/audit.ts
+async function recordToolCall(ctx, entry) {
+  try {
+    if (!ctx.isAuthenticated()) return;
+    const supabase = supabaseForUser(ctx);
+    await supabase.from("mcp_audit_logs").insert({
+      user_id: ctx.getUserId(),
+      user_email: ctx.getUserEmail() ?? null,
+      client_id: ctx.getClientId() ?? null,
+      tool_name: entry.tool,
+      action: entry.action,
+      arguments: entry.args ?? {},
+      target_table: entry.targetTable ?? null,
+      target_id: entry.targetId ?? null,
+      summary: entry.summary ?? null,
+      success: entry.success,
+      error_message: entry.error ?? null
+    });
+  } catch {
+  }
+}
+
 // src/lib/mcp/tools/list-inquiries.ts
 var list_inquiries_default = defineTool({
   name: "list_inquiries",
@@ -80,6 +102,15 @@ var list_inquiries_default = defineTool({
     if (status) query = query.eq("status", status);
     if (unread_only) query = query.is("read_at", null);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_inquiries",
+      action: "read",
+      args: { status, unread_only, limit },
+      targetTable: "contact_inquiries",
+      summary: error ? "Failed to list inquiries" : `Listed ${data?.length ?? 0} inquiries`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
@@ -109,6 +140,16 @@ var update_inquiry_status_default = defineTool2({
     const patch = { status };
     if (mark_read) patch.read_at = (/* @__PURE__ */ new Date()).toISOString();
     const { data, error } = await supabase.from("contact_inquiries").update(patch).eq("id", inquiry_id).select("id, name, email, status, read_at").maybeSingle();
+    await recordToolCall(ctx, {
+      tool: "update_inquiry_status",
+      action: "write",
+      args: { inquiry_id, status, mark_read },
+      targetTable: "contact_inquiries",
+      targetId: inquiry_id,
+      summary: error ? "Failed to update inquiry" : data ? `Set status to "${status}"${mark_read ? " and marked read" : ""} for ${data.name}` : "Inquiry not found",
+      success: !error && !!data,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) {
       return { content: [{ type: "text", text: "Inquiry not found or not accessible." }], isError: true };
@@ -140,6 +181,15 @@ var list_conversations_default = defineTool3({
     let query = supabase.from("chat_conversations").select("id, name, email, admin_unread_count, last_message_at, created_at").order("last_message_at", { ascending: false }).limit(Math.min(Math.max(limit ?? 20, 1), 100));
     if (unread_only) query = query.gt("admin_unread_count", 0);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_conversations",
+      action: "read",
+      args: { unread_only, limit },
+      targetTable: "chat_conversations",
+      summary: error ? "Failed to list conversations" : `Listed ${data?.length ?? 0} conversations`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
@@ -166,6 +216,16 @@ var list_chat_messages_default = defineTool4({
     }
     const supabase = supabaseForUser(ctx);
     const { data, error } = await supabase.from("chat_messages").select("id, sender, name, message, created_at, read_at").eq("conversation_id", conversation_id).order("created_at", { ascending: true }).limit(Math.min(Math.max(limit ?? 100, 1), 500));
+    await recordToolCall(ctx, {
+      tool: "list_chat_messages",
+      action: "read",
+      args: { conversation_id, limit },
+      targetTable: "chat_messages",
+      targetId: conversation_id,
+      summary: error ? "Failed to read conversation" : `Read ${data?.length ?? 0} messages`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
@@ -180,24 +240,82 @@ import { z as z5 } from "npm:zod@^3.25.76";
 var reply_to_chat_default = defineTool5({
   name: "reply_to_chat",
   title: "Reply to a chat conversation",
-  description: "Send an admin reply into a live chat conversation. The visitor sees it in the site chat widget.",
+  description: "Send an admin reply into a live chat conversation. The visitor sees it in the site chat widget. Supports streaming: pass the same stream_id across several calls to append partial text to one live message, then send final=true on the last chunk. Omit stream_id to send a complete message in one call.",
   inputSchema: {
     conversation_id: z5.string().describe("The conversation id (uuid) to reply in."),
-    message: z5.string().describe("The reply text to send to the visitor.")
+    message: z5.string().describe("The reply text, or the next partial chunk when streaming with a stream_id."),
+    stream_id: z5.string().optional().describe(
+      "Optional stream identifier. Reuse the same value across calls to append chunks to one live message."
+    ),
+    final: z5.boolean().optional().describe(
+      "Marks the streamed message complete. Defaults to true when no stream_id is given, false while streaming."
+    )
   },
   annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
-  handler: async ({ conversation_id, message }, ctx) => {
+  handler: async ({ conversation_id, message, stream_id, final }, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     }
-    const text = message.trim();
-    if (!text) return { content: [{ type: "text", text: "Message is empty." }], isError: true };
+    const chunk = stream_id ? message : message.trim();
+    const isFinal = final ?? !stream_id;
+    if (!chunk && !isFinal) {
+      return { content: [{ type: "text", text: "Message chunk is empty." }], isError: true };
+    }
     const supabase = supabaseForUser(ctx);
-    const { data, error } = await supabase.from("chat_messages").insert({ conversation_id, sender: "admin", name: "Themyth Agency", message: text }).select("id, sender, message, created_at").maybeSingle();
-    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
+    const audit = (success, summary, targetId, error2) => recordToolCall(ctx, {
+      tool: "reply_to_chat",
+      action: "write",
+      args: { conversation_id, stream_id, final: isFinal, chars: chunk.length },
+      targetTable: "chat_messages",
+      targetId: targetId ?? conversation_id,
+      summary,
+      success,
+      error: error2
+    });
+    if (stream_id) {
+      const { data: existing, error: findError } = await supabase.from("chat_messages").select("id, message").eq("conversation_id", conversation_id).eq("stream_id", stream_id).maybeSingle();
+      if (findError) {
+        await audit(false, "Failed to look up streamed message", null, findError.message);
+        return { content: [{ type: "text", text: findError.message }], isError: true };
+      }
+      if (existing) {
+        const merged = `${existing.message}${chunk}`;
+        const { data: data2, error: error2 } = await supabase.from("chat_messages").update({ message: merged, is_streaming: !isFinal }).eq("id", existing.id).select("id, sender, message, is_streaming, created_at").maybeSingle();
+        if (error2) {
+          await audit(false, "Failed to append stream chunk", existing.id, error2.message);
+          return { content: [{ type: "text", text: error2.message }], isError: true };
+        }
+        await audit(
+          true,
+          isFinal ? "Completed streamed reply to visitor" : "Appended streamed reply chunk",
+          existing.id
+        );
+        return {
+          content: [{ type: "text", text: JSON.stringify(data2, null, 2) }],
+          structuredContent: { message: data2, streaming: !isFinal }
+        };
+      }
+    }
+    const { data, error } = await supabase.from("chat_messages").insert({
+      conversation_id,
+      sender: "admin",
+      name: "Themyth Agency",
+      message: chunk,
+      stream_id: stream_id ?? null,
+      is_streaming: !isFinal
+    }).select("id, sender, message, is_streaming, created_at").maybeSingle();
+    if (error) {
+      await audit(false, "Failed to send reply", null, error.message);
+      return { content: [{ type: "text", text: error.message }], isError: true };
+    }
+    await audit(
+      true,
+      stream_id ? "Started streamed reply to visitor" : "Sent reply to visitor",
+      data?.id ?? null
+    );
     return {
       content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
-      structuredContent: { message: data }
+      structuredContent: { message: data, streaming: !isFinal }
     };
   }
 });

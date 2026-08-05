@@ -6,6 +6,7 @@ import { useAdmin } from "@/hooks/use-admin";
 import { toast } from "@/hooks/use-toast";
 import {
   MessageSquare, Inbox, LogOut, Send, Search, Mail, Phone, Globe, DollarSign, ArrowLeft, Loader2,
+  ScrollText, CheckCircle2, XCircle,
 } from "lucide-react";
 
 type Conversation = {
@@ -24,6 +25,22 @@ type ChatMessage = {
   sender: string;
   name: string;
   message: string;
+  created_at: string;
+  is_streaming?: boolean | null;
+};
+
+type AuditLog = {
+  id: string;
+  user_email: string | null;
+  client_id: string | null;
+  tool_name: string;
+  action: string;
+  arguments: Record<string, unknown> | null;
+  target_table: string | null;
+  target_id: string | null;
+  summary: string | null;
+  success: boolean;
+  error_message: string | null;
   created_at: string;
 };
 
@@ -44,7 +61,7 @@ type Inquiry = {
 const AdminInbox = () => {
   const { session, isAdmin, loading } = useAdmin();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"chat" | "inquiries">("chat");
+  const [tab, setTab] = useState<"chat" | "inquiries" | "audit">("chat");
   const [search, setSearch] = useState("");
 
   // Chat state
@@ -58,6 +75,9 @@ const AdminInbox = () => {
   // Inquiries
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [activeInquiry, setActiveInquiry] = useState<Inquiry | null>(null);
+
+  // MCP audit logs
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/login", { replace: true });
@@ -80,17 +100,28 @@ const AdminInbox = () => {
     if (data) setInquiries(data as Inquiry[]);
   }, []);
 
+  const loadAuditLogs = useCallback(async () => {
+    const { data } = await supabase
+      .from("mcp_audit_logs")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(300);
+    if (data) setAuditLogs(data as AuditLog[]);
+  }, []);
+
   useEffect(() => {
     if (!isAdmin) return;
     loadConversations();
     loadInquiries();
+    loadAuditLogs();
     // Poll inbox lists every 5s (realtime publication is disabled for chat tables for security).
     const id = window.setInterval(() => {
       loadConversations();
       loadInquiries();
+      loadAuditLogs();
     }, 5000);
     return () => window.clearInterval(id);
-  }, [isAdmin, loadConversations, loadInquiries]);
+  }, [isAdmin, loadConversations, loadInquiries, loadAuditLogs]);
 
   // Load messages for active conversation + poll
   useEffect(() => {
@@ -188,6 +219,14 @@ const AdminInbox = () => {
       c.name?.toLowerCase().includes(search.toLowerCase()) ||
       c.email?.toLowerCase().includes(search.toLowerCase())
   );
+  const filteredLogs = auditLogs.filter(
+    (l) =>
+      !search ||
+      l.tool_name.toLowerCase().includes(search.toLowerCase()) ||
+      (l.user_email ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (l.summary ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (l.target_id ?? "").toLowerCase().includes(search.toLowerCase())
+  );
   const filteredInqs = inquiries.filter(
     (i) =>
       !search ||
@@ -213,7 +252,7 @@ const AdminInbox = () => {
       </header>
 
       <div className="border-b border-border bg-card px-6 flex gap-1">
-        {(["chat", "inquiries"] as const).map((t) => (
+        {(["chat", "inquiries", "audit"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -221,17 +260,92 @@ const AdminInbox = () => {
               tab === t ? "border-accent text-accent" : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t === "chat" ? <MessageSquare size={14} /> : <Inbox size={14} />}
-            {t === "chat" ? "Live Chat" : "Contact Inquiries"}
+            {t === "chat" ? <MessageSquare size={14} /> : t === "inquiries" ? <Inbox size={14} /> : <ScrollText size={14} />}
+            {t === "chat" ? "Live Chat" : t === "inquiries" ? "Contact Inquiries" : "MCP Audit Log"}
             <span className="ml-1 text-[10px] bg-muted px-1.5 rounded-full">
               {t === "chat"
                 ? conversations.reduce((a, c) => a + (c.admin_unread_count || 0), 0)
-                : inquiries.filter((i) => !i.read_at).length}
+                : t === "inquiries"
+                  ? inquiries.filter((i) => !i.read_at).length
+                  : auditLogs.length}
             </span>
           </button>
         ))}
       </div>
 
+      {tab === "audit" ? (
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="relative mb-6 max-w-md">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search tool, user, or record..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-card border border-border text-sm font-body focus:outline-none focus:border-accent"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground font-body mb-4">
+              Every agent (MCP) tool invocation, who ran it, what it touched, and when.
+            </p>
+            {filteredLogs.length === 0 ? (
+              <p className="text-xs text-muted-foreground font-body text-center py-16">No tool activity recorded yet.</p>
+            ) : (
+              <div className="border border-border bg-card divide-y divide-border">
+                {filteredLogs.map((log) => (
+                  <motion.div
+                    key={log.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 hover:bg-muted/40 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        {log.success ? (
+                          <CheckCircle2 size={14} className="text-accent shrink-0" />
+                        ) : (
+                          <XCircle size={14} className="text-destructive shrink-0" />
+                        )}
+                        <code className="font-body text-sm font-semibold">{log.tool_name}</code>
+                        <span
+                          className={`text-[10px] uppercase tracking-wider px-1.5 py-0.5 ${
+                            log.action === "write" ? "bg-accent/15 text-accent" : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          {log.action}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-muted-foreground font-body">
+                        {new Date(log.created_at).toLocaleString()}
+                      </span>
+                    </div>
+                    {log.summary && <p className="text-sm font-body mt-2">{log.summary}</p>}
+                    {log.error_message && (
+                      <p className="text-xs font-body text-destructive mt-1">{log.error_message}</p>
+                    )}
+                    <div className="flex flex-wrap gap-x-5 gap-y-1 mt-2 text-[11px] text-muted-foreground font-body">
+                      <span>By {log.user_email ?? "unknown user"}</span>
+                      {log.client_id && <span>Client: {log.client_id}</span>}
+                      {log.target_table && (
+                        <span>
+                          Target: {log.target_table}
+                          {log.target_id ? ` / ${log.target_id.slice(0, 8)}` : ""}
+                        </span>
+                      )}
+                    </div>
+                    {log.arguments && Object.keys(log.arguments).length > 0 && (
+                      <pre className="mt-3 text-[11px] font-mono bg-muted/60 p-3 overflow-x-auto">
+                        {JSON.stringify(log.arguments, null, 2)}
+                      </pre>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
       <div className="flex-1 grid md:grid-cols-[340px_1fr] overflow-hidden">
         <aside className="border-r border-border bg-card overflow-y-auto flex flex-col">
           <div className="p-3 border-b border-border">
@@ -326,6 +440,9 @@ const AdminInbox = () => {
                             </p>
                           )}
                           {m.message}
+                          {m.is_streaming && (
+                            <span className="inline-block w-1.5 h-3.5 ml-1 align-middle bg-current opacity-70 animate-pulse" />
+                          )}
                           <p className={`text-[9px] mt-1 ${fromAdmin ? "text-accent-foreground/70" : "text-muted-foreground"}`}>
                             {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </p>
@@ -429,6 +546,7 @@ const AdminInbox = () => {
           )}
         </main>
       </div>
+      )}
     </div>
   );
 };

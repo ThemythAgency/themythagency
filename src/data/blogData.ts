@@ -1,3 +1,8 @@
+export interface BlogFaq {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -7,6 +12,8 @@ export interface BlogPost {
   readTime: string;
   date: string;
   author: string;
+  tags?: string[];
+  faqs?: BlogFaq[];
 }
 
 export const blogPosts: BlogPost[] = [
@@ -18,6 +25,49 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     date: "August 2026",
     author: "Themyth Agency",
+    tags: [
+      "new shopify store",
+      "shopify store launch",
+      "ecommerce conversion",
+      "shopify conversion rate",
+      "offer positioning",
+      "ecommerce trust signals",
+      "shopify traffic strategy",
+      "first time store owners",
+    ],
+    faqs: [
+      {
+        question: "Why is my new Shopify store getting traffic but no sales?",
+        answer:
+          "Traffic without sales almost always points to an offer or trust problem, not a design problem. Visitors cannot tell quickly what the product is, why it is better, or why they should trust a brand they have never heard of. Tighten your product page messaging, add real proof, and make shipping, returns, and pricing obvious before you spend more on ads.",
+      },
+      {
+        question: "How long should it take a new Shopify store to make its first sale?",
+        answer:
+          "There is no fixed timeline, because sales follow traffic and clarity, not launch dates. Stores that begin building an audience before launch often sell within days. Stores that launch to nobody can go months. The useful question is not how long, but how many qualified visitors have actually seen the offer.",
+      },
+      {
+        question: "Should I fix my store design or drive traffic first?",
+        answer:
+          "Get the essentials right, then drive traffic. The essentials are a clear offer, a product page that explains value, visible trust signals, and a checkout that works on mobile. Beyond that, further design polish produces very little until real visitors are on the site telling you where they drop off.",
+      },
+      {
+        question: "What is the biggest mistake new Shopify store owners make?",
+        answer:
+          "Treating launch day as the finish line. Building the store is the easy, controllable part. The harder work sits outside the dashboard: validating demand, sharpening positioning, generating traffic, and earning trust. Owners who start that work early outperform owners with better looking stores.",
+      },
+      {
+        question: "How do I know if my product actually has demand?",
+        answer:
+          "Test before you invest. Search demand data, competitor listings, community discussion, and small paid tests will tell you within a couple of weeks whether people are actively looking for what you sell. If nobody is searching and nobody engages with the offer, the problem is the market fit, not the theme.",
+      },
+      {
+        question: "What should I improve first to lift conversion rate?",
+        answer:
+          "Start with the product page and mobile checkout. Clear headline, benefit-led copy, strong imagery, honest reviews, visible shipping and returns, and a fast, frictionless checkout. Those changes reliably move conversion more than homepage redesigns or new apps.",
+      },
+    ],
+
     content: `
 <p>Most new Shopify store owners think the store itself is the business. In reality, the store is only the container.</p>
 
@@ -71,13 +121,14 @@ export const blogPosts: BlogPost[] = [
 <p>Focus on:</p>
 
 <ul>
-<li>Validating the product before assuming it will sell.</li>
-<li>Making your offer simple and specific.</li>
-<li>Writing product pages that clearly explain value.</li>
-<li>Building traffic from the beginning, not after launch.</li>
-<li>Reducing friction in mobile browsing and checkout.</li>
-<li>Using your brand to create trust, not just style.</li>
+<li><strong>Validate the product</strong> before assuming it will sell.</li>
+<li><strong>Make your offer simple and specific</strong> so a stranger gets it instantly.</li>
+<li><strong>Write product pages</strong> that explain value, not just specifications.</li>
+<li><strong>Build traffic from day one</strong>, not after launch.</li>
+<li><strong>Reduce friction</strong> in mobile browsing and checkout.</li>
+<li><strong>Use your brand to create trust</strong>, not just style.</li>
 </ul>
+
 
 <p>When you focus on those things, your store starts to become a real business instead of just a website.</p>
 
@@ -100,6 +151,38 @@ export const blogPosts: BlogPost[] = [
 <p>And that is exactly where support matters. If you are ready to move out of the confusion, stop guessing, and build a store that is structured to grow properly, you do not have to do it alone. We help Shopify store owners turn underperforming stores into clearer, stronger, and more profitable businesses.</p>
 
 <p><strong>If you want real assistance with your Shopify business, reach out to Themyth Agency for support that is focused, practical, and built around results.</strong></p>
+
+<hr />
+
+<h2>FAQ: Shopify launch mistakes and conversion</h2>
+
+<h3>Why is my new Shopify store getting traffic but no sales?</h3>
+<p>Traffic without sales almost always points to an offer or trust problem, not a design problem. Visitors cannot tell quickly what the product is, why it is better, or why they should trust a brand they have never heard of. Tighten your product page messaging, add real proof, and make shipping, returns, and pricing obvious before you spend more on ads.</p>
+
+<h3>How long should it take a new Shopify store to make its first sale?</h3>
+<p>There is no fixed timeline, because sales follow traffic and clarity, not launch dates. Stores that build an audience before launch often sell within days. Stores that launch to nobody can go months. The useful question is not how long, but how many qualified visitors have actually seen the offer.</p>
+
+<h3>Should I fix my store design or drive traffic first?</h3>
+<p>Get the essentials right, then drive traffic. The essentials are:</p>
+
+<ul>
+<li><strong>A clear offer</strong> a visitor can understand in one sentence.</li>
+<li><strong>A product page</strong> that explains value, not just features.</li>
+<li><strong>Visible trust signals</strong> such as reviews, policies, and real contact details.</li>
+<li><strong>A checkout</strong> that is fast and painless on mobile.</li>
+</ul>
+
+<p>Beyond that, further design polish produces very little until real visitors are on the site showing you where they drop off.</p>
+
+<h3>What is the biggest mistake new Shopify store owners make?</h3>
+<p>Treating launch day as the finish line. Building the store is the easy, controllable part. The harder work sits outside the dashboard: validating demand, sharpening positioning, generating traffic, and earning trust. Owners who start that work early consistently outperform owners with better looking stores.</p>
+
+<h3>How do I know if my product actually has demand?</h3>
+<p>Test before you invest. Search demand data, competitor listings, community discussion, and small paid tests will tell you within a couple of weeks whether people are actively looking for what you sell. If nobody is searching and nobody engages with the offer, the problem is market fit, not your theme.</p>
+
+<h3>What should I improve first to lift conversion rate?</h3>
+<p>Start with the product page and mobile checkout: a clear headline, benefit-led copy, strong imagery, honest reviews, visible shipping and returns, and a frictionless checkout. Those changes reliably move conversion further than homepage redesigns or new apps.</p>
+
 
 <div class="blog-cta">
 <h2>Ready to Grow Your Shopify Brand?</h2>

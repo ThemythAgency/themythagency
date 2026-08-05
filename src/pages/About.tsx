@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import founderPortrait from "@/assets/founder-portrait.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -68,6 +69,74 @@ const About = () => {
           </motion.p>
         </motion.div>
       </section>
+
+      {/* Founder */}
+      <section className="section-padding section-spacing overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-12 lg:gap-20 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -6, transition: { duration: 0.4 } }}
+            className="relative"
+          >
+            <div className="absolute -inset-3 border border-accent/40 -z-10 translate-x-3 translate-y-3" />
+            <img
+              src={founderPortrait}
+              alt="Founder of Themyth Agency, a Shopify growth consultant"
+              width={1000}
+              height={1250}
+              loading="lazy"
+              className="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            />
+          </motion.div>
+
+          <motion.div {...fadeUp}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="gold-line" />
+              <span className="text-label text-accent">Founder</span>
+            </div>
+            <h2 className="text-display-lg mb-6">
+              Built by an operator, not a{" "}
+              <span className="italic text-accent">marketer</span>
+            </h2>
+            <p className="text-body text-muted-foreground mb-5">
+              Themyth started the way most useful things do, from frustration. After years inside
+              Shopify stores, watching brands pour money into traffic while their storefronts quietly
+              leaked revenue, one pattern kept repeating: the problem was almost never effort. It was
+              structure.
+            </p>
+            <p className="text-body text-muted-foreground mb-5">
+              So the work became specific. Diagnose the system before touching the design. Fix the
+              path a customer actually walks, from first impression to checkout to the second order.
+              Build the merchandising, the technical foundation, and the retention engine as one
+              connected machine instead of a pile of disconnected tactics.
+            </p>
+            <p className="text-body text-muted-foreground mb-8">
+              That is still how every engagement runs today. Senior-led, hands on the build, honest
+              about what will and will not move revenue. If a recommendation cannot be tied to a
+              number, it does not make it into the plan.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-border pt-8">
+              <div>
+                <p className="font-display text-2xl text-accent">200+</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Shopify stores audited</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-accent">7 yrs</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">In ecommerce growth</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-accent">1</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Accountable partner</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+
 
       <section className="section-padding section-spacing bg-primary text-primary-foreground overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">

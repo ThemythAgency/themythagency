@@ -1,6 +1,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { supabaseForUser } from "../supabase";
+import { recordToolCall } from "../audit";
 
 export default defineTool({
   name: "list_inquiries",
@@ -28,6 +29,15 @@ export default defineTool({
     if (status) query = query.eq("status", status);
     if (unread_only) query = query.is("read_at", null);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_inquiries",
+      action: "read",
+      args: { status, unread_only, limit },
+      targetTable: "contact_inquiries",
+      summary: error ? "Failed to list inquiries" : `Listed ${data?.length ?? 0} inquiries`,
+      success: !error,
+      error: error?.message,
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],

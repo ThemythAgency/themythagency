@@ -22,7 +22,33 @@ const BlogPost = () => {
     datePublished: post.date,
     mainEntityOfPage: { "@type": "WebPage", "@id": `https://themythagency.lovable.app/blog/${post.slug}` },
     articleSection: post.category,
+    keywords: post.tags?.join(", "),
   };
+
+  const faqLd = post.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+
+  const related = blogPosts
+    .filter((p) => p.slug !== post.slug)
+    .map((p) => ({
+      post: p,
+      score:
+        (p.category === post.category ? 2 : 0) +
+        (p.tags ?? []).filter((t) => (post.tags ?? []).includes(t)).length,
+    }))
+    .filter((r) => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((r) => r.post);
 
   return (
     <div className="min-h-screen bg-background">
@@ -31,6 +57,8 @@ const BlogPost = () => {
         <meta name="description" content={post.excerpt} />
         <link rel="canonical" href={`https://themythagency.lovable.app/blog/${post.slug}`} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
+        {post.tags?.length ? <meta name="keywords" content={post.tags.join(", ")} /> : null}
       </Helmet>
       <Navbar />
 
@@ -93,10 +121,59 @@ const BlogPost = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="blog-prose prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-[1.8] prose-p:mb-[1.6em] prose-strong:text-foreground prose-li:text-muted-foreground prose-li:mb-3 prose-hr:border-border prose-ul:text-muted-foreground prose-ol:text-muted-foreground prose-ul:my-6 prose-ol:my-6 [&_.blog-cta]:mt-16 [&_.blog-cta]:p-8 [&_.blog-cta]:md:p-12 [&_.blog-cta]:bg-secondary [&_.blog-cta]:border [&_.blog-cta]:border-border [&_.blog-cta]:text-center [&_.blog-cta_h2]:text-2xl [&_.blog-cta_h2]:mb-4 [&_.blog-cta_p]:mb-6 [&_.blog-cta-button]:inline-flex [&_.blog-cta-button]:items-center [&_.blog-cta-button]:gap-3 [&_.blog-cta-button]:px-8 [&_.blog-cta-button]:py-4 [&_.blog-cta-button]:bg-primary [&_.blog-cta-button]:text-primary-foreground [&_.blog-cta-button]:font-body [&_.blog-cta-button]:text-sm [&_.blog-cta-button]:font-medium [&_.blog-cta-button]:tracking-wide [&_.blog-cta-button]:no-underline [&_.blog-cta-button]:transition-all [&_.blog-cta-button]:duration-300 [&_.blog-cta-button]:hover:bg-accent [&_.blog-cta-button]:hover:text-accent-foreground [&_.blog-cta-button]:hover:-translate-y-0.5 [&_.blog-cta-button]:hover:shadow-lg"
+            className="blog-prose prose prose-lg max-w-none font-body text-foreground prose-headings:font-display prose-headings:text-foreground prose-headings:font-semibold prose-h2:text-2xl prose-h2:font-bold prose-h3:font-bold prose-h2:mt-12 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-muted-foreground prose-p:leading-[1.8] prose-p:mb-[1.6em] prose-strong:text-foreground prose-li:text-muted-foreground prose-li:mb-3 prose-hr:border-border prose-ul:text-muted-foreground prose-ol:text-muted-foreground prose-ul:my-6 prose-ol:my-6 [&_.blog-cta]:mt-16 [&_.blog-cta]:p-8 [&_.blog-cta]:md:p-12 [&_.blog-cta]:bg-secondary [&_.blog-cta]:border [&_.blog-cta]:border-border [&_.blog-cta]:text-center [&_.blog-cta_h2]:text-2xl [&_.blog-cta_h2]:mb-4 [&_.blog-cta_p]:mb-6 [&_.blog-cta-button]:inline-flex [&_.blog-cta-button]:items-center [&_.blog-cta-button]:gap-3 [&_.blog-cta-button]:px-8 [&_.blog-cta-button]:py-4 [&_.blog-cta-button]:bg-primary [&_.blog-cta-button]:text-primary-foreground [&_.blog-cta-button]:font-body [&_.blog-cta-button]:text-sm [&_.blog-cta-button]:font-medium [&_.blog-cta-button]:tracking-wide [&_.blog-cta-button]:no-underline [&_.blog-cta-button]:transition-all [&_.blog-cta-button]:duration-300 [&_.blog-cta-button]:hover:bg-accent [&_.blog-cta-button]:hover:text-accent-foreground [&_.blog-cta-button]:hover:-translate-y-0.5 [&_.blog-cta-button]:hover:shadow-lg"
           >
             <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </motion.div>
+
+          {post.tags?.length ? (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mt-14 pt-8 border-t border-border"
+            >
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-4">Tags</p>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs font-body px-3 py-1.5 bg-secondary text-muted-foreground border border-border transition-colors duration-300 hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ) : null}
+
+          {related.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mt-14 pt-8 border-t border-border"
+            >
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-6">Related reading</p>
+              <div className="grid gap-6 md:grid-cols-3">
+                {related.map((r) => (
+                  <Link
+                    key={r.slug}
+                    to={`/blog/${r.slug}`}
+                    className="group block border border-border p-5 transition-all duration-300 hover:border-accent hover:-translate-y-1"
+                  >
+                    <span className="text-[10px] uppercase tracking-wider text-accent">{r.category}</span>
+                    <h3 className="font-display text-base font-medium mt-2 mb-2 leading-snug group-hover:text-accent transition-colors">
+                      {r.title}
+                    </h3>
+                    <p className="text-xs font-body text-muted-foreground line-clamp-3">{r.excerpt}</p>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           <motion.div
             initial={{ opacity: 0 }}

@@ -117,7 +117,7 @@ Deno.serve(async (req) => {
 
       let q = admin
         .from("chat_messages")
-        .select("id, conversation_id, sender, name, message, created_at")
+        .select("id, conversation_id, sender, name, message, created_at, is_streaming")
         .eq("conversation_id", conversation_id)
         .order("created_at", { ascending: true })
         .limit(500);

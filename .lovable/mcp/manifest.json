@@ -135,7 +135,7 @@
       {
         "name": "reply_to_chat",
         "title": "Reply to a chat conversation",
-        "description": "Send an admin reply into a live chat conversation. The visitor sees it in the site chat widget.",
+        "description": "Send an admin reply into a live chat conversation. The visitor sees it in the site chat widget. Supports streaming: pass the same stream_id across several calls to append partial text to one live message, then send final=true on the last chunk. Omit stream_id to send a complete message in one call.",
         "annotations": {
           "readOnlyHint": false,
           "destructiveHint": false,
@@ -150,7 +150,15 @@
             },
             "message": {
               "type": "string",
-              "description": "The reply text to send to the visitor."
+              "description": "The reply text, or the next partial chunk when streaming with a stream_id."
+            },
+            "stream_id": {
+              "type": "string",
+              "description": "Optional stream identifier. Reuse the same value across calls to append chunks to one live message."
+            },
+            "final": {
+              "type": "boolean",
+              "description": "Marks the streamed message complete. Defaults to true when no stream_id is given, false while streaming."
             }
           },
           "required": [

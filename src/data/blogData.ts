@@ -121,13 +121,14 @@ export const blogPosts: BlogPost[] = [
 <p>Focus on:</p>
 
 <ul>
-<li>Validating the product before assuming it will sell.</li>
-<li>Making your offer simple and specific.</li>
-<li>Writing product pages that clearly explain value.</li>
-<li>Building traffic from the beginning, not after launch.</li>
-<li>Reducing friction in mobile browsing and checkout.</li>
-<li>Using your brand to create trust, not just style.</li>
+<li><strong>Validate the product</strong> before assuming it will sell.</li>
+<li><strong>Make your offer simple and specific</strong> so a stranger gets it instantly.</li>
+<li><strong>Write product pages</strong> that explain value, not just specifications.</li>
+<li><strong>Build traffic from day one</strong>, not after launch.</li>
+<li><strong>Reduce friction</strong> in mobile browsing and checkout.</li>
+<li><strong>Use your brand to create trust</strong>, not just style.</li>
 </ul>
+
 
 <p>When you focus on those things, your store starts to become a real business instead of just a website.</p>
 

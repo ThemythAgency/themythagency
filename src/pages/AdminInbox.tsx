@@ -219,6 +219,14 @@ const AdminInbox = () => {
       c.name?.toLowerCase().includes(search.toLowerCase()) ||
       c.email?.toLowerCase().includes(search.toLowerCase())
   );
+  const filteredLogs = auditLogs.filter(
+    (l) =>
+      !search ||
+      l.tool_name.toLowerCase().includes(search.toLowerCase()) ||
+      (l.user_email ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (l.summary ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (l.target_id ?? "").toLowerCase().includes(search.toLowerCase())
+  );
   const filteredInqs = inquiries.filter(
     (i) =>
       !search ||
@@ -265,6 +273,79 @@ const AdminInbox = () => {
         ))}
       </div>
 
+      {tab === "audit" ? (
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="max-w-5xl mx-auto">
+            <div className="relative mb-6 max-w-md">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search tool, user, or record..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 bg-card border border-border text-sm font-body focus:outline-none focus:border-accent"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground font-body mb-4">
+              Every agent (MCP) tool invocation, who ran it, what it touched, and when.
+            </p>
+            {filteredLogs.length === 0 ? (
+              <p className="text-xs text-muted-foreground font-body text-center py-16">No tool activity recorded yet.</p>
+            ) : (
+              <div className="border border-border bg-card divide-y divide-border">
+                {filteredLogs.map((log) => (
+                  <motion.div
+                    key={log.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 hover:bg-muted/40 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        {log.success ? (
+                          <CheckCircle2 size={14} className="text-accent shrink-0" />
+                        ) : (
+                          <XCircle size={14} className="text-destructive shrink-0" />
+                        )}
+                        <code className="font-body text-sm font-semibold">{log.tool_name}</code>
+                        <span
+                          className={`text-[10px] uppercase tracking-wider px-1.5 py-0.5 ${
+                            log.action === "write" ? "bg-accent/15 text-accent" : "bg-muted text-muted-foreground"
+                          }`}
+                        >
+                          {log.action}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-muted-foreground font-body">
+                        {new Date(log.created_at).toLocaleString()}
+                      </span>
+                    </div>
+                    {log.summary && <p className="text-sm font-body mt-2">{log.summary}</p>}
+                    {log.error_message && (
+                      <p className="text-xs font-body text-destructive mt-1">{log.error_message}</p>
+                    )}
+                    <div className="flex flex-wrap gap-x-5 gap-y-1 mt-2 text-[11px] text-muted-foreground font-body">
+                      <span>By {log.user_email ?? "unknown user"}</span>
+                      {log.client_id && <span>Client: {log.client_id}</span>}
+                      {log.target_table && (
+                        <span>
+                          Target: {log.target_table}
+                          {log.target_id ? ` / ${log.target_id.slice(0, 8)}` : ""}
+                        </span>
+                      )}
+                    </div>
+                    {log.arguments && Object.keys(log.arguments).length > 0 && (
+                      <pre className="mt-3 text-[11px] font-mono bg-muted/60 p-3 overflow-x-auto">
+                        {JSON.stringify(log.arguments, null, 2)}
+                      </pre>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
       <div className="flex-1 grid md:grid-cols-[340px_1fr] overflow-hidden">
         <aside className="border-r border-border bg-card overflow-y-auto flex flex-col">
           <div className="p-3 border-b border-border">
@@ -465,6 +546,7 @@ const AdminInbox = () => {
           )}
         </main>
       </div>
+      )}
     </div>
   );
 };

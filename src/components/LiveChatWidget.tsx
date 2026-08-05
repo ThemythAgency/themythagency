@@ -11,6 +11,7 @@ type ChatMessage = {
   name: string;
   message: string;
   created_at: string;
+  is_streaming?: boolean | null;
 };
 
 const VISITOR_KEY = "themyth_visitor_id";
@@ -264,8 +265,13 @@ const LiveChatWidget = () => {
                             <p className="text-[10px] uppercase tracking-wider text-accent mb-1 font-semibold">Themyth</p>
                           )}
                           {m.message}
+                          {m.is_streaming && (
+                            <span className="inline-block w-1.5 h-3.5 ml-1 align-middle bg-accent animate-pulse" />
+                          )}
                           <p className={`text-[9px] mt-1 ${mine ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                            {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                            {m.is_streaming
+                              ? "Typing..."
+                              : new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </p>
                         </div>
                       </div>

@@ -6,6 +6,7 @@ import { useAdmin } from "@/hooks/use-admin";
 import { toast } from "@/hooks/use-toast";
 import {
   MessageSquare, Inbox, LogOut, Send, Search, Mail, Phone, Globe, DollarSign, ArrowLeft, Loader2,
+  ScrollText, CheckCircle2, XCircle,
 } from "lucide-react";
 
 type Conversation = {
@@ -24,6 +25,22 @@ type ChatMessage = {
   sender: string;
   name: string;
   message: string;
+  created_at: string;
+  is_streaming?: boolean | null;
+};
+
+type AuditLog = {
+  id: string;
+  user_email: string | null;
+  client_id: string | null;
+  tool_name: string;
+  action: string;
+  arguments: Record<string, unknown> | null;
+  target_table: string | null;
+  target_id: string | null;
+  summary: string | null;
+  success: boolean;
+  error_message: string | null;
   created_at: string;
 };
 
@@ -44,7 +61,7 @@ type Inquiry = {
 const AdminInbox = () => {
   const { session, isAdmin, loading } = useAdmin();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"chat" | "inquiries">("chat");
+  const [tab, setTab] = useState<"chat" | "inquiries" | "audit">("chat");
   const [search, setSearch] = useState("");
 
   // Chat state
@@ -58,6 +75,9 @@ const AdminInbox = () => {
   // Inquiries
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [activeInquiry, setActiveInquiry] = useState<Inquiry | null>(null);
+
+  // MCP audit logs
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
 
   useEffect(() => {
     if (!loading && !session) navigate("/admin/login", { replace: true });
@@ -80,17 +100,28 @@ const AdminInbox = () => {
     if (data) setInquiries(data as Inquiry[]);
   }, []);
 
+  const loadAuditLogs = useCallback(async () => {
+    const { data } = await supabase
+      .from("mcp_audit_logs")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(300);
+    if (data) setAuditLogs(data as AuditLog[]);
+  }, []);
+
   useEffect(() => {
     if (!isAdmin) return;
     loadConversations();
     loadInquiries();
+    loadAuditLogs();
     // Poll inbox lists every 5s (realtime publication is disabled for chat tables for security).
     const id = window.setInterval(() => {
       loadConversations();
       loadInquiries();
+      loadAuditLogs();
     }, 5000);
     return () => window.clearInterval(id);
-  }, [isAdmin, loadConversations, loadInquiries]);
+  }, [isAdmin, loadConversations, loadInquiries, loadAuditLogs]);
 
   // Load messages for active conversation + poll
   useEffect(() => {
@@ -213,7 +244,7 @@ const AdminInbox = () => {
       </header>
 
       <div className="border-b border-border bg-card px-6 flex gap-1">
-        {(["chat", "inquiries"] as const).map((t) => (
+        {(["chat", "inquiries", "audit"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -221,12 +252,14 @@ const AdminInbox = () => {
               tab === t ? "border-accent text-accent" : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
-            {t === "chat" ? <MessageSquare size={14} /> : <Inbox size={14} />}
-            {t === "chat" ? "Live Chat" : "Contact Inquiries"}
+            {t === "chat" ? <MessageSquare size={14} /> : t === "inquiries" ? <Inbox size={14} /> : <ScrollText size={14} />}
+            {t === "chat" ? "Live Chat" : t === "inquiries" ? "Contact Inquiries" : "MCP Audit Log"}
             <span className="ml-1 text-[10px] bg-muted px-1.5 rounded-full">
               {t === "chat"
                 ? conversations.reduce((a, c) => a + (c.admin_unread_count || 0), 0)
-                : inquiries.filter((i) => !i.read_at).length}
+                : t === "inquiries"
+                  ? inquiries.filter((i) => !i.read_at).length
+                  : auditLogs.length}
             </span>
           </button>
         ))}
@@ -326,6 +359,9 @@ const AdminInbox = () => {
                             </p>
                           )}
                           {m.message}
+                          {m.is_streaming && (
+                            <span className="inline-block w-1.5 h-3.5 ml-1 align-middle bg-current opacity-70 animate-pulse" />
+                          )}
                           <p className={`text-[9px] mt-1 ${fromAdmin ? "text-accent-foreground/70" : "text-muted-foreground"}`}>
                             {new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </p>

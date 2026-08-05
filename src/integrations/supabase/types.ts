@@ -56,30 +56,36 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
+          is_streaming: boolean
           message: string
           name: string
           read_at: string | null
           sender: string
+          stream_id: string | null
         }
         Insert: {
           conversation_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
+          is_streaming?: boolean
           message: string
           name: string
           read_at?: string | null
           sender?: string
+          stream_id?: string | null
         }
         Update: {
           conversation_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
+          is_streaming?: boolean
           message?: string
           name?: string
           read_at?: string | null
           sender?: string
+          stream_id?: string | null
         }
         Relationships: [
           {
@@ -130,6 +136,54 @@ export type Database = {
           service_interest?: string | null
           status?: string
           website?: string | null
+        }
+        Relationships: []
+      }
+      mcp_audit_logs: {
+        Row: {
+          action: string
+          arguments: Json
+          client_id: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          success: boolean
+          summary: string | null
+          target_id: string | null
+          target_table: string | null
+          tool_name: string
+          user_email: string | null
+          user_id: string
+        }
+        Insert: {
+          action?: string
+          arguments?: Json
+          client_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          success?: boolean
+          summary?: string | null
+          target_id?: string | null
+          target_table?: string | null
+          tool_name: string
+          user_email?: string | null
+          user_id?: string
+        }
+        Update: {
+          action?: string
+          arguments?: Json
+          client_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          success?: boolean
+          summary?: string | null
+          target_id?: string | null
+          target_table?: string | null
+          tool_name?: string
+          user_email?: string | null
+          user_id?: string
         }
         Relationships: []
       }

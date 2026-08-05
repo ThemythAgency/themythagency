@@ -58,6 +58,28 @@ function supabaseForUser(ctx) {
   });
 }
 
+// src/lib/mcp/audit.ts
+async function recordToolCall(ctx, entry) {
+  try {
+    if (!ctx.isAuthenticated()) return;
+    const supabase = supabaseForUser(ctx);
+    await supabase.from("mcp_audit_logs").insert({
+      user_id: ctx.getUserId(),
+      user_email: ctx.getUserEmail() ?? null,
+      client_id: ctx.getClientId() ?? null,
+      tool_name: entry.tool,
+      action: entry.action,
+      arguments: entry.args ?? {},
+      target_table: entry.targetTable ?? null,
+      target_id: entry.targetId ?? null,
+      summary: entry.summary ?? null,
+      success: entry.success,
+      error_message: entry.error ?? null
+    });
+  } catch {
+  }
+}
+
 // src/lib/mcp/tools/list-inquiries.ts
 var list_inquiries_default = defineTool({
   name: "list_inquiries",
@@ -80,6 +102,15 @@ var list_inquiries_default = defineTool({
     if (status) query = query.eq("status", status);
     if (unread_only) query = query.is("read_at", null);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_inquiries",
+      action: "read",
+      args: { status, unread_only, limit },
+      targetTable: "contact_inquiries",
+      summary: error ? "Failed to list inquiries" : `Listed ${data?.length ?? 0} inquiries`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
@@ -109,6 +140,16 @@ var update_inquiry_status_default = defineTool2({
     const patch = { status };
     if (mark_read) patch.read_at = (/* @__PURE__ */ new Date()).toISOString();
     const { data, error } = await supabase.from("contact_inquiries").update(patch).eq("id", inquiry_id).select("id, name, email, status, read_at").maybeSingle();
+    await recordToolCall(ctx, {
+      tool: "update_inquiry_status",
+      action: "write",
+      args: { inquiry_id, status, mark_read },
+      targetTable: "contact_inquiries",
+      targetId: inquiry_id,
+      summary: error ? "Failed to update inquiry" : data ? `Set status to "${status}"${mark_read ? " and marked read" : ""} for ${data.name}` : "Inquiry not found",
+      success: !error && !!data,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) {
       return { content: [{ type: "text", text: "Inquiry not found or not accessible." }], isError: true };
@@ -140,6 +181,15 @@ var list_conversations_default = defineTool3({
     let query = supabase.from("chat_conversations").select("id, name, email, admin_unread_count, last_message_at, created_at").order("last_message_at", { ascending: false }).limit(Math.min(Math.max(limit ?? 20, 1), 100));
     if (unread_only) query = query.gt("admin_unread_count", 0);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_conversations",
+      action: "read",
+      args: { unread_only, limit },
+      targetTable: "chat_conversations",
+      summary: error ? "Failed to list conversations" : `Listed ${data?.length ?? 0} conversations`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],
@@ -166,6 +216,16 @@ var list_chat_messages_default = defineTool4({
     }
     const supabase = supabaseForUser(ctx);
     const { data, error } = await supabase.from("chat_messages").select("id, sender, name, message, created_at, read_at").eq("conversation_id", conversation_id).order("created_at", { ascending: true }).limit(Math.min(Math.max(limit ?? 100, 1), 500));
+    await recordToolCall(ctx, {
+      tool: "list_chat_messages",
+      action: "read",
+      args: { conversation_id, limit },
+      targetTable: "chat_messages",
+      targetId: conversation_id,
+      summary: error ? "Failed to read conversation" : `Read ${data?.length ?? 0} messages`,
+      success: !error,
+      error: error?.message
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],

@@ -1,6 +1,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { supabaseForUser } from "../supabase";
+import { recordToolCall } from "../audit";
 
 export default defineTool({
   name: "list_conversations",
@@ -24,6 +25,15 @@ export default defineTool({
       .limit(Math.min(Math.max(limit ?? 20, 1), 100));
     if (unread_only) query = query.gt("admin_unread_count", 0);
     const { data, error } = await query;
+    await recordToolCall(ctx, {
+      tool: "list_conversations",
+      action: "read",
+      args: { unread_only, limit },
+      targetTable: "chat_conversations",
+      summary: error ? "Failed to list conversations" : `Listed ${data?.length ?? 0} conversations`,
+      success: !error,
+      error: error?.message,
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
       content: [{ type: "text", text: JSON.stringify(data ?? [], null, 2) }],

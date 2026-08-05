@@ -1,6 +1,7 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
 import { supabaseForUser } from "../supabase";
+import { recordToolCall } from "../audit";
 
 export default defineTool({
   name: "update_inquiry_status",
@@ -26,6 +27,20 @@ export default defineTool({
       .eq("id", inquiry_id)
       .select("id, name, email, status, read_at")
       .maybeSingle();
+    await recordToolCall(ctx, {
+      tool: "update_inquiry_status",
+      action: "write",
+      args: { inquiry_id, status, mark_read },
+      targetTable: "contact_inquiries",
+      targetId: inquiry_id,
+      summary: error
+        ? "Failed to update inquiry"
+        : data
+          ? `Set status to "${status}"${mark_read ? " and marked read" : ""} for ${data.name}`
+          : "Inquiry not found",
+      success: !error && !!data,
+      error: error?.message,
+    });
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     if (!data) {
       return { content: [{ type: "text", text: "Inquiry not found or not accessible." }], isError: true };

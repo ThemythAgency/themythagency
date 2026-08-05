@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import founderPortrait from "@/assets/founder-portrait.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },

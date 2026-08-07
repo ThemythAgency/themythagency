@@ -45,7 +45,12 @@ const AnimatedRoutes = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/inbox" element={<AdminInbox />} />
         <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
+        <Route path="/privacy-policy" element={<PageTransition><Policy slug="privacy-policy" /></PageTransition>} />
+        <Route path="/terms-of-service" element={<PageTransition><Policy slug="terms-of-service" /></PageTransition>} />
+        <Route path="/cookie-policy" element={<PageTransition><Policy slug="cookie-policy" /></PageTransition>} />
+        <Route path="/refund-policy" element={<PageTransition><Policy slug="refund-policy" /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+
       </Routes>
     </AnimatePresence>
   );

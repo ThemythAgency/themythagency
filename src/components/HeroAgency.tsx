@@ -31,10 +31,23 @@ const makePositions = (n: number, w: number, h: number) =>
 const HeroAgency = () => {
   const ref = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLButtonElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const contentYRaw = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const opacityRaw = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const contentY = isMobile ? undefined : contentYRaw;
+  const opacity = isMobile ? undefined : opacityRaw;
+
 
   // Pointer-driven spotlight (works for mouse AND touch via pointermove)
   const mouseX = useMotionValue(0.5);
@@ -138,22 +151,22 @@ const HeroAgency = () => {
 
       <motion.div
         style={{ y: contentY, opacity }}
-        className="relative z-10 section-padding w-full pt-32 md:pt-40 pb-20"
+        className="relative z-10 section-padding w-full pt-24 md:pt-40 pb-24 md:pb-20"
       >
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 lg:gap-20 items-center">
           {/* Left: copy */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex items-center gap-4 mb-8"
+              className="flex items-center gap-4 mb-6 md:mb-8"
             >
               <div className="w-12 h-px bg-accent" />
               <span className="text-label text-accent">Shopify Growth Consultancy with Execution</span>
             </motion.div>
 
-            <h1 className="text-display-xl mb-10 text-balance leading-[1.05]">
+            <h1 className="text-display-xl mb-6 md:mb-10 text-balance leading-[1.05]">
               {headlineWords.map((w, i) => (
                 <motion.span
                   key={i}
@@ -179,7 +192,7 @@ const HeroAgency = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.9 }}
-              className="text-body-lg text-primary-foreground/70 max-w-xl mb-14"
+              className="text-body-lg text-primary-foreground/70 max-w-xl mb-8 md:mb-14"
             >
               Strategic clarity. Conversion-focused design. Scalable infrastructure.
               For growing Shopify brands ready to build systems, not just stores.
@@ -201,16 +214,16 @@ const HeroAgency = () => {
             </motion.div>
           </div>
 
-          {/* Right: Scatterable word chips — touch & mouse friendly, fits all viewports */}
+          {/* Right: Scatterable word chips, touch & mouse friendly, fits all viewports */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full h-[340px] sm:h-[400px] md:h-[460px] select-none"
+            className="relative w-full select-none"
           >
             <div
               ref={stageRef}
-              className="absolute inset-0 flex items-center justify-center overflow-hidden"
+              className="relative w-full h-[200px] sm:h-[320px] md:h-[420px] flex items-center justify-center overflow-hidden"
             >
               {CHIPS.map((chip, i) => {
                 const pos = positions[i] ?? { x: 0, y: 0, rotate: 0 };
@@ -232,7 +245,7 @@ const HeroAgency = () => {
                     whileTap={{ scale: 0.96 }}
                     whileDrag={{ scale: 1.1, zIndex: 100 }}
                     style={{ zIndex, touchAction: "none" }}
-                    className={`absolute cursor-grab active:cursor-grabbing font-display text-base sm:text-lg md:text-xl px-4 sm:px-5 py-2.5 sm:py-3 rounded-full border backdrop-blur-sm shadow-xl whitespace-nowrap ${
+                    className={`absolute cursor-grab active:cursor-grabbing font-display text-sm sm:text-lg md:text-xl px-3.5 sm:px-5 py-2 sm:py-3 rounded-full border backdrop-blur-sm shadow-xl whitespace-nowrap ${
                       chip.accent
                         ? "bg-accent text-accent-foreground border-accent/60"
                         : "bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20"
@@ -244,20 +257,23 @@ const HeroAgency = () => {
               })}
             </div>
 
-            {/* Shuffle button */}
-            <button
-              type="button"
-              onClick={shuffle}
-              className="absolute -bottom-2 right-0 z-[200] flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-xs font-body font-semibold tracking-wider uppercase shadow-lg hover:scale-105 transition-transform"
-              aria-label="Scatter words"
-            >
-              <Shuffle size={14} />
-              Scatter
-            </button>
-            <p className="absolute -bottom-2 left-0 z-[200] text-[10px] font-body tracking-wider uppercase text-primary-foreground/50 pt-3">
-              Drag · Arrange · Scatter
-            </p>
+            {/* Shuffle row, kept in flow so it never gets buried on mobile */}
+            <div className="mt-4 flex items-center justify-between gap-4">
+              <p className="text-[10px] font-body tracking-wider uppercase text-primary-foreground/50">
+                Drag · Arrange · Scatter
+              </p>
+              <button
+                type="button"
+                onClick={shuffle}
+                className="flex items-center gap-2 bg-accent text-accent-foreground px-4 py-2.5 text-xs font-body font-semibold tracking-wider uppercase shadow-lg hover:scale-105 transition-transform"
+                aria-label="Scatter words"
+              >
+                <Shuffle size={14} />
+                Scatter
+              </button>
+            </div>
           </motion.div>
+
         </div>
       </motion.div>
 
@@ -269,7 +285,7 @@ const HeroAgency = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.5 }}
         whileHover={{ y: -2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors cursor-pointer"
+        className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2 text-primary-foreground/70 hover:text-accent transition-colors cursor-pointer"
         aria-label="Scroll to next section"
       >
         <span className="text-[10px] font-body tracking-[0.3em] uppercase">Scroll</span>

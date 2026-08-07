@@ -5,6 +5,7 @@ import { ArrowRight, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { blogPosts } from "@/data/blogData";
 
 const categories = ["All", ...Array.from(new Set(blogPosts.map((p) => p.category)))];
@@ -16,8 +17,32 @@ const Blog = () => {
     ? blogPosts
     : blogPosts.filter((p) => p.category === activeCategory);
 
+  const blogLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "The Themyth Agency Blog",
+    url: `${SITE_URL}/blog`,
+    description:
+      "Strategic insights, tactical guides, and growth frameworks for Shopify brands ready to scale.",
+    blogPost: blogPosts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.excerpt,
+      url: `${SITE_URL}/blog/${p.slug}`,
+      articleSection: p.category,
+      keywords: p.tags?.join(", "),
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Shopify Growth Blog | Themyth Agency"
+        description="Strategic insights, tactical guides, and growth frameworks for Shopify brands ready to scale, from conversion to systems."
+        path="/blog"
+        jsonLd={blogLd}
+      />
+
       <Navbar />
 
       <section className="section-padding pt-32 md:pt-44 pb-16">

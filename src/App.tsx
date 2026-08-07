@@ -21,7 +21,9 @@ import BlogPost from "./pages/BlogPost";
 import AdminLogin from "./pages/AdminLogin";
 import AdminInbox from "./pages/AdminInbox";
 import OAuthConsent from "./pages/OAuthConsent";
+import Policy from "./pages/Policy";
 import NotFound from "./pages/NotFound";
+
 
 const queryClient = new QueryClient();
 

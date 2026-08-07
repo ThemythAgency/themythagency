@@ -4,6 +4,8 @@ import { ArrowRight, Search, Wrench, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import ServicePackages from "@/components/ServicePackages";
+
 
 const services = [
   {
@@ -158,7 +160,10 @@ const Services = () => {
         </section>
       ))}
 
+      <ServicePackages />
+
       {/* CTA */}
+
       <section className="section-padding section-spacing bg-primary text-primary-foreground text-center overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.97 }}

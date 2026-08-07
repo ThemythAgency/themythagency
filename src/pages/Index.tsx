@@ -14,6 +14,9 @@ import WhyWorkWithUs from "@/components/WhyWorkWithUs";
 import BlogSection from "@/components/BlogSection";
 import HeroAgency from "@/components/HeroAgency";
 import TechStack from "@/components/TechStack";
+import Seo, { SITE_URL } from "@/components/Seo";
+import { blogPosts } from "@/data/blogData";
+
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -82,7 +85,46 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Themyth Agency | Shopify Growth Consultancy with Execution"
+        description="We build Shopify growth systems that scale with control. Strategic clarity, conversion-focused design, and scalable infrastructure for growing Shopify brands."
+        path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Themyth Agency",
+            url: SITE_URL,
+            description:
+              "Shopify growth consultancy with execution. Strategy, conversion-focused design, and scalable infrastructure for growing Shopify brands.",
+            sameAs: [
+              "https://www.facebook.com/61555650419432/",
+              "https://www.instagram.com/themythagency/",
+              "https://www.tiktok.com/@themyth_agency",
+              "https://www.linkedin.com/in/themyth-agency-ba0631287",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Themyth Agency",
+            url: SITE_URL,
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Latest Shopify growth insights",
+            itemListElement: blogPosts.slice(0, 3).map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/blog/${p.slug}`,
+              name: p.title,
+            })),
+          },
+        ]}
+      />
       <Navbar />
+
 
       {/* Hero */}
       <HeroAgency />

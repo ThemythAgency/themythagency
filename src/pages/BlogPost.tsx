@@ -1,9 +1,9 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock } from "lucide-react";
-import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Seo, { SITE_URL } from "@/components/Seo";
 import { blogPosts } from "@/data/blogData";
 
 const BlogPost = () => {
@@ -12,17 +12,41 @@ const BlogPost = () => {
 
   if (!post) return <Navigate to="/blog" replace />;
 
-  const jsonLd = {
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const isoDate = (() => {
+    const parsed = new Date(post.date);
+    return Number.isNaN(parsed.getTime()) ? undefined : parsed.toISOString();
+  })();
+
+  const articleLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": "Article",
     headline: post.title,
     description: post.excerpt,
-    author: { "@type": "Organization", name: post.author, url: "https://themythagency.lovable.app" },
-    publisher: { "@type": "Organization", name: "Themyth Agency", url: "https://themythagency.lovable.app" },
-    datePublished: post.date,
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://themythagency.lovable.app/blog/${post.slug}` },
+    author: { "@type": "Organization", name: post.author, url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "Themyth Agency",
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.ico` },
+    },
+    datePublished: isoDate ?? post.date,
+    dateModified: isoDate ?? post.date,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    url,
     articleSection: post.category,
     keywords: post.tags?.join(", "),
+    inLanguage: "en",
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
   };
 
   const faqLd = post.faqs?.length
@@ -52,14 +76,18 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{post.title} | Themyth Agency Blog</title>
-        <meta name="description" content={post.excerpt} />
-        <link rel="canonical" href={`https://themythagency.lovable.app/blog/${post.slug}`} />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
-        {post.tags?.length ? <meta name="keywords" content={post.tags.join(", ")} /> : null}
-      </Helmet>
+      <Seo
+        title={`${post.title} | Themyth Agency`}
+        description={post.excerpt}
+        path={`/blog/${post.slug}`}
+        type="article"
+        keywords={post.tags?.join(", ")}
+        publishedTime={isoDate}
+        author={post.author}
+        section={post.category}
+        jsonLd={faqLd ? [articleLd, breadcrumbLd, faqLd] : [articleLd, breadcrumbLd]}
+      />
+
       <Navbar />
 
       <article className="section-padding pt-32 md:pt-44 pb-16">

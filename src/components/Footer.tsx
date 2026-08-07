@@ -27,7 +27,7 @@ const Footer = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8"
         >
           <motion.div
             variants={colVariant}
@@ -95,6 +95,25 @@ const Footer = () => {
               ].map((link) => (
                 <Link
                   key={link.label}
+                  to={link.to}
+                  className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 hover:text-gold transition-all duration-300 font-body inline-block"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+          <motion.div variants={colVariant} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+            <h4 className="text-label mb-5 text-gold">Legal</h4>
+            <div className="flex flex-col gap-3">
+              {[
+                { to: "/privacy-policy", label: "Privacy Policy" },
+                { to: "/terms-of-service", label: "Terms of Service" },
+                { to: "/cookie-policy", label: "Cookie Policy" },
+                { to: "/refund-policy", label: "Refund Policy" },
+              ].map((link) => (
+                <Link
+                  key={link.to}
                   to={link.to}
                   className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 hover:text-gold transition-all duration-300 font-body inline-block"
                 >

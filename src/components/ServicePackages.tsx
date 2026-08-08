@@ -200,8 +200,6 @@ const customCategories: { name: string; services: { label: string; price: number
   },
 ];
 
-const money = (n: number) => `$${n.toLocaleString("en-US")}`;
-
 const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
   const [selected, setSelected] = useState<string[]>([]);
   const subtotal =
@@ -210,61 +208,74 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
   const toggle = (label: string) =>
     setSelected((prev) => (prev.includes(label) ? prev.filter((x) => x !== label) : [...prev, label]));
 
+  const waHref = waLink(
+    buildPackageMessage({
+      packageName: pkg.name,
+      basePrice: `${pkg.price}${pkg.priceNote ? ` ${pkg.priceNote}` : ""}`,
+      addOns: selected,
+      total: subtotal,
+      recurring: Boolean(pkg.priceNote),
+    }),
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay: (index % 2) * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6 }}
-      className="relative flex flex-col bg-card border border-border p-8 md:p-10 transition-all duration-500 hover:shadow-xl hover:border-accent/30"
+      className="relative flex flex-col bg-card border border-border p-6 transition-all duration-500 hover:shadow-xl hover:border-accent/30"
     >
       {pkg.badge && (
-        <span className="absolute -top-3 left-8 bg-accent text-accent-foreground text-[10px] font-body font-semibold tracking-[0.18em] uppercase px-3 py-1.5">
+        <span className="absolute -top-3 left-6 bg-accent text-accent-foreground text-[9px] font-body font-semibold tracking-[0.16em] uppercase px-2.5 py-1">
           {pkg.badge}
         </span>
       )}
 
-      <div className="flex items-center gap-4 mb-5">
+      <div className="flex items-center gap-3 mb-4">
         <span className="text-label text-accent">{pkg.num}</span>
         <div className="gold-line" />
       </div>
 
-      <h3 className="text-display-md mb-2">{pkg.name}</h3>
-      <p className="font-display text-3xl md:text-4xl text-accent mb-1">
+      <h3 className="font-display text-xl md:text-2xl font-medium mb-2">{pkg.name}</h3>
+      <p className="font-display text-2xl md:text-3xl text-accent mb-1">
         {pkg.price}
         {pkg.priceNote && (
-          <span className="text-body text-muted-foreground font-body ml-2">{pkg.priceNote}</span>
+          <span className="text-sm text-muted-foreground font-body ml-2">{pkg.priceNote}</span>
         )}
       </p>
-      <p className="text-body text-muted-foreground mt-4 mb-8">{pkg.description}</p>
+      <p className="text-sm font-body text-muted-foreground leading-relaxed mt-3 mb-6">
+        {pkg.description}
+      </p>
 
-      <h4 className="text-label text-accent mb-4">Core inclusions</h4>
-      <ul className="space-y-3 mb-8">
+      <h4 className="text-label text-accent mb-3">Core inclusions</h4>
+      <ul className="space-y-2 mb-6">
         {pkg.inclusions.map((item) => (
-          <li key={item} className="flex items-start gap-3">
-            <Check size={16} className="text-accent mt-1 flex-shrink-0" />
-            <span className="text-body">{item}</span>
+          <li key={item} className="flex items-start gap-2.5">
+            <Check size={14} className="text-accent mt-1 flex-shrink-0" />
+            <span className="text-sm font-body">{item}</span>
           </li>
         ))}
       </ul>
 
-      <h4 className="text-label text-accent mb-4">Optional add-ons</h4>
-      <div className="space-y-3 mb-6">
+      <h4 className="text-label text-accent mb-3">Optional add-ons</h4>
+      <div className="space-y-2 mb-5">
         {pkg.addOns.map((addon) => {
           const active = selected.includes(addon.label);
           return (
             <button
               key={addon.label}
               type="button"
+              aria-pressed={active}
               onClick={() => toggle(addon.label)}
-              className={`w-full flex items-center justify-between gap-4 border p-4 text-left transition-all duration-300 ${
+              className={`w-full flex items-center justify-between gap-3 border p-3 text-left transition-all duration-300 ${
                 active
                   ? "border-accent bg-accent/10"
                   : "border-border hover:border-accent/40 hover:bg-secondary/60"
               }`}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center gap-2.5">
                 <span
                   className={`w-4 h-4 border flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
                     active ? "bg-accent border-accent" : "border-muted-foreground/50"
@@ -272,9 +283,9 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
                 >
                   {active && <Check size={12} className="text-accent-foreground" />}
                 </span>
-                <span className="text-body">{addon.label}</span>
+                <span className="text-sm font-body">{addon.label}</span>
               </span>
-              <span className="text-sm font-body text-muted-foreground whitespace-nowrap">
+              <span className="text-xs font-body text-muted-foreground whitespace-nowrap">
                 +{money(addon.price)}
               </span>
             </button>
@@ -283,27 +294,28 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
       </div>
 
       {pkg.note && (
-        <p className="text-xs font-body text-muted-foreground border-l-2 border-accent/50 pl-4 mb-6 leading-relaxed">
+        <p className="text-xs font-body text-muted-foreground border-l-2 border-accent/50 pl-3 mb-5 leading-relaxed">
           {pkg.note}
         </p>
       )}
 
-      <div className="mt-auto pt-6 border-t border-border flex items-center justify-between gap-4">
+      <div className="mt-auto pt-5 border-t border-border flex items-center justify-between gap-3 flex-wrap">
         <div>
           <p className="text-label text-muted-foreground mb-1">Your total</p>
-          <motion.p key={subtotal} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="font-display text-2xl">
+          <motion.p key={subtotal} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="font-display text-xl">
             {money(subtotal)}
-            {pkg.priceNote && <span className="text-sm text-muted-foreground ml-1">/mo</span>}
+            {pkg.priceNote && <span className="text-xs text-muted-foreground ml-1">/mo</span>}
           </motion.p>
         </div>
-        <Link to="/contact" className="btn-primary">
+        <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
           Get Started
-          <ArrowRight size={16} className="btn-arrow" />
-        </Link>
+          <ArrowRight size={14} className="btn-arrow" />
+        </a>
       </div>
     </motion.div>
   );
 };
+
 
 const CustomBuilder = () => {
   const [selected, setSelected] = useState<string[]>([]);

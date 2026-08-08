@@ -405,10 +405,19 @@ const CustomBuilder = () => {
             {money(total)}
           </motion.p>
         </div>
-        <Link
-          to={`/contact?plan=custom&total=${total}&services=${encodeURIComponent(selected.join(", "))}`}
+        <a
+          href={waLink(
+            buildPackageMessage({
+              packageName: "Custom Package",
+              services: selected,
+              total,
+            }),
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
           className="btn-gold"
         >
+
           Request This Custom Plan
           <ArrowRight size={16} className="btn-arrow" />
         </Link>

@@ -754,8 +754,32 @@ export const faqs = [
     answer: "Absolutely. Our Strategic Growth Partner service provides ongoing conversion optimization, A/B testing, performance monitoring, and strategic guidance. Growth isn't a one-time project, it's a continuous system, and we're built to support that.",
   },
   {
-    question: "What's your pricing structure?",
-    answer: "We provide custom proposals based on your specific needs and growth goals. Our Growth Foundations Audit starts at a fixed rate, while Growth System Builds and Strategic Partnerships are scoped individually. We're transparent about costs from the first conversation.",
+    question: "How much do your packages cost?",
+    answer: "Packages are fixed price and published on the Services page. The Launch Pad is $500, The Foundation is $1,000, The Growth Engine is $1,500, The Scale System is $2,000, and The Growth Partner retainer is $800 per month. Buying a full package is cheaper than buying the same services individually, you save $100 to $400 depending on the tier.",
+  },
+  {
+    question: "How does the individual service pricing work?",
+    answer: "Standalone services are priced in simple tiers: foundation services are $100 each, visibility services $200, growth and conversion services $300, and advanced scale services $400. The Custom Package builder on the Services page lets you tick exactly what you need and see the running total live before you contact us.",
+  },
+  {
+    question: "Can I add extras to a package?",
+    answer: "Yes. Every package has optional add-ons you can tick directly on the card, for example payment gateway integration, product page optimization, technical SEO, or a virtual assistant. The card total updates instantly, and the selections are carried into your message when you click Get Started.",
+  },
+  {
+    question: "Is ad spend included in the paid ads packages?",
+    answer: "No. Ad budget is separate and stays in your own ad accounts, managed and funded by you. Our fee covers strategy, setup, implementation and ongoing optimization so you keep full ownership and transparency over spend.",
+  },
+  {
+    question: "How do I pay, and do you offer refunds?",
+    answer: "Projects typically start with a deposit and the balance on delivery. Our Refund Policy page sets out exactly when a refund applies, what is non-refundable once work has begun, and how to raise a request. Read it before you pay, nothing is buried in fine print.",
+  },
+  {
+    question: "What are your terms, privacy and cookie policies?",
+    answer: "All of our policies are published and linked in the footer: Terms of Service, Privacy Policy, Cookie Policy and Refund Policy. They cover scope of work, payment terms, intellectual property, how we handle your data, and what we store when you use the site or live chat.",
+  },
+  {
+    question: "Who owns the store, accounts and assets we build?",
+    answer: "You do. Every Shopify store, domain, ad account, analytics property and design file is created in your name or transferred to you. We never hold your accounts hostage, and access can be revoked at any time.",
   },
   {
     question: "Do you offer support after the website launches?",
@@ -770,3 +794,4 @@ export const faqs = [
     answer: "Results vary by project scope and starting point, but our clients typically see 40–200% improvements in conversion rates, significant load time reductions, and meaningful revenue growth within 60–90 days of launch. We set realistic expectations upfront and track everything.",
   },
 ];
+

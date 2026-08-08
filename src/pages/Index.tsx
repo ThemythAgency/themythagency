@@ -339,8 +339,12 @@ const Index = () => {
       {/* Why Work With Us */}
       <WhyWorkWithUs />
 
+      {/* Trust badges */}
+      <TrustBadges />
+
       {/* Testimonials */}
       <Testimonials />
+
 
       {/* Tech Stack marquee */}
       <TechStack />

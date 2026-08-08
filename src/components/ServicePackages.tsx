@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Plus } from "lucide-react";
+import { waLink, buildPackageMessage, money } from "@/lib/whatsapp";
+
 
 type AddOn = { label: string; price: number };
 

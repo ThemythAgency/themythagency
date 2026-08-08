@@ -145,7 +145,7 @@ const HeroAgency = () => {
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 right-[10%] w-[420px] h-[420px] rounded-full bg-accent/10 blur-3xl pointer-events-none"
+        className="absolute top-1/4 right-0 md:right-[10%] w-[260px] h-[260px] md:w-[420px] md:h-[420px] max-w-full rounded-full bg-accent/10 blur-3xl pointer-events-none"
         aria-hidden
       />
 

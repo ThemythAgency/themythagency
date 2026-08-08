@@ -1,0 +1,31 @@
+# Themyth Agency
+
+> Shopify growth consultancy. We build Shopify growth systems that scale with control: strategic diagnostics, conversion-focused design, and scalable infrastructure for growing Shopify brands.
+
+## Core pages
+- [Home](https://themythagency.lovable.app/): Positioning, services overview, social proof.
+- [About](https://themythagency.lovable.app/about): Founder story and how we work.
+- [Services & Packages](https://themythagency.lovable.app/services): Fixed-price packages and a custom package builder.
+- [Growth Foundations Audit](https://themythagency.lovable.app/audit): Diagnostic engagement details.
+- [Portfolio](https://themythagency.lovable.app/portfolio): Selected work.
+- [Case Studies](https://themythagency.lovable.app/case-studies): Outcome-led project breakdowns.
+- [Blog](https://themythagency.lovable.app/blog): Shopify growth articles.
+- [Contact](https://themythagency.lovable.app/contact): Lead qualification form.
+
+## Packages
+- The Launch Pad, $500: full Shopify store build from scratch.
+- The Foundation, $1,000: brand, trust, on-page SEO and email foundations.
+- The Growth Engine, $1,500: checkout, paid ads and conversion optimization.
+- The Scale System, $2,000: international, marketplace and full-funnel scale.
+- The Growth Partner, $800 per month: ongoing retainer.
+- Custom Package: pick individual services, live running total.
+
+## Legal
+- [Privacy Policy](https://themythagency.lovable.app/privacy-policy)
+- [Terms of Service](https://themythagency.lovable.app/terms-of-service)
+- [Cookie Policy](https://themythagency.lovable.app/cookie-policy)
+- [Refund Policy](https://themythagency.lovable.app/refund-policy)
+
+## Contact
+Email: official.themythagency@gmail.com
+WhatsApp: +1 226 783 7543

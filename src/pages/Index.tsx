@@ -14,6 +14,8 @@ import WhyWorkWithUs from "@/components/WhyWorkWithUs";
 import BlogSection from "@/components/BlogSection";
 import HeroAgency from "@/components/HeroAgency";
 import TechStack from "@/components/TechStack";
+import TrustBadges from "@/components/TrustBadges";
+
 import Seo, { SITE_URL } from "@/components/Seo";
 import { blogPosts } from "@/data/blogData";
 
@@ -339,8 +341,12 @@ const Index = () => {
       {/* Why Work With Us */}
       <WhyWorkWithUs />
 
+      {/* Trust badges */}
+      <TrustBadges />
+
       {/* Testimonials */}
       <Testimonials />
+
 
       {/* Tech Stack marquee */}
       <TechStack />

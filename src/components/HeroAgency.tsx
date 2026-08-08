@@ -145,7 +145,7 @@ const HeroAgency = () => {
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 right-[10%] w-[420px] h-[420px] rounded-full bg-accent/10 blur-3xl pointer-events-none"
+        className="absolute top-1/4 right-0 md:right-[10%] w-[260px] h-[260px] md:w-[420px] md:h-[420px] max-w-full rounded-full bg-accent/10 blur-3xl pointer-events-none"
         aria-hidden
       />
 
@@ -175,8 +175,9 @@ const HeroAgency = () => {
                   transition={{ duration: 0.7, delay: 0.15 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
                   className="inline-block mr-[0.25em]"
                 >
-                  {w}
+                  {w}{" "}
                 </motion.span>
+
               ))}
               <motion.span
                 initial={{ opacity: 0, y: 40 }}

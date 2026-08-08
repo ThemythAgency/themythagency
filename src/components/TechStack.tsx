@@ -40,11 +40,12 @@ const TechStack = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative"
+        className="relative w-full max-w-full overflow-hidden"
       >
         <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent z-10" />
         <div className="marquee py-6">
+
           {loop.map((t, i) => (
             <div
               key={`${t.name}-${i}`}

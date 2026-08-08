@@ -467,15 +467,16 @@ const ServicePackages = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 items-stretch">
         {packages.map((pkg, i) => (
           <PackageCard key={pkg.num} pkg={pkg} index={i} />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1">
         <CustomBuilder />
       </div>
+
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

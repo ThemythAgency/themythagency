@@ -417,10 +417,10 @@ const CustomBuilder = () => {
           rel="noopener noreferrer"
           className="btn-gold"
         >
-
           Request This Custom Plan
           <ArrowRight size={16} className="btn-arrow" />
-        </Link>
+        </a>
+
       </div>
     </motion.div>
   );

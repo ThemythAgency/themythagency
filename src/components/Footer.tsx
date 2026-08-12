@@ -134,6 +134,13 @@ const Footer = () => {
                   {link.label}
                 </Link>
               ))}
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("themyth:open-cookie-preferences"))}
+                className="text-sm opacity-70 hover:opacity-100 hover:translate-x-1 hover:text-gold transition-all duration-300 font-body inline-block text-left"
+              >
+                Cookie Preferences
+              </button>
             </div>
           </motion.div>
         </motion.div>

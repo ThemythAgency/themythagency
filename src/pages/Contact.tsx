@@ -102,7 +102,7 @@ const Contact = () => {
       </section>
 
       <section className="section-padding pb-20 md:pb-32 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -114,7 +114,7 @@ const Contact = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, type: "spring" }}
-                className="bg-secondary/50 p-10 md:p-12 text-center"
+                className="bg-secondary/50 p-7 md:p-9 text-center"
               >
                 <motion.div
                   initial={{ scale: 0 }}
@@ -288,7 +288,7 @@ const Contact = () => {
           >
             <motion.div
               whileHover={{ y: -4, transition: { duration: 0.3 } }}
-              className="bg-primary text-primary-foreground p-10 md:p-12 mb-6"
+              className="bg-primary text-primary-foreground p-7 md:p-9 mb-6"
             >
               <h3 className="font-display text-xl font-medium mb-6">What happens next?</h3>
               <div className="space-y-4">
@@ -315,7 +315,7 @@ const Contact = () => {
 
             <motion.div
               whileHover={{ y: -4, transition: { duration: 0.3 } }}
-              className="bg-secondary/50 p-10 md:p-12 mb-6"
+              className="bg-secondary/50 p-7 md:p-9 mb-6"
             >
               <h3 className="font-display text-lg font-medium mb-4">This is for you if:</h3>
               <div className="space-y-3">

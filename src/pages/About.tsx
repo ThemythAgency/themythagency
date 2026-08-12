@@ -72,7 +72,7 @@ const About = () => {
 
       {/* Founder */}
       <section className="section-padding section-spacing overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-12 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ const About = () => {
 
 
       <section className="section-padding section-spacing bg-primary text-primary-foreground overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -192,7 +192,7 @@ const About = () => {
 
       {/* Principles */}
       <section className="section-padding section-spacing bg-secondary/30">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div {...fadeUp}>
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
@@ -238,7 +238,7 @@ const About = () => {
           label="Values"
           title="What drives every engagement"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {values.map((value, i) => (
             <motion.div
               key={value.title}

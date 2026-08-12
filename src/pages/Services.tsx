@@ -90,7 +90,7 @@ const Services = () => {
           key={service.num}
           className={`section-padding section-spacing overflow-hidden ${i % 2 === 0 ? "bg-secondary/30" : ""}`}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -124,7 +124,7 @@ const Services = () => {
             >
               <motion.div
                 whileHover={{ y: -4, transition: { duration: 0.3 } }}
-                className="bg-card border border-border p-8 md:p-10 mb-6 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
+                className="bg-card border border-border p-6 md:p-8 mb-6 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
               >
                 <h4 className="text-label text-accent mb-6">Deliverables</h4>
                 <div className="space-y-3">
@@ -150,7 +150,7 @@ const Services = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 whileHover={{ y: -4, transition: { duration: 0.3 } }}
-                className="bg-primary text-primary-foreground p-8 md:p-10 hover:shadow-xl transition-shadow duration-500"
+                className="bg-primary text-primary-foreground p-6 md:p-8 hover:shadow-xl transition-shadow duration-500"
               >
                 <h4 className="text-label text-gold mb-4">Ideal For</h4>
                 <p className="text-body opacity-80">{service.ideal}</p>

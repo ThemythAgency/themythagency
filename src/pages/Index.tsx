@@ -169,7 +169,7 @@ const Index = () => {
 
       {/* Philosophy */}
       <section className="section-padding section-spacing">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div {...fadeUp}>
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
@@ -201,7 +201,7 @@ const Index = () => {
           <motion.div
             {...fadeUp}
             whileHover={{ scale: 1.02, transition: { duration: 0.4 } }}
-            className="bg-secondary p-12 md:p-16"
+            className="bg-secondary p-6 md:p-8"
           >
             <blockquote className="font-display text-xl md:text-2xl italic leading-relaxed mb-6">
               "Most agencies build stores. We build growth systems. The difference is sustainable scale."
@@ -225,7 +225,7 @@ const Index = () => {
             <motion.div key={service.num} {...fadeUp}>
               <Link
                 to={service.link}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-8 md:py-10 border-b border-border hover:pl-4 hover:bg-secondary/60 transition-all duration-500"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-6 md:py-7 border-b border-border hover:pl-4 hover:bg-secondary/60 transition-all duration-500"
               >
                 <span className="text-label text-accent">{service.num}</span>
                 <h3 className="font-display text-xl md:text-2xl font-medium flex-1">{service.title}</h3>

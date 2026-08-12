@@ -47,7 +47,7 @@ const Testimonials = () => {
               ease: [0.22, 1, 0.36, 1],
             }}
             whileHover={{ y: -4, transition: { duration: 0.3 } }}
-            className="bg-card border border-border p-8 md:p-10 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
+            className="bg-card border border-border p-6 md:p-8 hover:shadow-lg hover:border-accent/20 transition-all duration-500"
           >
             {/* Stars */}
             <div className="flex gap-1 mb-5">

@@ -123,7 +123,7 @@ const About = () => {
               about what will and will not move revenue. If a recommendation cannot be tied to a
               number, it does not make it into the plan.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-border pt-8">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-border pt-8">
               <div>
                 <p className="font-display text-2xl text-accent">200+</p>
                 <p className="text-xs font-body text-muted-foreground mt-1">Shopify stores audited</p>
@@ -133,8 +133,12 @@ const About = () => {
                 <p className="text-xs font-body text-muted-foreground mt-1">In ecommerce growth</p>
               </div>
               <div>
-                <p className="font-display text-2xl text-accent">1</p>
-                <p className="text-xs font-body text-muted-foreground mt-1">Accountable partner</p>
+                <p className="font-display text-2xl text-accent">6</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Accountable partners</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-accent">20+</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Specialized experts</p>
               </div>
             </div>
           </motion.div>

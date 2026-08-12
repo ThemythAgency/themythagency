@@ -84,12 +84,17 @@ const About = () => {
             <div className="absolute -inset-3 border border-accent/40 -z-10 translate-x-3 translate-y-3" />
             <img
               src={founderPortrait}
-              alt="Founder of Themyth Agency, a Shopify growth consultant"
+              alt="Founder, CEO and COO of Themyth Agency, a Shopify growth consultant"
+              title="Founder / CEO / COO, Themyth Agency"
               width={1000}
               height={1250}
               loading="lazy"
               className="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
             />
+            <figcaption className="mt-4 border-l-2 border-accent pl-4">
+              <p className="font-display text-lg font-medium">Founder / CEO / COO</p>
+              <p className="text-xs font-body text-muted-foreground mt-1">Themyth Agency</p>
+            </figcaption>
           </motion.div>
 
           <motion.div {...fadeUp}>

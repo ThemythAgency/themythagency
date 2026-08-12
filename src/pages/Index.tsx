@@ -101,7 +101,9 @@ const Index = () => {
               "Shopify growth consultancy with execution. Strategy, conversion-focused design, and scalable infrastructure for growing Shopify brands.",
             sameAs: [
               "https://www.facebook.com/61555650419432/",
-              "https://www.instagram.com/themythagency/",
+              "https://www.instagram.com/themyth_agency",
+              "https://www.threads.com/@themyth_agency",
+              "https://x.com/Themyth_Agency",
               "https://www.tiktok.com/@themyth_agency",
               "https://www.linkedin.com/in/themyth-agency-ba0631287",
             ],

@@ -9,6 +9,7 @@ import PageTransition from "./components/PageTransition";
 import RouteProgress from "./components/RouteProgress";
 import WhatsAppButton from "./components/WhatsAppButton";
 import LiveChatWidget from "./components/LiveChatWidget";
+import CookieConsent from "./components/CookieConsent";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";

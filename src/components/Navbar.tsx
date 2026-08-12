@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import MonogramLogo from "./MonogramLogo";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "About", path: "/about" },
@@ -65,14 +66,17 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          <ThemeToggle className="ml-2" />
           <Link
             to="/audit"
-            className="btn-primary ml-4 px-5 py-2.5 text-sm"
+            className="btn-primary ml-2 px-5 py-2.5 text-sm"
           >
             Book an Audit
           </Link>
         </div>
 
+        <div className="md:hidden flex items-center gap-3">
+        <ThemeToggle />
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           whileHover={{ scale: 1.1 }}
@@ -82,6 +86,7 @@ const Navbar = () => {
         >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
         </motion.button>
+        </div>
       </div>
 
       <AnimatePresence>

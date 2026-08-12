@@ -3,6 +3,13 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Plus } from "lucide-react";
 import { waLink, buildPackageMessage, money } from "@/lib/whatsapp";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 
 type AddOn = { label: string; price: number };
@@ -122,7 +129,7 @@ const packages: Package[] = [
       "Strategic guidance",
       "Performance reporting",
     ],
-    addOns: [{ label: "Virtual Assistant (per month)", price: 800 }],
+    addOns: [{ label: "Executive Assistant (per month)", price: 800 }],
   },
 ];
 
@@ -227,7 +234,7 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6 }}
-      className="relative flex flex-col bg-card border border-border p-6 transition-all duration-500 hover:shadow-xl hover:border-accent/30"
+      className="relative flex flex-col h-full bg-card border border-border p-5 transition-all duration-500 hover:shadow-xl hover:border-accent/30"
     >
       {pkg.badge && (
         <span className="absolute -top-3 left-6 bg-accent text-accent-foreground text-[9px] font-body font-semibold tracking-[0.16em] uppercase px-2.5 py-1">
@@ -240,29 +247,29 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
         <div className="gold-line" />
       </div>
 
-      <h3 className="font-display text-xl md:text-2xl font-medium mb-2">{pkg.name}</h3>
-      <p className="font-display text-2xl md:text-3xl text-accent mb-1">
+      <h3 className="font-display text-lg lg:text-xl font-medium mb-2">{pkg.name}</h3>
+      <p className="font-display text-2xl text-accent mb-1">
         {pkg.price}
         {pkg.priceNote && (
           <span className="text-sm text-muted-foreground font-body ml-2">{pkg.priceNote}</span>
         )}
       </p>
-      <p className="text-sm font-body text-muted-foreground leading-relaxed mt-3 mb-6">
+      <p className="text-[13px] font-body text-muted-foreground leading-relaxed mt-2.5 mb-5">
         {pkg.description}
       </p>
 
-      <h4 className="text-label text-accent mb-3">Core inclusions</h4>
-      <ul className="space-y-2 mb-6">
+      <h4 className="text-label text-accent mb-2.5">Core inclusions</h4>
+      <ul className="space-y-1.5 mb-5">
         {pkg.inclusions.map((item) => (
           <li key={item} className="flex items-start gap-2.5">
             <Check size={14} className="text-accent mt-1 flex-shrink-0" />
-            <span className="text-sm font-body">{item}</span>
+            <span className="text-[13px] font-body">{item}</span>
           </li>
         ))}
       </ul>
 
-      <h4 className="text-label text-accent mb-3">Optional add-ons</h4>
-      <div className="space-y-2 mb-5">
+      <h4 className="text-label text-accent mb-2.5">Optional add-ons</h4>
+      <div className="space-y-2 mb-4">
         {pkg.addOns.map((addon) => {
           const active = selected.includes(addon.label);
           return (
@@ -271,7 +278,7 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
               type="button"
               aria-pressed={active}
               onClick={() => toggle(addon.label)}
-              className={`w-full flex items-center justify-between gap-3 border p-3 text-left transition-all duration-300 ${
+              className={`w-full flex items-center justify-between gap-2.5 border p-2.5 text-left transition-all duration-300 ${
                 active
                   ? "border-accent bg-accent/10"
                   : "border-border hover:border-accent/40 hover:bg-secondary/60"
@@ -285,7 +292,7 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
                 >
                   {active && <Check size={12} className="text-accent-foreground" />}
                 </span>
-                <span className="text-sm font-body">{addon.label}</span>
+                <span className="text-[13px] font-body">{addon.label}</span>
               </span>
               <span className="text-xs font-body text-muted-foreground whitespace-nowrap">
                 +{money(addon.price)}
@@ -301,15 +308,15 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
         </p>
       )}
 
-      <div className="mt-auto pt-5 border-t border-border flex items-center justify-between gap-3 flex-wrap">
+      <div className="mt-auto pt-4 border-t border-border flex items-center justify-between gap-3 flex-wrap">
         <div>
           <p className="text-label text-muted-foreground mb-1">Your total</p>
-          <motion.p key={subtotal} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="font-display text-xl">
+          <motion.p key={subtotal} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="font-display text-lg">
             {money(subtotal)}
             {pkg.priceNote && <span className="text-xs text-muted-foreground ml-1">/mo</span>}
           </motion.p>
         </div>
-        <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
+        <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-primary text-xs px-5 py-3">
           Get Started
           <ArrowRight size={14} className="btn-arrow" />
         </a>
@@ -340,7 +347,7 @@ const CustomBuilder = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative bg-card border border-border p-8 md:p-10 lg:col-span-2"
+      className="relative bg-card border border-border p-6 md:p-8 lg:col-span-2"
     >
       <span className="absolute -top-3 left-8 bg-primary text-primary-foreground text-[10px] font-body font-semibold tracking-[0.18em] uppercase px-3 py-1.5">
         Fully Flexible
@@ -356,7 +363,7 @@ const CustomBuilder = () => {
         needs, nothing more, nothing less. Select your services and the total updates live.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
         {customCategories.map((cat, ci) => (
           <motion.div
             key={cat.name}
@@ -434,7 +441,7 @@ const ServicePackages = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-3xl mb-14"
+        className="max-w-3xl mb-10"
       >
         <div className="flex items-center gap-4 mb-6">
           <div className="gold-line" />
@@ -449,7 +456,7 @@ const ServicePackages = () => {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-12">
         {qualifiers.map((item, i) => (
           <motion.div
             key={item.q}
@@ -458,7 +465,7 @@ const ServicePackages = () => {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -4 }}
-            className="bg-secondary/40 border border-border p-6 md:p-8 transition-all duration-500 hover:border-accent/30 hover:shadow-lg"
+            className="bg-secondary/40 border border-border p-5 md:p-6 transition-all duration-500 hover:border-accent/30 hover:shadow-lg"
           >
             <span className="text-label text-accent">0{i + 1}</span>
             <h3 className="font-display text-lg font-medium mt-3 mb-3 leading-snug">{item.q}</h3>
@@ -467,7 +474,30 @@ const ServicePackages = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-10 items-stretch">
+      {/* Mobile: professional carousel */}
+      <div className="md:hidden mb-10">
+        <Carousel opts={{ align: "start", loop: false }} className="w-full">
+          <CarouselContent className="-ml-4">
+            {packages.map((pkg, i) => (
+              <CarouselItem key={pkg.num} className="pl-4 basis-[88%]">
+                <div className="h-full pt-4">
+                  <PackageCard pkg={pkg} index={i} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex items-center justify-between mt-5">
+            <p className="text-xs font-body text-muted-foreground">Swipe to compare packages</p>
+            <div className="flex items-center gap-2">
+              <CarouselPrevious className="static translate-y-0 h-9 w-9 rounded-none border-border" />
+              <CarouselNext className="static translate-y-0 h-9 w-9 rounded-none border-border" />
+            </div>
+          </div>
+        </Carousel>
+      </div>
+
+      {/* Desktop / tablet grid */}
+      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-5 mb-10 items-stretch max-w-[1600px]">
         {packages.map((pkg, i) => (
           <PackageCard key={pkg.num} pkg={pkg} index={i} />
         ))}
@@ -483,7 +513,7 @@ const ServicePackages = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-20 bg-primary text-primary-foreground p-10 md:p-16 text-center"
+        className="mt-14 bg-primary text-primary-foreground p-8 md:p-12 text-center"
       >
         <h3 className="text-display-md mb-4">Not sure where to start?</h3>
         <p className="text-body-lg opacity-70 max-w-xl mx-auto mb-8">

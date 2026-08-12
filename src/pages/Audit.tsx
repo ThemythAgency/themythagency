@@ -42,8 +42,8 @@ const Audit = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <section className="section-padding pt-28 md:pt-32 pb-10 md:pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -106,7 +106,7 @@ const Audit = () => {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -4, transition: { duration: 0.3 } }}
-            className="bg-primary text-primary-foreground p-10 md:p-12 hover:shadow-2xl transition-shadow duration-500"
+            className="bg-primary text-primary-foreground p-7 md:p-9 hover:shadow-2xl transition-shadow duration-500"
           >
             <h3 className="text-label text-gold mb-6">Who This Is For</h3>
             <ul className="space-y-4">
@@ -135,7 +135,7 @@ const Audit = () => {
 
       {/* Why Before Scaling */}
       <section className="section-padding section-spacing border-t border-border overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -159,7 +159,7 @@ const Audit = () => {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             whileHover={{ y: -4, transition: { duration: 0.3 } }}
-            className="bg-secondary p-10 md:p-12 hover:shadow-lg transition-shadow duration-500"
+            className="bg-secondary p-7 md:p-9 hover:shadow-lg transition-shadow duration-500"
           >
             <div className="space-y-6">
               {[
@@ -204,7 +204,7 @@ const Audit = () => {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.7, delay: ai * 0.12, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="bg-card border border-border p-8 md:p-10 hover:shadow-xl hover:border-accent/30 transition-all duration-500"
+              className="bg-card border border-border p-6 md:p-8 hover:shadow-xl hover:border-accent/30 transition-all duration-500"
             >
               <h3 className="font-display text-xl font-medium mb-6">{area.title}</h3>
               <div className="space-y-3">
@@ -230,7 +230,7 @@ const Audit = () => {
 
       {/* What You Receive */}
       <section className="section-padding section-spacing overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}

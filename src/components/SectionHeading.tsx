@@ -14,7 +14,7 @@ const SectionHeading = ({ label, title, description, align = "left" }: SectionHe
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className={`mb-14 md:mb-20 ${align === "center" ? "text-center" : ""}`}
+      className={`mb-10 md:mb-12 ${align === "center" ? "text-center" : ""}`}
     >
       {label && (
         <motion.div

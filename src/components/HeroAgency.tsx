@@ -153,7 +153,7 @@ const HeroAgency = () => {
         style={{ y: contentY, opacity }}
         className="relative z-10 section-padding w-full pt-24 md:pt-40 pb-24 md:pb-20"
       >
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 md:gap-12 lg:gap-14 items-center">
           {/* Left: copy */}
           <div>
             <motion.div

@@ -32,7 +32,7 @@ const About = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
+      <section className="section-padding pt-28 md:pt-32 pb-10 md:pb-14">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ const About = () => {
 
       {/* Founder */}
       <section className="section-padding section-spacing overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-12 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -84,12 +84,17 @@ const About = () => {
             <div className="absolute -inset-3 border border-accent/40 -z-10 translate-x-3 translate-y-3" />
             <img
               src={founderPortrait}
-              alt="Founder of Themyth Agency, a Shopify growth consultant"
+              alt="Founder, CEO and COO of Themyth Agency, a Shopify growth consultant"
+              title="Founder / CEO / COO, Themyth Agency"
               width={1000}
               height={1250}
               loading="lazy"
               className="w-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
             />
+            <div className="mt-4 border-l-2 border-accent pl-4">
+              <p className="font-display text-lg font-medium">Founder / CEO / COO</p>
+              <p className="text-xs font-body text-muted-foreground mt-1">Themyth Agency</p>
+            </div>
           </motion.div>
 
           <motion.div {...fadeUp}>
@@ -118,7 +123,7 @@ const About = () => {
               about what will and will not move revenue. If a recommendation cannot be tied to a
               number, it does not make it into the plan.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-border pt-8">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-border pt-8">
               <div>
                 <p className="font-display text-2xl text-accent">200+</p>
                 <p className="text-xs font-body text-muted-foreground mt-1">Shopify stores audited</p>
@@ -128,8 +133,12 @@ const About = () => {
                 <p className="text-xs font-body text-muted-foreground mt-1">In ecommerce growth</p>
               </div>
               <div>
-                <p className="font-display text-2xl text-accent">1</p>
-                <p className="text-xs font-body text-muted-foreground mt-1">Accountable partner</p>
+                <p className="font-display text-2xl text-accent">6</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Accountable partners</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-accent">20+</p>
+                <p className="text-xs font-body text-muted-foreground mt-1">Specialized experts</p>
               </div>
             </div>
           </motion.div>
@@ -139,7 +148,7 @@ const About = () => {
 
 
       <section className="section-padding section-spacing bg-primary text-primary-foreground overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -183,7 +192,7 @@ const About = () => {
 
       {/* Principles */}
       <section className="section-padding section-spacing bg-secondary/30">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div {...fadeUp}>
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
@@ -229,7 +238,7 @@ const About = () => {
           label="Values"
           title="What drives every engagement"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {values.map((value, i) => (
             <motion.div
               key={value.title}

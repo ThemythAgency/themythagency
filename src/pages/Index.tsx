@@ -101,7 +101,9 @@ const Index = () => {
               "Shopify growth consultancy with execution. Strategy, conversion-focused design, and scalable infrastructure for growing Shopify brands.",
             sameAs: [
               "https://www.facebook.com/61555650419432/",
-              "https://www.instagram.com/themythagency/",
+              "https://www.instagram.com/themyth_agency",
+              "https://www.threads.com/@themyth_agency",
+              "https://x.com/Themyth_Agency",
               "https://www.tiktok.com/@themyth_agency",
               "https://www.linkedin.com/in/themyth-agency-ba0631287",
             ],
@@ -167,7 +169,7 @@ const Index = () => {
 
       {/* Philosophy */}
       <section className="section-padding section-spacing">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div {...fadeUp}>
             <div className="flex items-center gap-4 mb-6">
               <div className="gold-line" />
@@ -199,7 +201,7 @@ const Index = () => {
           <motion.div
             {...fadeUp}
             whileHover={{ scale: 1.02, transition: { duration: 0.4 } }}
-            className="bg-secondary p-12 md:p-16"
+            className="bg-secondary p-6 md:p-8"
           >
             <blockquote className="font-display text-xl md:text-2xl italic leading-relaxed mb-6">
               "Most agencies build stores. We build growth systems. The difference is sustainable scale."
@@ -223,7 +225,7 @@ const Index = () => {
             <motion.div key={service.num} {...fadeUp}>
               <Link
                 to={service.link}
-                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-8 md:py-10 border-b border-border hover:pl-4 hover:bg-secondary/60 transition-all duration-500"
+                className="group flex flex-col md:flex-row md:items-center gap-4 md:gap-12 py-6 md:py-7 border-b border-border hover:pl-4 hover:bg-secondary/60 transition-all duration-500"
               >
                 <span className="text-label text-accent">{service.num}</span>
                 <h3 className="font-display text-xl md:text-2xl font-medium flex-1">{service.title}</h3>

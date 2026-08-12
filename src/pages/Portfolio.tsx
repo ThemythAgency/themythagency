@@ -42,7 +42,7 @@ const Portfolio = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24 text-center">
+      <section className="section-padding pt-28 md:pt-32 pb-10 md:pb-14 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

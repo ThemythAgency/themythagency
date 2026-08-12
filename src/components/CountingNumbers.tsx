@@ -69,7 +69,7 @@ const stats = [
 
 const CountingNumbers = () => {
   return (
-    <section className="section-padding py-16 md:py-24 bg-primary text-primary-foreground overflow-hidden">
+    <section className="section-padding py-12 md:py-16 bg-primary text-primary-foreground overflow-hidden">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
         {stats.map((stat, i) => (
           <Counter

@@ -42,7 +42,7 @@ const Audit = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="section-padding pt-32 md:pt-40 pb-16 md:pb-24">
+      <section className="section-padding pt-28 md:pt-32 pb-10 md:pb-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           <motion.div
             initial={{ opacity: 0, x: -40 }}

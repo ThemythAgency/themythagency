@@ -35,7 +35,7 @@ const colVariant = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="section-padding py-16 md:py-20">
+      <div className="section-padding py-12 md:py-14">
         <motion.div
           initial="hidden"
           whileInView="visible"

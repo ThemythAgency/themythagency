@@ -68,6 +68,8 @@ const App = () => (
         <AnimatedRoutes />
         <WhatsAppButton />
         <LiveChatWidget />
+        <CookieConsent />
+
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

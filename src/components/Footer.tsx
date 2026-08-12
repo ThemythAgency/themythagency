@@ -71,7 +71,7 @@ const Footer = () => {
                   className="opacity-70 hover:opacity-100 hover:text-gold transition-all duration-300"
                   aria-label={social.label}
                 >
-                  {social.icon ? <social.icon size={20} /> : <TikTokIcon size={20} />}
+                  {social.icon ? <social.icon size={20} /> : social.custom ? <social.custom size={20} /> : null}
                 </motion.a>
               ))}
             </div>

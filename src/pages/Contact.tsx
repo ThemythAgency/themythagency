@@ -41,7 +41,9 @@ const Contact = () => {
 
     setLoading(true);
     try {
-      const { data: inserted, error } = await supabase.from("contact_inquiries").insert({
+      const inquiryId = crypto.randomUUID();
+      const { error } = await supabase.from("contact_inquiries").insert({
+        id: inquiryId,
         name: formData.name.trim(),
         email: formData.email.trim(),
         website: formData.website.trim() || null,
@@ -49,15 +51,13 @@ const Contact = () => {
         budget_range: formData.budget_range,
         service_interest: formData.service_interest,
         message: formData.message.trim() || null,
-      }).select("id").single();
+      });
 
       if (error) throw error;
 
-      if (inserted?.id) {
-        supabase.functions
-          .invoke("notify", { body: { type: "contact_inquiry", id: inserted.id } })
-          .catch(() => undefined);
-      }
+      supabase.functions
+        .invoke("notify", { body: { type: "contact_inquiry", id: inquiryId } })
+        .catch(() => undefined);
 
       setSubmitted(true);
     } catch {

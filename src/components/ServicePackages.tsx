@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Clock, Plus } from "lucide-react";
-import { waLink, buildPackageMessage, money } from "@/lib/whatsapp";
+import { waLink, buildPackageMessage } from "@/lib/whatsapp";
+import { useLocale } from "@/lib/locale";
 import {
   Carousel,
   CarouselContent,
@@ -215,6 +216,7 @@ const customCategories: { name: string; services: { label: string; price: number
 ];
 
 const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
+  const { format: money } = useLocale();
   const [selected, setSelected] = useState<string[]>([]);
   const subtotal =
     pkg.base + pkg.addOns.filter((a) => selected.includes(a.label)).reduce((s, a) => s + a.price, 0);
@@ -254,7 +256,7 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
 
       <h3 className="font-display text-lg lg:text-xl font-medium mb-2">{pkg.name}</h3>
       <p className="font-display text-2xl text-accent mb-1">
-        {pkg.price}
+        {money(pkg.base)}
         {pkg.priceNote && (
           <span className="text-sm text-muted-foreground font-body ml-2">{pkg.priceNote}</span>
         )}

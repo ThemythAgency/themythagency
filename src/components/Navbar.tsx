@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import MonogramLogo from "./MonogramLogo";
 import ThemeToggle from "./ThemeToggle";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 const navItems = [
   { label: "About", path: "/about" },
@@ -66,6 +67,7 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          <LocaleSwitcher className="ml-2" />
           <ThemeToggle className="ml-2" />
           <Link
             to="/audit"
@@ -76,6 +78,7 @@ const Navbar = () => {
         </div>
 
         <div className="md:hidden flex items-center gap-3">
+        <LocaleSwitcher />
         <ThemeToggle />
         <motion.button
           onClick={() => setIsOpen(!isOpen)}

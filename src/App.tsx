@@ -10,6 +10,7 @@ import RouteProgress from "./components/RouteProgress";
 import FloatingSupport from "./components/FloatingSupport";
 import LiveChatWidget from "./components/LiveChatWidget";
 import CookieConsent from "./components/CookieConsent";
+import { LocaleProvider } from "./lib/locale";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -62,6 +63,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <LocaleProvider>
       <BrowserRouter>
         <ScrollToTop />
         <RouteProgress />
@@ -71,6 +73,7 @@ const App = () => (
         <CookieConsent />
 
       </BrowserRouter>
+      </LocaleProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Plus } from "lucide-react";
+import { ArrowRight, Check, Clock, Plus } from "lucide-react";
 import { waLink, buildPackageMessage, money } from "@/lib/whatsapp";
 import {
   Carousel,
@@ -24,12 +24,14 @@ type Package = {
   inclusions: string[];
   addOns: AddOn[];
   base: number;
+  delivery?: string;
   note?: string;
 };
 
 const packages: Package[] = [
   {
     num: "01",
+    delivery: "7 days",
     name: "The Launch Pad",
     price: "$500",
     base: 500,
@@ -51,6 +53,7 @@ const packages: Package[] = [
   },
   {
     num: "02",
+    delivery: "14 days",
     name: "The Foundation",
     price: "$1,000",
     base: 1000,
@@ -72,6 +75,7 @@ const packages: Package[] = [
   },
   {
     num: "03",
+    delivery: "21 days",
     name: "The Growth Engine",
     price: "$1,500",
     base: 1500,
@@ -93,6 +97,7 @@ const packages: Package[] = [
   },
   {
     num: "04",
+    delivery: "28 days",
     name: "The Scale System",
     price: "$2,000",
     base: 2000,
@@ -254,6 +259,12 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
           <span className="text-sm text-muted-foreground font-body ml-2">{pkg.priceNote}</span>
         )}
       </p>
+      {pkg.delivery && (
+        <span className="inline-flex items-center gap-1.5 self-start mt-2 border border-accent/30 bg-accent/10 px-2.5 py-1 text-[11px] font-body text-accent">
+          <Clock size={12} />
+          Delivery in {pkg.delivery}
+        </span>
+      )}
       <p className="text-[13px] font-body text-muted-foreground leading-relaxed mt-2.5 mb-5">
         {pkg.description}
       </p>
@@ -497,10 +508,27 @@ const ServicePackages = () => {
       </div>
 
       {/* Desktop / tablet grid */}
-      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-5 mb-10 items-stretch max-w-[1600px]">
-        {packages.map((pkg, i) => (
-          <PackageCard key={pkg.num} pkg={pkg} index={i} />
-        ))}
+      <div className="hidden md:block mb-10">
+        <Carousel opts={{ align: "start", loop: false }} className="w-full max-w-[1600px]">
+          <CarouselContent className="-ml-5">
+            {packages.map((pkg, i) => (
+              <CarouselItem key={pkg.num} className="pl-5 md:basis-1/2 lg:basis-1/3 2xl:basis-1/4">
+                <div className="h-full pt-4">
+                  <PackageCard pkg={pkg} index={i} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex items-center justify-between mt-5">
+            <p className="text-xs font-body text-muted-foreground">
+              Browse the five packages, then build your own below
+            </p>
+            <div className="flex items-center gap-2">
+              <CarouselPrevious className="static translate-y-0 h-9 w-9 rounded-none border-border" />
+              <CarouselNext className="static translate-y-0 h-9 w-9 rounded-none border-border" />
+            </div>
+          </div>
+        </Carousel>
       </div>
 
       <div className="grid grid-cols-1">

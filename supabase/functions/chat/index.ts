@@ -42,6 +42,8 @@ function randomToken() {
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+import { sendNotification } from "../_shared/notifyEmail.ts";
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   if (req.method !== "POST") return bad("Method not allowed", 405);
@@ -99,6 +101,23 @@ Deno.serve(async (req) => {
         message: message.trim(),
       });
       if (e2) return bad(e2.message, 500);
+
+      // Notify the agency inbox by email; never block the visitor on this.
+      try {
+        await sendNotification(
+          `New live chat message from ${conv.name ?? "Visitor"}`,
+          [
+            `${conv.name ?? "Visitor"}${conv.email ? ` <${conv.email}>` : ""} sent a message:`,
+            "",
+            message.trim(),
+            "",
+            "Reply in the admin inbox: /admin/inbox",
+          ].join("\n"),
+        );
+      } catch (err) {
+        console.error("chat notification failed", err);
+      }
+
       return json({ ok: true });
     }
 

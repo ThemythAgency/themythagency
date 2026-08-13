@@ -41,7 +41,9 @@ const Contact = () => {
 
     setLoading(true);
     try {
+      const inquiryId = crypto.randomUUID();
       const { error } = await supabase.from("contact_inquiries").insert({
+        id: inquiryId,
         name: formData.name.trim(),
         email: formData.email.trim(),
         website: formData.website.trim() || null,
@@ -52,6 +54,11 @@ const Contact = () => {
       });
 
       if (error) throw error;
+
+      supabase.functions
+        .invoke("notify", { body: { type: "contact_inquiry", id: inquiryId } })
+        .catch(() => undefined);
+
       setSubmitted(true);
     } catch {
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });

@@ -67,8 +67,10 @@
     --card-foreground: 40 20% 95%;
     --popover: 220 35% 12%;
     --popover-foreground: 40 20% 95%;
-    --primary: 40 20% 95%;
-    --primary-foreground: 220 40% 13%;
+    /* Keep the brand navy surface dark in dark mode so every
+       bg-primary panel (hero, footer, CTAs) stays on-brand. */
+    --primary: 220 32% 20%;
+    --primary-foreground: 40 20% 95%;
     --secondary: 220 30% 18%;
     --secondary-foreground: 40 20% 95%;
     --muted: 220 25% 18%;

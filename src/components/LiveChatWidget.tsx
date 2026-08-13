@@ -147,6 +147,12 @@ const LiveChatWidget = () => {
     }
   };
 
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener("themyth:open-chat", handler);
+    return () => window.removeEventListener("themyth:open-chat", handler);
+  }, []);
+
   const needsIntro = !conversationId || !visitorToken;
 
   return (
@@ -159,7 +165,7 @@ const LiveChatWidget = () => {
         transition={{ duration: 0.5, delay: 1.2, type: "spring", stiffness: 180 }}
         whileHover={{ scale: 1.08, y: -2 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-xl hover:shadow-2xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300"
+        className="fixed bottom-6 left-6 z-50 hidden md:flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-xl hover:shadow-2xl hover:bg-accent hover:text-accent-foreground transition-colors duration-300"
       >
         <AnimatePresence mode="wait" initial={false}>
           {open ? (
@@ -189,7 +195,7 @@ const LiveChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 left-6 z-50 w-[calc(100vw-3rem)] max-w-sm bg-card border border-border shadow-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-24 left-6 max-md:bottom-24 max-md:right-6 max-md:left-auto z-50 w-[calc(100vw-3rem)] max-w-sm bg-card border border-border shadow-2xl overflow-hidden flex flex-col"
             style={{ height: "min(560px, calc(100vh - 8rem))" }}
           >
             <div className="bg-primary text-primary-foreground px-5 py-4 flex items-center gap-3 shrink-0">

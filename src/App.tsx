@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import ScrollToTop from "./components/ScrollToTop";
 import PageTransition from "./components/PageTransition";
 import RouteProgress from "./components/RouteProgress";
-import WhatsAppButton from "./components/WhatsAppButton";
+import FloatingSupport from "./components/FloatingSupport";
 import LiveChatWidget from "./components/LiveChatWidget";
 import CookieConsent from "./components/CookieConsent";
 import Index from "./pages/Index";
@@ -66,7 +66,7 @@ const App = () => (
         <ScrollToTop />
         <RouteProgress />
         <AnimatedRoutes />
-        <WhatsAppButton />
+        <FloatingSupport />
         <LiveChatWidget />
         <CookieConsent />
 

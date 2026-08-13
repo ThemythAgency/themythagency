@@ -6,11 +6,15 @@ interface MonogramLogoProps {
   variant?: "default" | "circular";
 }
 
+/**
+ * The logo artwork is navy + gold on a white plate. To keep it visually
+ * identical in dark mode, it always sits on the same light plate.
+ */
 const MonogramLogo = ({ className = "", size = 32, variant = "default" }: MonogramLogoProps) => {
   if (variant === "circular") {
     return (
       <div
-        className={`rounded-full overflow-hidden flex items-center justify-center bg-background border border-border ${className}`}
+        className={`rounded-full overflow-hidden flex items-center justify-center bg-white ${className}`}
         style={{ width: size + 12, height: size + 12 }}
       >
         <img
@@ -30,8 +34,8 @@ const MonogramLogo = ({ className = "", size = 32, variant = "default" }: Monogr
       alt="Themyth Agency"
       width={size}
       height={size}
-      className={`rounded ${className}`}
-      style={{ objectFit: "contain", background: "transparent" }}
+      className={`rounded bg-white ${className}`}
+      style={{ objectFit: "contain" }}
     />
   );
 };

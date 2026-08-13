@@ -340,6 +340,7 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => {
 
 
 const CustomBuilder = () => {
+  const { format: money } = useLocale();
   const [selected, setSelected] = useState<string[]>([]);
 
   const total = useMemo(

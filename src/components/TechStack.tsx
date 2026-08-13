@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import klaviyoLogo from "@/assets/klaviyo.png";
 
-const icon = (slug: string) => `https://cdn.simpleicons.org/${slug}/0F1B3D`;
+const GOLD = "C09D59";
+const icon = (slug: string) => `https://cdn.simpleicons.org/${slug}/${GOLD}`;
 
 type Tool = { name: string; url?: string; local?: string };
 
@@ -52,14 +53,32 @@ const TechStack = () => {
               className="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity duration-300 mx-8"
               title={t.name}
             >
-              <img
-                src={t.local ?? t.url}
-                alt={t.name}
-                width={40}
-                height={40}
-                loading="lazy"
-                className="h-10 w-10 object-contain"
-              />
+              {t.local ? (
+                <span
+                  role="img"
+                  aria-label={t.name}
+                  className="h-10 w-10 bg-accent flex-shrink-0"
+                  style={{
+                    WebkitMaskImage: `url(${t.local})`,
+                    maskImage: `url(${t.local})`,
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                  }}
+                />
+              ) : (
+                <img
+                  src={t.url}
+                  alt={t.name}
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  className="h-10 w-10 object-contain"
+                />
+              )}
               <span className="font-display text-lg text-foreground whitespace-nowrap">{t.name}</span>
             </div>
           ))}
